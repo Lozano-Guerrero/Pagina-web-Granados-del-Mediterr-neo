@@ -1,0 +1,172 @@
+/* src/components/AmenityTrioHero.css - Versión Final con Correcciones de Visibilidad Móvil */
+
+/* ========================================================= */
+/* 0. VARIABLES (Asegurar Coherencia de Marca)               */
+/* ========================================================= */
+
+:root {
+    /* Variables de Espaciado (Asumidas si no están definidas globalmente) */
+    --spacing-lg: 2rem;
+    --spacing-md: 1.5rem;
+    --spacing-sm: 1rem;
+    --spacing-xs: 0.5rem;
+
+    /* Herencia de colores de marca para acentos */
+    --color-primary-accent: var(--navbar-primary-color, #383636); /* Terracota Oscuro */
+    --color-secondary-accent: var(--navbar-accent-color, #e4c59f); /* Acento Cálido/Claro */
+    --color-rose-accent: #C4A490; /* Rosa/Malva Suave */
+}
+
+/* ---------------------------------- */
+/* 1. Contenedor General (Split-Screen) */
+/* ---------------------------------- */
+.amenity-trio-container {
+    display: flex;
+    width: 90%;
+    /* Altura para escritorio (80vh) */
+    height:70vh; 
+align-items: center;
+    margin:30px auto;
+    border-radius: 12px;    
+    gap: var(--spacing-md, 1.5rem);
+    overflow: hidden; 
+}
+
+/* --- 2. Tarjeta (Card) Individual --- */
+.amenity-trio-card {
+    flex: 1; 
+    height: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none; 
+    color: white;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: flex-grow 0.7s cubic-bezier(0.6, 0.05, 0.01, 0.9); 
+    z-index: 1; 
+}
+
+.amenity-trio-card:hover {
+    flex-grow: 1.5; 
+    z-index: 2; 
+}
+
+/* --- 3. Overlay y Contenido (Legibilidad) --- */
+.trio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    padding: var(--spacing-lg, 2rem);
+    
+    background: linear-gradient(
+        to top, 
+        rgba(0, 0, 0, 0.8) 0%, 
+        rgba(0, 0, 0, 0.3) 50%, 
+        transparent 100% 
+    );
+    
+    transition: background 0.7s cubic-bezier(0.6, 0.05, 0.01, 0.9);
+}
+
+.amenity-trio-card:hover .trio-overlay {
+    background: linear-gradient(
+        to top, 
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%
+    );
+}
+
+/* --- 4. Estilos de Texto y Hover (Coherencia de Marca) --- */
+
+.trio-overlay h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-xs, 0.5rem);
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+    transition: color 0.4s, text-shadow 0.4s;
+}
+
+.trio-overlay p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: var(--spacing-sm, 1rem);
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    transition: color 0.4s, text-shadow 0.4s;
+}
+
+.amenity-trio-card:hover .trio-overlay h3 {
+    color: var(--color-rose-accent); 
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); 
+}
+
+.amenity-trio-card:hover .trio-overlay p {
+    color: white; 
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5); 
+}
+
+/* Enlace "Ver Más" */
+.view-more {
+    display: inline-block;
+    font-weight: 700;
+    color: wheat; 
+    transition: color 0.4s;
+}
+
+.amenity-trio-card:hover .view-more {
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+
+/* ---------------------------------- */
+/* 5. Responsive para Móviles */
+/* ---------------------------------- */
+@media (max-width: 768px) {
+    .amenity-trio-container {
+        /* 🛑 REGLAS NUCLEAR: Aseguramos el layout y el tamaño */
+        flex-direction: column !important; 
+        
+        /* Fuerza la altura para que se adapte al contenido de las tarjetas */
+        height: auto !important; 
+        min-height: 0 !important; 
+        
+        /* Asegura que el ancho sea completo y que el contenedor no esté oculto */
+        width: 100% !important; 
+        display: flex !important; 
+        align-items: center;
+        justify-content: center;    
+        text-align: center;
+        /* Limpiamos cualquier margen/padding externo que pueda causar colapso */
+        margin: 0 !important; 
+        padding: 0 !important; 
+    }
+    
+    .amenity-trio-card {
+        flex-grow: 1 !important; 
+        /* 🛑 CORRECCIÓN DE ALTURA: Asignamos una altura visible y robusta a cada tarjeta */
+        height: 30vh !important; /* Garantiza 30% de la pantalla para cada tarjeta */
+        min-height: 200px !important; /* Altura mínima de respaldo para el contenido */
+        width: 90% !important;
+        background-size: cover; 
+    }
+    
+    .trio-overlay {
+        /* ... (Resto de estilos móvil se mantienen) ... */
+        background: rgba(0, 0, 0, 0.7); 
+        padding: var(--spacing-md, 1.5rem);
+    }
+    
+    .trio-overlay h3 {
+        font-size: 2rem;
+    }
+}

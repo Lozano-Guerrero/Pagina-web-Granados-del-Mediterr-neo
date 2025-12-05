@@ -1,0 +1,148 @@
+/* src/components/LocationAndMap.css - Versión Optimizada para Key Facts */
+
+/* ========================================================= */
+/* 0. VARIABLES DE MARCA Y LAYOUT (Coherencia de Color)      */
+/* ========================================================= */
+
+:root {
+    /* Existentes (Terracota y Neutros) */
+    --color-dark-bg: var(--navbar-primary-color, #383636); 
+    --color-light-bg: var(--color-fondo-principal, #FFFFFF); 
+    --color-text-dark: var(--color-texto-oscuro, #1A1A1A);
+    --color-card-shadow: rgba(0, 0, 0, 0.1); 
+    
+    /* Acentos Principales */
+    --color-primary-accent: var(--color-fondo-principal, #00a91c); 
+    --color-secondary-accent: var(--navbar-accent-color, #e4c59f); 
+    
+    /* NUEVO: Acento Rosa/Rosado Suave (Alineado con estuco y mármol) */
+    --color-rose-accent: #662c2c; 
+}
+
+/* ========================================================= */
+/* 1. SECCIÓN PRINCIPAL                                      */
+/* ========================================================= */
+
+.location-section {
+    padding:  30px 5%; 
+    width: 100%;
+ 
+    color: var(--color-text-dark);
+}
+
+.location-inner-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg, 3rem); 
+   
+}
+
+/* --- Título de Franja --- */
+.location-title-wrapper2 {
+    background-color: var(--color-rose-accent); 
+    padding: .5rem 1rem;
+border-radius: 8px;
+    color: rgb(240, 240, 240); 
+  
+    text-align: center;
+}
+
+.section-titleAmenidades-sectionprincipal {
+    color: inherit; 
+    padding: 0; 
+    width: auto; 
+    margin: 0;
+color: white;
+    font-size:1.5rem;
+}
+
+/* --- Key Facts Container --- */
+.location-facts-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--spacing-lg, 2rem); 
+    padding: var(--spacing-sm, 1rem) 0; 
+    margin: var(--spacing-sm, 1rem) 0;
+}
+
+/* --- Fact Card (Tarjeta) --- */
+.fact-card {
+    flex: 1;
+    background-color: rgb(255, 255, 255); 
+    padding: var(--spacing-lg, 2rem);
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px var(--color-card-shadow); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-bottom: 4px solid transparent; /* Base para el efecto */
+}
+
+
+
+.fact-icon {
+    color: rgb(21, 60, 34); 
+    font-size: 2.5rem; 
+    margin-bottom: var(--spacing-xs, 0.5rem);
+}
+
+.fact-card h3 {
+    font-size:1.5rem;
+    margin-top: var(--spacing-sm, 1rem);
+    margin-bottom: var(--spacing-xs, 0.5rem);
+    color: rgb(21, 60, 34); 
+}
+
+.fact-detail {
+    font-size: 1.8rem; 
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: var(--spacing-xs, 0.5rem);
+}
+
+.fact-detail strong {
+    font-weight: 800;
+    color: rgb(95, 95, 95); 
+}
+
+.fact-description {
+    font-size: 0.95rem;
+    color: rgb(123, 123, 123);
+}
+
+.divider {
+    border: 0;
+    /* **APLICACIÓN DEL ROSA:** El divisor ahora usa el color de acento suave */
+    border-top: 1px solid var(--color-rose-accent); 
+    margin: var(--spacing-lg, 2rem) auto;
+    width: 100%;
+    background: none; 
+}
+
+
+/* ========================================================= */
+/* 2. RESPONSIVE DESIGN (Móvil)                              */
+/* ========================================================= */
+
+@media (max-width: 768px) {
+    .location-inner-container {
+        padding: 0 var(--spacing-md, 1.5rem);
+    }
+
+    .location-facts-container {
+        flex-direction: column; 
+        gap: var(--spacing-md, 1.5rem);
+    }
+    
+    .fact-card {
+        padding: var(--spacing-md, 1.5rem);
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .fact-detail {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,31 @@
+/* src/components/Pano360Viewer.css */
+
+.psv-viewer-wrapper {
+    position: relative;
+    max-width: 1000px;
+    margin: 40px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Nota: En esta implementación, la altura la define el componente ReactPannellum directamente */
+
+.pano-controls-overlay {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 0.9rem;
+    z-index: 100; 
+}
+
+@media (max-width: 768px) {
+    .psv-viewer-wrapper {
+        min-height: 350px;
+    }
+}

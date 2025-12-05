@@ -1,0 +1,75 @@
+/* src/components/StablePanoViewerR3F.css */
+
+/* --- Contenedor Principal (new-stable-viewer-wrapper) --- */
+
+.new-stable-viewer-wrapper {
+    /* 1. Limita y Centra el Contenedor */
+    /* El ancho es 100% de su padre, pero con un max-width y margen automático se centra */
+    width: 90%;
+    max-width: 1200px; /* Ancho máximo para pantallas grandes (ajustable) */
+    margin: 30px auto; /* Centra horizontalmente y añade margen vertical */
+    
+    /* 2. Estilo Moderno */
+    border-radius: 12px; /* Esquinas ligeramente redondeadas */
+    /* Sombra suave para darle profundidad (efecto "flotante") */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    
+    /* 3. Ajuste de Contenido */
+    position: relative; /* Esencial para posicionar el overlay */
+    overflow: hidden; /* Asegura que la sombra y el borde redondeado se apliquen al Canvas */
+    
+    /* Opcional: transición para suavizar cambios de tamaño en algunos casos */
+    transition: box-shadow 0.3s ease;
+}
+
+.new-stable-viewer-wrapper:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+
+/* --- Estilos del Overlay de Controles (new-pano-controls-overlay) --- */
+
+.new-pano-controls-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Fondo semi-transparente para asegurar la legibilidad */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    color: #ffffff; /* Color de texto blanco */
+    padding: 20px 15px 10px 15px; /* Espaciado interno */
+    text-align: center;
+    /* Permite hacer clic/arrastrar a través del overlay para interactuar con el panorama */
+    pointer-events: none; 
+    
+    /* Estilo del texto */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95em;
+    opacity: 0.9; 
+}
+
+.new-pano-controls-overlay p {
+    margin: 0; /* Elimina el margen por defecto del párrafo */
+    font-weight: 500;
+}
+
+
+/* --- Responsividad para Dispositivos Móviles (Menos de 600px) --- */
+
+@media (max-width:1100px) {
+    
+    /* Ajustes para el contenedor principal en móviles */
+    .new-stable-viewer-wrapper {
+        margin: 0px ;
+        padding: 50px; /* Menos margen */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra más sutil */
+        border-radius: 8px; 
+    }
+    
+    /* Ajusta el tamaño del texto del overlay en móviles */
+    .new-pano-controls-overlay {
+        font-size: 0.8em;
+        padding: 15px 10px 8px 10px;
+    }
+}

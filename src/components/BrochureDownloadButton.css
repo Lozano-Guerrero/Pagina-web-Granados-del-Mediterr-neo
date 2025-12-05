@@ -1,0 +1,181 @@
+/* src/pages/ContactPage.css */
+
+/* Variables de Color (Terracota) */
+:root {
+    --color-terracota: #cd533c; 
+    --color-terracota-dark: #a84332; 
+    --color-light-bg: #f4f7f6;
+    --color-dark-text: #222;
+}
+
+/* --- Hero y Reutilizables --- */
+.contact-header-hero {
+    background-color: var(--color-terracota);
+    color: white;
+    padding: 60px 5%;
+    text-align: center;
+}
+.contact-header-hero h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0;
+}
+.section-heading {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-dark-text);
+    margin-bottom: 10px;
+}
+.section-subheading {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+
+/* 🛑 SECCIÓN PRINCIPAL: GRID ASIMÉTRICO */
+.contact-main-grid {
+    display: grid;
+    /* 50% para información | 50% para el formulario */
+    grid-template-columns: 1fr 1fr; 
+    max-width: 1200px;
+    margin: 60px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 700px;
+}
+
+/* --- LADO IZQUIERDO: INFO Y VALOR --- */
+.contact-info-panel {
+    background-color: var(--color-light-bg);
+    padding: 40px;
+    display: flex;
+    align-items: center; /* Centrado vertical */
+}
+
+.contact-panel-content h2 {
+    font-size: 2rem;
+    color: var(--color-dark-text);
+    margin-top: 0;
+}
+.contact-info-panel .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Lista de Valor (Qué obtienes) */
+.value-list h3 {
+    font-size: 1.2rem;
+    color: var(--color-terracota-dark);
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed var(--color-terracota-light);
+    padding-bottom: 5px;
+}
+.value-list ul {
+    list-style: none;
+    padding: 0;
+}
+.value-list li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #444;
+}
+.value-list .check-icon {
+    color: var(--color-terracota);
+    margin-right: 10px;
+}
+
+/* Contacto Directo */
+.direct-contact-details {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+.contact-detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.contact-detail-item .detail-icon {
+    color: var(--color-terracota);
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 20px;
+}
+.contact-detail-item a {
+    color: var(--color-dark-text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+.contact-detail-item a:hover {
+    color: var(--color-terracota);
+}
+
+/* --- LADO DERECHO: FORMULARIO --- */
+.contact-form-panel {
+    background-color: white;
+    padding: 40px;
+}
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-terracota);
+    margin-top: 0;
+}
+.form-subtitle {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+
+/* --- SECCIÓN DE MAPA/UBICACIÓN --- */
+
+.map-placeholder {
+    max-width: 1200px;
+    height: 400px;
+    margin: 0 auto;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-size: 1.5rem;
+    border-radius: 8px;
+}
+
+/* --- Responsive Móvil/Tablet --- */
+@media (max-width: 900px) {
+    .contact-main-grid {
+        /* Se colapsa a una columna */
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin: 40px 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .contact-info-panel,
+    .contact-form-panel {
+        padding: 30px 5%;
+    }
+    .contact-info-panel {
+        order: 2; /* Mueve la info después del formulario en móvil */
+    }
+    .contact-form-panel {
+        order: 1; /* Mantiene el formulario arriba */
+    }
+    .contact-header-hero h1 {
+        font-size: 2.5rem;
+    }
+    .map-placeholder {
+        height: 300px;
+        margin: 0 5%;
+    }
+}

@@ -1,0 +1,224 @@
+/* src/components/ProjectSummary.css - VERSIÓN FINAL Y COMPLETA */
+
+/* Variables de Color (Se mantienen las tuyas) */
+:root {
+    --color-primary-text: #23373a; /* Dark Teal (Texto Principal) */
+    --color-background: #fbfbfb; /* Fondo Suave */
+    --color-accent: #bc7c74; /* Terracota (Acento/Rosa) */
+    --color-rose-accent: #C4A490; /* Rosa/Malva Suave para divisor */
+    --color-secondary-text: #666; /* Texto Gris para Descripciones */
+    
+    /* Variables de Espaciado */
+    --spacing-xxl: 5rem; /* NUEVO: Para el padding inferior */
+    --spacing-xl: 3rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.5rem;
+    --spacing-sm: 1rem;
+}
+
+.summary-section {
+    /* 🛑 AJUSTE 1: Aumentamos el padding inferior para separar del siguiente componente */
+    padding:3rem 0; 
+    background-color:rgb(224, 214, 214);
+    color: var(--color-primary-text);
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* ---------------------------------- */
+/* Layout Principal (40% Imagen | 60% Contenido) */
+/* ---------------------------------- */
+.summary-layout-grid {
+    display: grid;
+    /* 🛑 AJUSTE 4: 50  % Imagen | 60% Contenido */
+    grid-template-columns: 0.3fr 0.7fr; 
+    gap: 40px; 
+    max-width: 90%; 
+    margin: 0 auto;
+  
+    align-items: stretch; 
+}
+
+
+/* ---------------------------------- */
+/* Columna Izquierda: Imagen */
+/* ---------------------------------- */
+.summary-image-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.summary-image-wrapper img {
+    width: 100%;
+    height: 100%; 
+    display: block;
+    object-fit: cover; 
+}
+
+
+/* ---------------------------------- */
+/* Columna Derecha: Contenido */
+/* ---------------------------------- */
+.summary-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    justify-content: space-between; 
+    border-radius: 8px;
+    padding: 3rem 2rem ;
+}
+
+/* ---------------------------------- */
+/* PARTE SUPERIOR DERECHA: Título y Texto (Jerarquía) */
+/* ---------------------------------- */
+.summary-concept-container {
+    flex-grow: 0; 
+    
+}
+
+.summary-title {
+    /* Mantenemos el tamaño base, pero ahora .accent-text dominará */
+
+    
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary-text);
+}
+
+/* 🛑 AJUSTE 2 & 3: Título "Granados" grande y en color de acento (rosa/terracota) */
+.accent-text {
+    /* 1.5 times the base title size */
+    font-size: 3rem; 
+    font-weight: 900; 
+    display: block; /* Forces "Granados" to be on its own line, dominant */
+
+    color: var(--color-accent); /* Terracotta/Rose Color */
+}
+.summary-subtitle {
+    font-size: 1.5rem; 
+    font-weight: 600; 
+    color: var(--color-primary-text); 
+    margin-bottom: var(--spacing-md);
+}
+/* Subtítulo (Intro Text) */
+.summary-intro-text {
+    font-size: 1rem; 
+    font-weight: 400; 
+    color: var(--color-primary-text); 
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Párrafo Principal (Main Text) */
+.summary-main-text {
+    font-size: 1.1rem;
+    font-weight: 300; 
+    color: var(--color-secondary-text); 
+    line-height: 1.6;
+    margin-bottom: 0; 
+}
+
+
+/* ---------------------------------- */
+/* PARTE INFERIOR DERECHA: Cards y CTA */
+/* ---------------------------------- */
+.summary-features-group {
+    flex-grow: 0; 
+    border-top: 1px solid var(--color-rose-accent); 
+    padding-top: 2rem; 
+    margin-top: var(--spacing-lg);
+}
+
+.summary-features-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: var(--spacing-lg); 
+}
+
+/* (Estilos de Tarjetas, Iconos y Datos Clave se mantienen con los colores correctos) */
+
+/* ---------------------------------- */
+/* Botón CTA (GRANDE) */
+/* ---------------------------------- */
+.summary-cta-box {
+    margin-top: 0; 
+    text-align: left; 
+}
+
+.summary-cta-button {
+    display: inline-block;
+    background-color: var(--color-accent); 
+    color: white;
+    padding: 1rem 1rem; 
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.summary-cta-button:hover {
+    background-color: #a35249; 
+    transform: translateY(-2px);
+}
+
+
+/* ---------------------------------- */
+/* Media Queries (Responsive) */
+/* ---------------------------------- */
+
+@media (max-width: 992px) {
+    .summary-section{
+        padding: 2rem 0;
+        margin-top: 1rem;
+    }
+    .summary-layout-grid {
+        grid-template-columns: 1fr; 
+        min-height: auto; 
+       
+        text-align: center  ;
+        align-items: center;
+    }
+    
+    .summary-content-wrapper {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+    
+    .summary-image-wrapper img {
+        height: 350px; 
+    }
+    
+    .summary-features-group {
+        border-top: none; /* Quitamos el divisor en móvil apilado */
+        margin-top: var(--spacing-lg); 
+        padding-top: 0;
+    }
+    
+    .summary-features-container {
+        grid-template-columns: 1fr 1fr; 
+    }
+    
+    .summary-cta-box {
+        text-align: center;
+        margin-top: var(--spacing-lg); 
+    }
+}
+
+@media (max-width: 576px) {
+    .summary-features-container {
+        grid-template-columns: 1fr; 
+    }
+    
+    .summary-image-wrapper img {
+        height: 250px; 
+    }
+
+    .summary-cta-button {
+        width: 100%;
+    }
+}

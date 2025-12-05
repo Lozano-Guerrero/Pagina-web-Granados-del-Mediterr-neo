@@ -1,0 +1,84 @@
+/* src/index.css (Optimizado y Limpio) */
+
+/* ========================================================= */
+/* 1. CONFIGURACIÓN BASE Y RESETS DE RENDIMIENTO             */
+/* ========================================================= */
+
+:root {
+  /* Mantenemos el sistema de fuente como fallback y configuraciones universales. */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  width: 100%;
+  min-height: 100vh;
+  
+  /* Indicamos el soporte de esquemas de color, pero los colores base los da App.css */
+  color-scheme: light dark; 
+
+  /* Evitamos barras de desplazamiento innecesarias */
+  overflow-x: hidden;
+  
+  /* Configuraciones de rendimiento de fuente */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* *** PROPIEDADES ELIMINADAS: color, background-color, width, min-height, etc., 
+     *** porque ya las definimos en App.css.
+  */
+}
+
+/* ========================================================= */
+/* 2. ETIQUETAS HTML BÁSICAS (Minimalismo)                   */
+/* ========================================================= */
+
+body {
+  margin: 0;
+  min-width: 320px;
+  /* Min-height se define en App.css (min-height: 100vh;) */
+}
+
+/* Enlaces base: solo definimos la herencia, el color lo define App.css/Componentes */
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  /* Eliminamos color y hover para que los estilos globales de App.css y 
+     los estilos del Navbar tengan prioridad. */
+}
+
+/* Eliminamos los estilos base de h1, ya que la tipografía y jerarquía 
+   será definida por las variables de App.css y los componentes de Título. */
+/* h1 {
+     font-size: 3.2em; 
+     line-height: 1.1;
+} */
+
+
+/* Botones: Mantenemos el cursor y el focus para accesibilidad, 
+   pero eliminamos todos los estilos visuales (border, padding, color, background). */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  /* Propiedades ELIMINADAS: border-radius, border, padding, font-size, font-weight, background-color. */
+  transition: border-color 0.25s; /* Mantenemos la transición base si se usa */
+}
+
+button:focus,
+button:focus-visible {
+    /* Mantener el outline de accesibilidad o usar el de App.css si lo definimos ahí */
+    outline: 4px auto -webkit-focus-ring-color; 
+}
+
+
+/* ========================================================= */
+/* 3. MEDIA QUERY (Sección Light/Dark Mode)                  */
+/* ========================================================= */
+
+/* ELIMINAMOS completamente la media query, ya que el esquema de colores 
+   y las variables de branding ya están definidas en App.css y Navbar.css. 
+   Permitimos que tus variables CSS (ej. --color-fondo-principal) 
+   manejen la apariencia.
+*/
+/* @media (prefers-color-scheme: light) { ... } */

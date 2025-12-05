@@ -1,0 +1,300 @@
+/* src/components/HeroSlider.css */
+
+/* ========================================================= */
+/* 0. VARIABLES Y CONFIGURACIÓN INICIAL                      */
+/* ========================================================= */
+
+/* Las variables de color y espaciado de Navbar/App.css son heredadas. */
+:root {
+    /* Altura moderna y no dominante (UX) */
+    --hero-height-desktop: 75vh; 
+    --hero-height-mobile: 55vh;
+    
+    /* Variables de Color (Usamos los colores de la marca) */
+    --hero-text-color: #f7eeee; /* Blanco Suave color primario para legibilidad */
+    --hero-cta-bg: var(--navbar-secondary-color, #c97f00); /* Crema/Arena */
+    --hero-cta-text: var(--navbar-primary-color, #383636);  /* Terracota Oscuro */
+    --hero-accent-color: var(--navbar-accent-color, #e4c59f);
+}
+
+
+/* ---------------------------------- */
+/* 1. Contenedor principal y Área de Visualización (Altura Ajustada) */
+/* ---------------------------------- */
+.hero-slider-container {
+    width: 100%;
+    /* Altura ajustada: 65% de la ventana (no full-screen) */
+    height: var(--hero-height-desktop); 
+    position: relative;
+    overflow: hidden; 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    /* El box-sizing ya se definió en App.css, pero se mantiene para aislamiento. */
+}
+
+/* ---------------------------------- */
+/* 2. Contenedor de Deslizamiento (Wrapper) */
+/* ---------------------------------- */
+.slides-wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%; 
+    /* La transición debe ser rápida (0.4s), la pausa la maneja JS. */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    margin: 0;
+    padding: 0;
+
+    will-change: transform; 
+}
+
+/* ---------------------------------- */
+/* 3. Estilos de Cada Diapositiva (Slide) */
+/* ---------------------------------- */
+.slide {
+    flex-shrink: 0; 
+    flex-basis: 100%;
+    width: 100%; 
+    height: 100%;
+    position: relative; 
+    
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: scroll; 
+    
+    display: flex;
+    /* Centramos el contenido por defecto (será ajustado por el contenido) */
+    justify-content: flex-start; 
+    align-items: center;
+    
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------------------------------- */
+/* 4. Overlay (Degradados de Coherencia de Marca) */
+/* ---------------------------------- */
+
+/* Overlay Oscuro para asegurar Legibilidad del texto blanco (UX) */
+.slide-overlay {
+    /* Usamos el color Primario de la marca (#383636) con opacidad */
+    background: linear-gradient(
+        to right, 
+        /* 1. Inicio Oscuro y Opaco (ej. 70% opacidad) */
+        color-mix(in srgb, var(--navbar-primary-color) 70%, transparent) 0%, 
+        /* 2. Degradado Rápido a Transparente */
+        transparent 40%,
+        /* 3. El resto es transparente */
+        transparent 100% 
+    );
+    z-index: 6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* El degradado superior (slide-gradient-top) ya no es necesario si el overlay principal 
+   cubre la parte donde está el texto. Lo eliminamos para simplificar la capa. */
+.slide-gradient-top {
+    display: none;
+}
+
+
+/* ---------------------------------- */
+/* 5. Contenido Superpuesto (Texto y CTA) */
+/* ---------------------------------- */
+.slide-content {
+    position: relative; 
+    z-index: 15; 
+    color: var(--hero-text-color);
+    text-align: left; 
+    
+    /* Usamos un padding consistente con las variables globales (ej. 3rem) */
+    padding-left: var(--spacing-xl,6rem); 
+    padding-right: var(--spacing-xl, 3rem);
+    
+    width: 100%;
+    max-width: 90%; /* Ajustamos el max-width para desktop */
+    
+    /* Estado de inicio (Animación) */
+    opacity: 0; 
+    filter: blur(5px);
+    transform: translateY(20px);
+    
+    /* Transición de Entrada */
+    transition: opacity 0.5s ease-out, filter 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Estado Activo: Animación de Entrada */
+.slide-content.active {
+    opacity: 1;
+ 
+    filter: blur(0);
+    transform: translateY(0);
+    transition-delay: 0.5s; 
+}
+
+/* Animación de Salida (Mantenemos tu lógica) */
+.slide-content.animating-out {
+    opacity: 0 !important;
+    filter: blur(5px) !important;
+    transform: translateY(-20px) !important;
+    transition: opacity 0.3s ease-in, filter 0.3s ease-in, transform 0.3s ease-in;
+}
+
+/* Titulares (H1) */
+.slide-content h1 {
+    /* Usamos rems para un mejor control y responsive */
+    font-size: 2.5rem; /* Ligeramente más pequeño que tu 4rem anterior */
+    line-height: 1.1;
+    padding: 0 3rem;
+    margin-bottom: var(--spacing-sm, 1rem);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9); /* Sombra más fuerte para legibilidad */
+}
+
+/* Párrafos */
+.slide-content p {
+    font-size: 1rem; 
+    margin-bottom: var(--spacing-lg, 2rem);
+    font-weight: 400;
+    padding: 0 3.3rem ;
+    max-width: 500px; 
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7);
+}
+.bottonblock{
+    padding-left: 3rem;
+}
+/* Botón CTA (Llamada a la Acción) */
+.hero-cta-buttonslide  {
+    display: inline-block;
+    background-color: var(--hero-cta-bg); 
+    color: var(--hero-cta-text); 
+    
+    /* Padding basado en variables para consistencia */
+    padding: .5rem 2rem; 
+    border-radius: 4px; /* Un poco más cuadrado, moderno */
+    font-size: 1.1rem;
+    font-weight: 200; /* Más peso para que destaque */
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+    /* Sombra sutil para darle profundidad (UI) */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+.hero-cta-button:hover {
+    background-color: var(--hero-accent-color); 
+    color: var(--hero-cta-text); /* Mantenemos el color de texto oscuro */
+    transform: translateY(-2px); /* Efecto sutil al hacer hover */
+}
+
+
+/* ---------------------------------- */
+/* 6. Flechas de Navegación */
+/* ---------------------------------- */
+.nav-arrow {
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%);
+    z-index: 20;
+    
+    background-color: rgba(116, 116, 116, 0.202); /* Fondo semitransparente para mejor visibilidad */
+
+    border: none;
+    border-radius: 3px; /* Flechas redondas */
+    width: 3rem; /* Tamaño cómodo para tocar */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem; /* Ajuste para que se vea bien en el círculo */
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.5); /* Oscurecer al hacer hover */
+}
+
+.nav-arrow.left { left: 0; border-radius: 0 5px 5px 0; }
+.nav-arrow.right { right: 0; border-radius: 5px 0 0 5px; }
+
+
+/* ---------------------------------- */
+/* 7. Indicadores de Diapositiva (Puntos UX) */
+/* ---------------------------------- */
+.slide-indicators {
+    position: absolute;
+    bottom: var(--spacing-lg, 2rem); /* Posición cómoda y basada en rems */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    gap:10px; /* Espaciado ajustado */
+}
+
+.slide-indicators button {
+    /* **CORRECCIÓN EXPERTO:** Estilos más limpios y con acento de marca */
+    background: rgb(255, 255, 255); /* Fondo blanco semitransparente (UX) */
+    border: none;
+    width: 8px; /* Tamaño más sutil */
+    height: 8px; 
+    border-radius: 5px;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.slide-indicators button.active {
+    background-color: var(--hero-accent-color); /* Color de acento de la marca */
+    transform: scale(1.2); /* Se agranda un poco para destacar (UI) */
+}
+
+/* ---------------------------------- */
+/* 8. Responsive Design (Móvil) */
+/* ---------------------------------- */
+@media (max-width: 768px) {
+    .hero-slider-container {
+        /* Altura ligeramente más pequeña para móvil */
+        height: var(--hero-height-mobile); /* 60vh */
+    }
+    
+    /* Contenido */
+    .slide-content {
+        /* Reducimos el padding lateral para usar mejor el espacio */
+        padding-left: var(--spacing-md, 1.5rem); 
+        padding-right: var(--spacing-md, 1.5rem);
+    }
+    
+    .slide-content h1 {
+        font-size: 1.5rem; /* El tamaño de titular en móvil */
+    }
+    
+    .slide-content p {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-md, 1rem);
+    }
+    
+    /* Botón CTA en Móvil */
+    .hero-cta-button {
+        font-size: 1rem;
+        padding: var(--spacing-sm, 1rem) var(--spacing-md, 1.5rem);
+    }
+    
+    /* Flechas de Navegación */
+    .nav-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .nav-arrow.left { left: var(--spacing-sm, 1rem); }
+    .nav-arrow.right { right: var(--spacing-sm, 1rem); }
+    
+    /* Indicadores */
+    .slide-indicators {
+        bottom: var(--spacing-md, 1.5rem);
+    }
+}

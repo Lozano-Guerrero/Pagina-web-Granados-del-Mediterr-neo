@@ -1,0 +1,272 @@
+/* src/components/AmenitySlider.css */
+
+.amenity-slider-section {
+    padding: 60px 0;
+    background-color: #f9f9f9; 
+}
+
+.amenity-slider-container {
+    max-width: 1400px; 
+    margin: 0 auto;
+    padding: 0;
+}
+
+.slider-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary-accent, #1a4f32);
+    margin-bottom: 30px;
+    padding: 0 5%; 
+    text-align: center;
+}
+
+/* --- Contenedor principal del slider con botones --- */
+.slider-wrapper {
+    position: relative;
+    padding: 0 5%; 
+    display: flex;
+    align-items: center;
+}
+
+/* --- Botones de navegación del Slider Principal --- */
+.slider-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(26, 79, 50, 0.8); 
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.slider-nav-button:hover {
+    background-color: var(--color-primary-accent, #1a4f32);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.slider-nav-button.left {
+    left: 2%; 
+}
+
+.slider-nav-button.right {
+    right: 2%; 
+}
+
+
+/* --- Track del Slider (sin botones, solo las imágenes) --- */
+.slider-track-wrapper {
+    overflow-x: hidden; 
+    width: 100%;
+}
+/* 🛑 CORRECCIÓN: Permitimos el scroll en el wrapper referenciado, pero ocultamos la barra */
+.slider-track-wrapper {
+    overflow-x: scroll; /* Debe ser scrollable para que scrollTo funcione */
+    width: 100%;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.slider-track-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+
+.slider-track {
+    display: flex;
+    gap: 20px; 
+    width: fit-content; 
+    /* La transición se maneja en JS ahora con scroll smooth */
+}
+
+.slider-item {
+    flex: 0 0 auto; 
+    width: 350px; 
+    height: 250px; 
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.slider-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+.slider-item:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* --- Modal/Lightbox Estilos --- */
+.amenity-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000; 
+}
+
+/* 🛑 CORRECCIÓN CLAVE: DIMENSIÓN ESTÁNDAR para estabilizar los botones */
+.amenity-modal-content {
+    position: relative;
+    width: 80vw; /* Tamaño fijo, basado en el viewport */
+    height: 80vh; /* Tamaño fijo, basado en el viewport */
+    max-width: 90%; 
+    max-height: 90%;
+    
+    background-color: black; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.2s;
+}
+
+.modal-close-button:hover {
+    color: #ccc;
+}
+
+/* Los botones de navegación se mantienen fijos gracias al tamaño fijo de .amenity-modal-content */
+.modal-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 10001;
+    padding: 10px;
+    transition: color 0.2s;
+}
+
+.modal-nav-button:hover {
+    color: #aaa;
+}
+
+.modal-nav-button.left {
+    left: 20px;
+}
+
+.modal-nav-button.right {
+    right: 20px;
+}
+
+.modal-image-wrapper {
+    /* Toma el 100% del contenedor de tamaño fijo */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-main-image {
+    /* La imagen se ajusta al tamaño fijo del wrapper */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    display: block;
+}
+
+/* --- Responsive para el Slider --- */
+@media (max-width: 768px) {
+    .slider-item {
+        width: 280px;
+        height: 200px;
+    }
+    /* ... (Estilos responsive se mantienen) ... */
+
+    /* Modal en móvil */
+    .amenity-modal-content {
+        width: 95vw;
+        height: 95vh;
+    }
+    .modal-nav-button {
+        font-size: 2rem;
+        padding: 5px;
+    }
+    /* ... (Estilos responsive se mantienen) ... */
+}
+
+/* --- Responsive para el Slider --- */
+@media (max-width: 768px) {
+    .slider-item {
+        width: 280px;
+        height: 200px;
+    }
+    .slider-nav-button {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    .slider-nav-button.left {
+        left: 5px;
+    }
+    .slider-nav-button.right {
+        right: 5px;
+    }
+    .slider-wrapper {
+        padding: 0 10px;
+    }
+
+    /* Modal en móvil */
+    .modal-nav-button {
+        font-size: 2rem;
+        padding: 5px;
+    }
+    .modal-nav-button.left {
+        left: 5px;
+    }
+    .modal-nav-button.right {
+        right: 5px;
+    }
+    .modal-close-button {
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-item {
+        width: 220px;
+        height: 160px;
+    }
+    .slider-nav-button {
+        display: none; /* Podríamos ocultar los botones de navegación en móviles muy pequeños */
+    }
+    .slider-wrapper {
+        padding: 0; /* Quitamos el padding si no hay botones */
+    }
+}

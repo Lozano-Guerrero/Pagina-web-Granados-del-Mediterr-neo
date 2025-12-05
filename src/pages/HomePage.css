@@ -1,0 +1,39 @@
+/* src/pages/HomePage.css */
+
+/* ========================================================= */
+/* 1. VARIABLES TEMPORALES DE LAYOUT (Ajuste UX)             */
+/* ========================================================= */
+
+
+/* ========================================================= */
+/* 2. ESTILOS BASE DEL CONTENEDOR DE LA PÁGINA               */
+/* ========================================================= */
+
+.home-page-container {
+    /*Agregamos el padding superior igual a la altura del Navbar.
+       Esto empuja el contenido hacia abajo para que el Navbar fijo no lo oculte.
+    */
+    padding-top: var(--navbar-height-desktop); 
+    
+    /* Centrado interno (opcional si #root ya lo hace, pero bueno para aislar) */
+    max-width: 100%; 
+
+    margin: 0 auto;
+
+    /* Aseguramos que el resto del contenido no tenga padding lateral excesivo, 
+       ya que lo manejarán los componentes internos. */
+    padding-left: 0; 
+    padding-right: 0;
+}
+
+
+/* ========================================================= */
+/* 3. RESPONSIVE DESIGN (Móviles)                            */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+    .home-page-container {
+        /* Ajustamos el padding superior para la versión móvil del Navbar */
+        padding-top: var(--navbar-height-mobile);
+    }
+}

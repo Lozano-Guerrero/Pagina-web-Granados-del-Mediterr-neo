@@ -1,0 +1,114 @@
+/* src/components/LocationMap.css - VERSIÓN FINAL */
+
+/* Variables (Alineadas con los componentes anteriores) */
+:root {
+    --color-dark-bg: #e3e3e3; /* Dark Teal como fondo oscuro */
+    --color-light-text: #f0f0f0; 
+    --color-accent: #bc7c74; /* Terracota Principal */
+    --spacing-xl: 3rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.5rem;
+    --spacing-sm: 1rem;
+}
+
+.ubicacion-section {
+    padding: 30px 0;
+    margin: 0;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.location-googlemap-section {
+  position: relative; /* necesario para el pseudo-elemento */
+  align-items: center;
+  padding: 30px 0;
+  text-align: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: wheat;
+  width: 90%;
+  overflow: hidden; /* evita que el blur se salga del borde redondeado */
+}
+
+.location-googlemap-section::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* ocupa todo el section */
+  background: 
+    linear-gradient(
+      40deg,
+      rgb(2, 2, 2) 0%,   /* tono oscuro */
+      rgb(67, 67, 67) 100% /* tono claro */
+    ),
+    url('texturamapa.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+
+  filter: blur(2px);   /* difumina la imagen */
+  opacity: 0.9;        /* controla la transparencia */
+  z-index: -1;         /* queda detrás del contenido */
+  border-radius: 8px;  /* respeta el borde redondeado */
+}
+
+.location-googlemap-container {
+    max-width: 75%;
+    margin: 0 auto;
+}
+
+/* ------------------ Encabezado ------------------ */
+.location-googlemap-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.location-googlemap-title {
+    font-size: 2.5rem;
+    /* Ligeramente más negrita para que el Terracota destaque */
+    font-weight: 900; 
+    margin-bottom: var(--spacing-sm);
+    color:rgb(224, 200, 157); /* Terracota */
+}
+
+.location-googlemap-subtitle {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ------------------ Mapa Incrustado (Altura Final) ------------------ */
+
+.map-embed-wrapper {
+    /* 🛑 AJUSTE FINAL: Altura ideal para hacerlo grande sin ser invasivo */
+    height: 500px; 
+
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    /* Sombra con más contraste en fondo oscuro */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); 
+}
+
+.map-embed-wrapper iframe {
+    /* El iframe ocupará el 100% de los 650px */
+    width: 100%;
+   
+    height: 100%;
+    display: block; 
+}
+
+/* Responsive para que no sea excesivamente alto en dispositivos pequeños */
+@media (max-width: 768px) {
+    .location-map-title {
+        font-size: 2rem;
+    }
+
+    .map-embed-wrapper {
+        /* Reducimos la altura en tableta/móvil para no forzar el scroll */
+        height: 450px; 
+    }
+}

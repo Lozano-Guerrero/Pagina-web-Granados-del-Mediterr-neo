@@ -1,0 +1,470 @@
+/* ------------------------------------------------------------------- */
+/* InteractiveMap.css - CÓDIGO COMPLETO, ESTABLE Y ALINEADO */
+/* ------------------------------------------------------------------- */
+
+:root {
+    /* Variables de color de tu código original (Corregidas con ;) */
+    --neutral-white: #FFFFFF;
+    --neutral-dark-gray: #202020;
+    --neutral-light-gray: #F8F8F8;
+    --terracotta-pink: #E27D60; 
+    --terracotta-pink-dark: #C9695B;
+    --terracotta-pink-light: #F0A58D;
+    --text-dark: #333333;
+    --text-light: #777777;
+    --shadow-soft: rgba(0, 0, 0, 0.15);
+    --shadow-medium: rgba(0, 0, 0, 0.3);
+    --highlight-glow: rgba(226, 125, 96, 0.8); /* <-- ¡Corregido con punto y coma! */
+
+/* Colores de Estado de Lotes */
+    --status-sold: #ef5350; 
+    --status-reserved: #ffc107; 
+    --status-available: #2a5a54; 
+    --status-blocked: #e5e7eb; 
+}
+
+/* ------------------ Estructura General y Centrado ------------------ */
+
+.mapa-wrapper {
+    width: 100%;
+}
+
+.mapa-main-container {
+    max-width: 1400px;
+    /* Centrado horizontal del contenedor principal */
+    margin-left: auto;
+    margin-right: auto;
+    /* Fondo transparente solicitado */
+    background-color: transparent; 
+    display: flex;
+    flex-direction: column;
+    /* Compactado: Padding general */
+    padding-top: 10px; 
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    animation: fadeIn 0.8s ease-out;
+    /* Centra el contenido si el max-width no se alcanza */
+    align-items: center; 
+}
+
+/* ------------------ Leyenda (Header) - CENTRADO Y LIMPIO ------------------ */
+
+.map-header {
+    background-color: var(--neutral-white);
+    padding-top: 0.8rem;
+    padding-right: 1rem;
+    padding-bottom: 0.8rem;
+    padding-left: 1rem; 
+    margin-bottom: 12px; 
+    border-radius: 12px;
+    box-shadow: 0px 2px 6px var(--shadow-soft);
+    width:90%; 
+    /* Centra el texto de título, subtítulo y descripción */
+    text-align: center;
+}
+
+.legend-title { 
+    font-size: 1.3rem; 
+    margin-top: 0;
+    margin-bottom: 0.3rem; 
+    color: var(--status-available);
+    font-weight: 700;
+}
+.legend-subtitle { 
+    font-size: 0.85rem;
+    margin-top: 0;
+    margin-bottom: 0.8rem; 
+    color: var(--text-light);
+}
+.status-legend { 
+    display: flex; 
+    /* Mantiene la leyenda centrada horizontalmente */
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 1.2rem; 
+}
+.status-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+.status-color { 
+    display: inline-block;
+    width: 14px;
+    height: 14px; 
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.status-color.sold { background-color: var(--status-sold); }
+.status-color.reserved { background-color: var(--status-reserved); }
+.status-color.available { background-color: var(--status-available); }
+.status-color.blocked { background-color: var(--status-blocked); }
+
+/* ------------------ Sección del Mapa y Panel Sticky ------------------ */
+
+.mapa-section {
+    display: grid;
+    /* Grid de dos columnas: Panel (300px) y Mapa (resto del espacio) */
+    grid-template-columns: 500px 1fr; 
+    gap: 15px; 
+    width: 90%;
+    /* Alinea el panel y el mapa en la parte superior (para que el sticky inicie bien) */
+    align-items: flex-start; 
+    min-height: 800px; 
+    /* Centra el mapa si el contenedor es más grande que el mapa en sí. */
+    justify-items: center; 
+    max-width: 100%; 
+}
+
+/* PANEL STICKY */
+.info-sticky-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.lot-info-sticky-panel {
+    position: sticky;
+    /* Pegado a 20px de la parte superior (misma altura que el mapa) */
+    top: 20px; 
+    width: 100%;
+    /* Compactado: Padding reducido */
+    padding-top: 1.2rem;
+    padding-right: 1rem;
+    padding-bottom: 1.2rem;
+    padding-left: 1rem; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px var(--shadow-medium);
+    background-color: var(--neutral-white);
+    transition: all 0.3s ease-in-out;
+    /* Centra por defecto los textos del panel */
+    text-align: center;
+}
+
+/* Tipografía y Espaciado del Panel */
+.panel-title { 
+    font-size: 0.85rem; 
+    margin-top: 0;
+    margin-bottom: 0.4rem; 
+    color: var(--text-light);
+    font-weight: 500;
+}
+.lot-number { 
+    font-size: 2.2rem; 
+    margin-top: 0;
+    margin-bottom: 0.4rem; 
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text-dark);
+}
+.lot-status { 
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem; 
+    font-weight: 700;
+}
+.lot-note { 
+    font-size: 0.85rem; 
+    margin-top: 0.8rem; 
+    margin-bottom: 1.2rem;
+    color: var(--text-light);
+    line-height: 1.3;
+    /* Justificación del texto dentro del panel (si lo deseas justificado) */
+    text-align: left; 
+}
+
+/* Detalles del lote */
+.lot-details {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; 
+    padding-top: 1rem;
+    padding-right: 5px;
+    padding-bottom: 0.5rem;
+    padding-left: 5px; 
+    border-top: 1px solid var(--neutral-light-gray);
+    border-bottom: 1px solid var(--neutral-light-gray);
+    text-align: left; /* Justificado a la izquierda */
+}
+.lot-details p { 
+    font-size: 0.95rem; 
+    margin-top: 0;
+    margin-bottom: 0.5rem; 
+    line-height: 1.4;
+    color: var(--text-dark);
+    text-align: left; /* Asegura la justificación */
+}
+.lot-details p strong {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+.lot-details p:last-child {
+    margin-bottom: 0;
+}
+
+/* ------------------ ESTADOS INICIALES (Instrucciones) ------------------ */
+.initial-instructions {
+    display: none; 
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-top: 1px solid var(--neutral-light-gray);
+}
+
+.lot-info-sticky-panel.initial-state .initial-instructions {
+    display: block; 
+}
+
+.initial-instructions .large-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.3rem;
+    color: var(--terracotta-pink);
+}
+.initial-instructions .small-text {
+    font-size: 0.9rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--text-light);
+}
+
+/* ------------------ Botones de Acción ------------------ */
+
+.lot-actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    padding-top: 0.7rem;
+    padding-right: 1rem;
+    padding-bottom: 0.7rem;
+    padding-left: 1rem;
+    border-radius: 6px; 
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* Botón Cotizar */
+.cotizar-btn {
+    margin-bottom: 0.6rem; 
+    font-size: 1rem;
+    background-color: var(--terracotta-pink);
+    color: var(--neutral-white);
+    box-shadow: 0 4px 6px rgba(226, 125, 96, 0.4);
+}
+.cotizar-btn:hover {
+    background-color: var(--terracotta-pink-dark);
+    box-shadow: 0 6px 8px rgba(226, 125, 96, 0.5);
+}
+.cotizar-btn.disabled-btn {
+    background-color: var(--status-blocked);
+    color: var(--text-light);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Botón Cambiar de Lote */
+.change-lot-btn {
+    background-color: transparent;
+    border: 1px solid var(--terracotta-pink-light);
+    color: var(--terracotta-pink-dark);
+    font-size: 0.9rem;
+    padding: 0.6rem;
+}
+.change-lot-btn:hover {
+    background-color: var(--terracotta-pink-light);
+    color: var(--neutral-white);
+}
+
+/* ------------------ Mapa SVG ------------------ */
+
+.map-column {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-top: 0; 
+    padding-bottom: 20px;
+    /* Asegura que el mapa se centre dentro de su columna */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.svgmap {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--neutral-white); 
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow-soft);
+    overflow: hidden;
+}
+
+.svgmap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Estilos para las formas SVG inyectadas por JS */
+.svgmap path, 
+.svgmap polygon, 
+.svgmap rect, 
+.svgmap ellipse {
+    transition: fill 0.3s, filter 0.15s;
+    pointer-events: auto;
+}
+
+/* ------------------ Animaciones ------------------ */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ------------------ Responsive (MÓVIL) ------------------ */
+@media (max-width: 992px) {
+    .mapa-main-container { 
+        padding-top: 8px;
+        padding-right: 8px;
+        padding-bottom: 8px;
+        padding-left: 8px;
+    }
+    
+    .mapa-section { 
+        /* Cambia a una columna en dispositivos pequeños */
+        grid-template-columns: 1fr; 
+        min-height: auto; 
+        padding-top: 0;
+        padding-right: 8px;
+        padding-bottom: 8px;
+        padding-left: 8px;
+        gap: 10px;
+        justify-items: stretch; /* Ocupa el 100% de ancho en móvil */
+    }
+    
+    .map-header { 
+        margin-bottom: 8px; 
+        padding: 0.6rem; 
+        order: 1; 
+    }
+    
+    .info-sticky-wrapper { 
+        order: 2; 
+    }
+
+    .map-column { 
+        order: 3; 
+        min-height: 50vh; 
+        padding-top: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        justify-content: center; 
+    }
+    
+    /* El panel deja de ser sticky en móvil */
+    .lot-info-sticky-panel { 
+        position: relative; 
+        top: auto; 
+        margin-top: 5px; 
+        padding-top: 0.8rem;
+        padding-right: 0.5rem;
+        padding-bottom: 0.8rem;
+        padding-left: 0.5rem; 
+        text-align: center;
+    }
+    
+    .lot-number { 
+        font-size: 2rem; 
+        text-align: center !important;
+    }
+    
+    /* Justificación del texto en móvil */
+    .lot-note, .lot-details, .lot-details p {
+        text-align: left; 
+    }
+    
+    .lot-details {
+        padding-top: 0.8rem;
+        padding-right: 5px;
+        padding-bottom: 0.5rem;
+        padding-left: 5px; 
+    }
+    .lot-details p { 
+        font-size: 0.9rem; 
+    }
+    
+    .cotizar-btn {
+        font-size: 0.95rem; 
+        padding-top: 8px;
+        padding-bottom: 8px;
+        margin-bottom: 0.5rem; 
+    }
+
+    .change-lot-btn {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        font-size: 0.85rem;
+    }
+    
+    .status-legend {
+        gap: 0.8rem;
+    }
+    .status-item {
+        font-size: 0.8rem;
+    }
+}
+@media (max-width: 500px) {
+    /* 1. Contenedor principal del mapa: Aseguramos suficiente altura. */
+    .map-column { 
+        /* Aumentamos la altura mínima para que el mapa no se corte
+           y tenga espacio vertical adecuado en móviles. */
+        min-height: 50vh; 
+        
+        /* Flexbox para ayudar a centrar y manejar el contenido interno. */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0; /* Aseguramos que no haya padding que lo empuje */
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* 2. Contenedor DIV del SVG: Aseguramos que ocupe el 100% del espacio disponible. */
+    .svgmap {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        display: block;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    /* 3. Elemento SVG: Forzamos que la imagen se ajuste a su contenedor (.svgmap). */
+    .svgmap svg {
+        display: block; /* Útil para eliminar pequeños espacios de línea de base */
+        width: 100%; /* Ocupa el 100% del ancho del contenedor */
+        height: auto; /* Altura automática manteniendo aspecto */
+        max-width: 100%;
+        margin: 0 auto;
+    }
+}

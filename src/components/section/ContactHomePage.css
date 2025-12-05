@@ -1,0 +1,222 @@
+/* src/components/ContactHomePage.css */
+
+/* --- PALETA DE COLORES --- */
+/* Fondo General: #f4f4f4 (Gris Claro) */
+/* Fondo Primario (Oficina): #774444 (Terracota/Ladrillo Oscuro) */
+/* Botón/Acento: #808000 (Verde Olivo) */
+/* Texto Principal: #333333 (Gris Oscuro) */
+/* Texto Secundario/Placeholder: #666666 (Gris Medio) */
+/* Alertas Success: Verde Olivo Suave */
+/* Alertas Error: Terracota Suave */
+
+
+/* 1. Contenedor Principal y Layout */
+.SHP-contact-section {
+    padding: 40px 0;
+    background-color: #f4f4f4;
+    border-radius: 8px 8px 8px 8px; /* Fondo Gris Claro */
+}
+
+.SHP-layout-container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column; 
+    gap: 40px; 
+}
+
+@media (min-width: 992px) {
+    .SHP-layout-container {
+        flex-direction: row; 
+    }
+    .SHP-form-column,
+    .SHP-office-column {
+        flex: 1; 
+        min-width: 0; 
+    }
+}
+
+/* 2. Estilos de la Columna de la Oficina (OfficeInvitationSection) */
+
+.SHP-office-column {
+    background-color: #2d2727; /* Terracota Oscuro */
+    color: #f4f4f4; /* Texto en gris claro para contraste */
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.SHP-text-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.SHP-icon-marker {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.SHP-description,
+.SHP-address-detail {
+    margin-bottom: 10px;
+    color: #eeeeee; /* Gris muy claro para el texto secundario */
+}
+
+.SHP-image-container {
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: 4px;
+  max-height: 650px;
+}
+
+.SHP-office-tower-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center; /* Mantiene el centro de la imagen visible */
+}
+.SHP-btn-directions {
+    display: inline-flex;
+    align-items: center;
+    background-color: #085307; /* Verde Olivo (Botón/Acento) */
+    color: #f4f4f4; /* Texto de botón en gris claro */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+.SHP-btn-directions svg{
+    padding-right: 10px;
+}
+
+.SHP-btn-directions:hover {
+    background-color: #085307; /* Olivo un poco más oscuro al pasar el ratón */
+}
+
+
+/* 3. Estilos del Formulario (ContactForm) */
+
+.SHP-contact-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333333; /* Gris Oscuro para Títulos */
+}
+
+.SHP-contact-subtitle {
+    margin-bottom: 30px;
+    color: #666666; /* Gris Medio para Subtítulos */
+}
+
+.SHP-form-group-triple {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.SHP-form-field {
+    flex-grow: 1;
+    min-width: 250px; 
+}
+
+@media (min-width: 768px) {
+    .SHP-form-group-triple .SHP-form-field {
+        flex: 1 1 calc(33.33% - 10px); 
+    }
+    .SHP-form-field:last-of-type { 
+        min-width: 100%;
+    }
+}
+
+.SHP-form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #444444; /* Gris casi oscuro para etiquetas */
+}
+
+.SHP-input-with-icon {
+    position: relative;
+}
+
+.SHP-input-with-icon .SHP-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999999; /* Gris muy claro para íconos de input */
+}
+
+.SHP-contact-form input[type="text"],
+.SHP-contact-form input[type="email"],
+.SHP-contact-form input[type="tel"],
+.SHP-contact-form select,
+.SHP-contact-form textarea {
+    width: 100%;
+    padding: 10px 10px 10px 40px; 
+    border: 1px solid #cccccc; /* Borde gris claro */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #ffffff; /* Pequeña excepción, se mantiene blanco para el campo */
+    color: #333333; /* Texto de entrada gris oscuro */
+}
+
+.SHP-contact-form select,
+.SHP-contact-form textarea {
+    padding-left: 10px; 
+}
+
+.SHP-submit-button {
+    width: 100%;
+    background-color: #085307; /* Verde Olivo */
+    color: #f4f4f4; /* Texto de botón en gris claro */
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.SHP-submit-button:hover:not(:disabled) {
+    background-color: #006b37; /* Olivo más oscuro */
+}
+
+.SHP-submit-button:disabled {
+    background-color: #909b8ffd; /* Olivo deshabilitado */
+    color: #dddddd; /* Gris claro deshabilitado */
+    cursor: not-allowed;
+}
+
+/* 4. Estilos de Alerta */
+.SHP-form-alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.SHP-success {
+    /* Verde Olivo Suave */
+    background-color: #eeffcc; 
+    color: #4d4d00;
+    border: 1px solid#085307;
+}
+
+.SHP-error {
+    /* Terracota Suave */
+    background-color: #f4e8e8;
+    color: #4f2d2d;
+    border: 1px solid #774444;
+}

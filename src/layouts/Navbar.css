@@ -1,0 +1,255 @@
+/* ========================================================= */
+/* 0. VARIABLES Y RESET DE ACCESIBILIDAD (Coherencia de Marca)*/
+/* ========================================================= */
+
+/* Variables de Branding y Espaciado (Definidas para la compatibilidad) */
+:root {
+  /* Variables de Branding del Navbar (Estilo Terracota/Mediterráneo) */
+  --navbar-primary-color: #111111;       /* Fondo: Oscuro (Terracota Quemado/Madera) */
+  --navbar-secondary-color: #faf4e9;     /* Texto: Claro (Crema/Arena) */
+  --navbar-accent-color: #e4b1b1;        /* Color de acento (Tierra Cálida) */
+
+  /* Variables de Sombra */
+  --shadow-strength: 0.35;
+  --navbar-box-shadow: 0 4px 10px rgba(0, 0, 0, var(--shadow-strength));
+
+  /* Variables de Espaciado (Definidas para eliminar errores de 'undefined variable') */
+  --spacing-xs: 0.5rem;   /* ~8px */
+  --spacing-sm: 1rem;     /* ~16px */
+  --spacing-md: 1.5rem;   /* ~24px */
+  --spacing-lg: 2rem;     /* ~32px */
+  --spacing-xl: 3rem;     /* ~48px */
+}
+
+/* Mejora de Accesibilidad: Restablecer el focus visible (Evita el 'outline: none;') */
+button:focus,
+button:focus-visible {
+    /* Outline discreto y con el color de acento para accesibilidad (A11y) */
+    outline: 2px solid var(--navbar-accent-color); 
+    outline-offset: 2px;
+    /* Los siguientes se mantienen, pero background y border están en none, lo cual es inusual para un button */
+    border: none;
+    background: none;
+}
+
+/* ---------------------------------- */
+/* 1. Estilos Base (Desktop: LOGO | MENÚ | ICONOS) */
+/* ---------------------------------- */
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  background-color: var(--navbar-primary-color); 
+  color: var(--navbar-secondary-color);
+  
+  /* UX/UI: Uso de REMs para espaciado simétrico y escalable */
+  padding: .8rem 2rem;
+  
+  box-shadow: var(--navbar-box-shadow); 
+  position: sticky; 
+  top: 0;
+  z-index: 500; 
+  transition: padding 0.3s ease;
+}
+
+/* Logo */
+.navbar-logo {
+  flex-shrink: 0; 
+}
+
+.logo-img {
+  /* Tamaño de logo basado en REMs para escalabilidad */
+  max-height: 1.8rem; /* ~40px */
+  width: auto;
+  transition: max-height 0.3s ease;
+}
+
+/* Menú Principal */
+.navbar-menu {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center; 
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex; 
+  /* Uso de la variable de espaciado medio (1.5rem) */
+  gap: var(--spacing-md); 
+  margin: 0;
+  padding: 0;
+}
+
+/* Enlaces (Desktop) */
+.navbar-links a,
+.navbar-container a {
+  color: var(--navbar-secondary-color);
+  text-decoration: none;
+  font-weight: 400;
+  /* Aumentar el área de clic para mejor UX */
+  padding: 0.5rem 0; 
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: var(--navbar-accent-color); 
+}
+
+/* Iconos Sociales (Desktop) */
+.navbar-social-desktop {
+    display: flex;
+    /* Uso de la variable de espaciado más pequeño (0.5rem) */
+    gap: var(--spacing-xs); 
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Contenedor del Icono (Área de Clic Optimizada) */
+.navbar-social-desktop a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem; 
+    height: 1.5rem; 
+    border-radius: 50%;
+    background-color: var(--navbar-secondary-color);
+    color: var(--navbar-primary-color);
+    /* Efecto hover suave (UI) */
+    transition: background-color 0.3s, transform 0.2s; 
+}
+
+.navbar-social-desktop a:hover {
+    background-color: var(--navbar-accent-color);
+    transform: translateY(-2px); 
+}
+
+/* Icono SVG */
+.social-icon {
+    width: .8rem; 
+    height: .8rem; 
+}
+
+
+/* Ocultar elementos móviles en desktop */
+.menu-toggle, .mobile-social-icons, .contact-button-mobile {
+    display: none;
+}
+
+
+/* ---------------------------------- */
+/* 2. Diseño Móvil (Responsive: @media) */
+/* ---------------------------------- */
+
+@media (max-width: 900px) {
+    
+    /* Layout del Header en Móvil */
+    .navbar-container {
+      justify-content: space-between; 
+      /* Uso de variables de espaciado */
+      padding: var(--spacing-sm) var(--spacing-md); 
+      height: auto; 
+    }
+    
+    /* Logo en Móvil: Centrado visual */
+    .navbar-logo {
+        position: absolute;
+        left: 50%; 
+        top: 50%; /* Centrado vertical mejorado */
+        transform: translate(-50%, -50%);
+        z-index: 510;
+    }
+
+    .logo-img {
+        max-height: 2rem; /* más compacto en móvil */
+    }
+    
+    /* Toggle de Menú (Hamburguesa) */
+    .menu-toggle { 
+        display: block; 
+        /* CAMBIO CLAVE: Orden alto para forzar el toggle al extremo derecho en móvil */
+        order: 99; 
+        color: var(--navbar-secondary-color);
+        padding: 0.5rem; 
+        cursor: pointer;
+        z-index: 600; 
+    }
+    
+    /* Menú desplegable lateral (Off-Canvas) */
+    .navbar-menu {
+        flex-grow: unset;
+        position: fixed;
+        top: 0;
+        right: 0;
+        
+        /* Ancho adaptable y límite máximo para UX */
+        width: 75vw; 
+        max-width: 320px; 
+        height: 100vh;
+        background-color: var(--navbar-primary-color);
+        box-shadow: -6px 0 15px rgba(0, 0, 0, 0.3);
+        
+        flex-direction: column;
+        align-items: flex-start;
+        
+        /* Padding superior generoso para el móvil */
+        padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-lg); 
+        
+        transform: translateX(100%); 
+        /* Transición de experto para un movimiento más suave */
+        transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); 
+        z-index: 550; 
+    }
+
+    .navbar-menu.open {
+        transform: translateX(0); 
+    }
+    
+    /* Enlaces y Botón de Contacto en Móvil */
+    .navbar-links {
+        flex-direction: column; 
+        width: 100%;
+        /* Espacio generoso entre enlaces para interacción táctil (UX) */
+        gap: var(--spacing-lg); 
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    /* Botón de Contacto en Móvil */
+    .contact-button-mobile {
+        display: block;
+        margin-top: var(--spacing-md);
+        width: 100%; 
+        text-align: center;
+        background-color: var(--navbar-secondary-color);
+        color: var(--navbar-primary-color);
+        padding: var(--spacing-sm) 0; 
+        border-radius: 4px;
+        font-weight: 700;
+        transition: background-color 0.3s;
+    }
+    
+    /* Contenedor de iconos sociales en móvil */
+    .mobile-social-icons {
+        display: block;
+        width: 100%;
+        border-top: 1px solid rgba(241, 232, 217, 0.2); 
+        padding-top: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+    }
+    
+    /* Iconos sociales en móvil: Centrado */
+    .social-icon-links {
+        display: flex;
+        justify-content: center; 
+        gap: var(--spacing-md);
+        width: 100%;
+        padding: 0;
+        list-style: none;
+    }
+    
+    /* Área de clic de iconos en móvil */
+    .social-icon-links a {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+}

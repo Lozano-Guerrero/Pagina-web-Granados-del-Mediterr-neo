@@ -1,0 +1,93 @@
+/* src/pages/precios/PricingPage.css */
+
+.pricing-page {
+
+    background-color: rgb(222, 222, 219);
+}
+
+.page-heading-container {
+    max-width: 90%;
+    margin: 0 auto 0px;
+    text-align: center;
+    padding:0;
+}
+
+.page-title {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--color-primary-accent, #1a4f32);
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* --- Masterplan Section --- */
+.map-section {
+    padding: 0px 0;
+}
+
+.masterplan-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.masterplan-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Prices Section --- */
+.prices-section {
+    padding: 0px 0;
+}
+
+.prices-inner-container {
+
+    margin: 0 auto;
+    padding: 0 1%;
+}
+
+.prices-section-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--color-text-dark, #333);
+    margin-bottom: 50px;
+}
+
+/* --- Disclaimer --- */
+.prices-disclaimer-box {
+  
+    padding: 20px 50px;
+    background-color: white;
+    font-size: 200% ;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.disclaimer-text {
+    font-size: 0.8rem;
+    color: #777;
+    line-height: 1.5;
+}
+.disclaimer-text strong {
+     font-size: 0.8rem;
+    color: var(--color-secondary-accent, #243c1c);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2.2rem;
+    }
+    .prices-section-title {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,93 @@
+/* src/components/ArchitecturalVision.css */
+
+.architectural-vision-container {
+    max-width: 90%;
+    margin: 10px auto;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 0 5%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.vision-content {
+    flex: 1;
+    padding: 10px 20px;
+}
+
+.vision-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-primary-accent); /* Asumiendo un color verde oscuro */
+    margin-bottom: 10px;
+}
+
+.vision-tagline {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-secondary-accent); /* Asumiendo un color de acento más claro */
+    margin-bottom: 25px;
+}
+
+.vision-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.vision-text strong {
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.vision-cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--color-secondary-accent);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.vision-cta-button:hover {
+    background-color: #2a4123;
+}
+
+.vision-image-wrapper {
+    flex: 1;
+    height: 500px;
+    min-width: 50%;
+    overflow: hidden;
+}
+
+.vision-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .architectural-vision-container {
+        flex-direction: column;
+        margin: 40px 0;
+        border-radius: 0;
+        box-shadow: none;
+        background-color: var(--color-light-bg);
+    }
+    .vision-image-wrapper {
+        min-width: 100%;
+        height: 300px;
+    }
+    .vision-content {
+        padding: 20px 0;
+    }
+}

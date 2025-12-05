@@ -1,0 +1,2303 @@
+[
+  
+  {
+    "id": "lote1",
+    "titulo": "Lote 1",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1513.58,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote2",
+    "titulo": "Lote 2",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1501.18,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote3",
+    "titulo": "Lote 3",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1504.8,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote4",
+    "titulo": "Lote 4",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1530.47,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote5",
+    "titulo": "Lote 5",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1500.27,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote6",
+    "titulo": "Lote 6",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1500.31,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote7",
+    "titulo": "Lote 7",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1500.15,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote8",
+    "titulo": "Lote 8",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1594.97,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote9",
+    "titulo": "Lote 9",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote10",
+    "titulo": "Lote 10",
+    "tipo": "AAA",
+    "estado": "vendido",
+    "superficie_m2": 1592.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote11",
+    "titulo": "Lote 11",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1724.61,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote12",
+    "titulo": "Lote 12",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1501.55,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote13",
+    "titulo": "Lote 13",
+    "tipo": "A",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote14",
+    "titulo": "Lote 14",
+    "tipo": "A",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote15",
+    "titulo": "Lote 15",
+    "tipo": "A",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote16",
+    "titulo": "Lote 16",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1508.17,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote17",
+    "titulo": "Lote 17",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.33,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote18",
+    "titulo": "Lote 18",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote19",
+    "titulo": "Lote 19",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote20",
+    "titulo": "Lote 20",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote21",
+    "titulo": "Lote 21",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote22",
+    "titulo": "Lote 22",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote23",
+    "titulo": "Lote 23",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote24",
+    "titulo": "Lote 24",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1662.66,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote25",
+    "titulo": "Lote 25",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1668.25,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote26",
+    "titulo": "Lote 26",
+    "tipo": "AA",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote27",
+    "titulo": "Lote 27",
+    "tipo": "AA",
+    "estado": "vendido",
+    "superficie_m2": 1592.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote28",
+    "titulo": "Lote 28",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1724.61,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote29",
+    "titulo": "Lote 29",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote30",
+    "titulo": "Lote 30",
+    "tipo": "A",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote31",
+    "titulo": "Lote 31",
+    "tipo": "A",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote32",
+    "titulo": "Lote 32",
+    "tipo": "A",
+    "estado": "separado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 600,
+    "color": "#f0e589",
+    "link": ""
+  },
+  {
+    "id": "lote33",
+    "titulo": "Lote 33",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1502.38,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote34",
+    "titulo": "Lote 34",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1500.69,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote35",
+    "titulo": "Lote 35",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1509.73,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote36",
+    "titulo": "Lote 36",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote37",
+    "titulo": "Lote 37",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote38",
+    "titulo": "Lote 38",
+    "tipo": "AA",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote39",
+    "titulo": "Lote 39",
+    "tipo": "AA",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote40",
+    "titulo": "Lote 40",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1503.37,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote41",
+    "titulo": "Lote 41",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1733.68,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote42",
+    "titulo": "Lote 42",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1765.17,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote43",
+    "titulo": "Lote 43",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote44",
+    "titulo": "Lote 44",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote45",
+    "titulo": "Lote 45",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1517.73,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote46",
+    "titulo": "Lote 46",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 2080.89,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote47",
+    "titulo": "Lote 47",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1945.56,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote48",
+    "titulo": "Lote 48",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1519,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote49",
+    "titulo": "Lote 49",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote50",
+    "titulo": "Lote 50",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote51",
+    "titulo": "Lote 51",
+    "tipo": "AA",
+    "estado": "disponible",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote52",
+    "titulo": "Lote 52",
+    "tipo": "AA",
+    "estado": "vendido",
+    "superficie_m2": 1501.5,
+    "costo_m2": "precio no disponible",
+    "color": "#ef5350",
+    "link": ""
+  },
+  {
+    "id": "lote53",
+    "titulo": "Lote 53",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1655.61,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote54",
+    "titulo": "Lote 54",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1894.21,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote55",
+    "titulo": "Lote 55",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1927.79,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote56",
+    "titulo": "Lote 56",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1906.86,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote57",
+    "titulo": "Lote 57",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1893.87,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote58",
+    "titulo": "Lote 58",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1786.71,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote59",
+    "titulo": "Lote 59",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1612.27,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote60",
+    "titulo": "Lote 60",
+    "tipo": "AAA",
+    "estado": "disponible",
+    "superficie_m2": 1792.36,
+    "costo_m2": 800,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote61",
+    "titulo": "Lote 61",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1500.87,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote62",
+    "titulo": "Lote 62",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1500.48,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote63",
+    "titulo": "Lote 63",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1500.19,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote64",
+    "titulo": "Lote 64",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1500.68,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote65",
+    "titulo": "Lote 65",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1504.79,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote66",
+    "titulo": "Lote 66",
+    "tipo": "A",
+    "estado": "disponible",
+    "superficie_m2": 1500.21,
+    "costo_m2": 600,
+    "color": "#66bb6a",
+    "link": ""
+  },
+  {
+    "id": "lote67",
+    "titulo": "Lote 67",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1513.21,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote68",
+    "titulo": "Lote 68",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1528.68,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote69",
+    "titulo": "Lote 69",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1817.46,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote70",
+    "titulo": "Lote 70",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1513.81,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote71",
+    "titulo": "Lote 71",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.88,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote72",
+    "titulo": "Lote 72",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1514.13,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote73",
+    "titulo": "Lote 73",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1502.37,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote74",
+    "titulo": "Lote 74",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1515.55,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote75",
+    "titulo": "Lote 75",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1504.38,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote76",
+    "titulo": "Lote 76",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1531.26,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote77",
+    "titulo": "Lote 77",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1533.65,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote78",
+    "titulo": "Lote 78",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1988.55,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote79",
+    "titulo": "Lote 79",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1868.53,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote80",
+    "titulo": "Lote 80",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1673.01,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote81",
+    "titulo": "Lote 81",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1884.12,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote82",
+    "titulo": "Lote 82",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1937.77,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote83",
+    "titulo": "Lote 83",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1964.24,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote84",
+    "titulo": "Lote 84",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1957.56,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote85",
+    "titulo": "Lote 85",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.51,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote86",
+    "titulo": "Lote 86",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote87",
+    "titulo": "Lote 87",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.07,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote88",
+    "titulo": "Lote 88",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote89",
+    "titulo": "Lote 89",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote90",
+    "titulo": "Lote 90",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1560.11,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote91",
+    "titulo": "Lote 91",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote92",
+    "titulo": "Lote 92",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote93",
+    "titulo": "Lote 93",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote94",
+    "titulo": "Lote 94",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote95",
+    "titulo": "Lote 95",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote96",
+    "titulo": "Lote 96",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1628.88,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote97",
+    "titulo": "Lote 97",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1746.25,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote98",
+    "titulo": "Lote 98",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1943.43,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote99",
+    "titulo": "Lote 99",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 2110.89,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote100",
+    "titulo": "Lote 100",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1957.56,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote101",
+    "titulo": "Lote 101",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1737.56,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote102",
+    "titulo": "Lote 102",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1589.67,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote103",
+    "titulo": "Lote 103",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1845.88,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote104",
+    "titulo": "Lote 104",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 2045.88,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote105",
+    "titulo": "Lote 105",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1931.16,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote106",
+    "titulo": "Lote 106",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1910.61,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote107",
+    "titulo": "Lote 107",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1630.8,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote108",
+    "titulo": "Lote 108",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1545.12,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote109",
+    "titulo": "Lote 109",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1594.99,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote110",
+    "titulo": "Lote 110",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1719.28,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote111",
+    "titulo": "Lote 111",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1749.52,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote112",
+    "titulo": "Lote 112",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1547.01,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote113",
+    "titulo": "Lote 113",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1587.35,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote114",
+    "titulo": "Lote 114",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1672.48,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote115",
+    "titulo": "Lote 115",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.55,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote116",
+    "titulo": "Lote 116",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.55,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote117",
+    "titulo": "Lote 117",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 1679.52,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote118",
+    "titulo": "Lote 118",
+    "tipo": "A",
+    "estado": "bloqueado",
+    "superficie_m2": 2046.17,
+    "costo_m2": 600,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote119",
+    "titulo": "Lote 119",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1916.59,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote120",
+    "titulo": "Lote 120",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518.98,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote121",
+    "titulo": "Lote 121",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1527.95,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote122",
+    "titulo": "Lote 122",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1543.58,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote123",
+    "titulo": "Lote 123",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1546.75,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote124",
+    "titulo": "Lote 124",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1511.09,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote125",
+    "titulo": "Lote 125",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote126",
+    "titulo": "Lote 126",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote127",
+    "titulo": "Lote 127",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote128",
+    "titulo": "Lote 128",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote129",
+    "titulo": "Lote 129",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote130",
+    "titulo": "Lote 130",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote131",
+    "titulo": "Lote 131",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote132",
+    "titulo": "Lote 132",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1509.8,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote133",
+    "titulo": "Lote 133",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1659.4,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote134",
+    "titulo": "Lote 134",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1863.16,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote135",
+    "titulo": "Lote 135",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 2196.03,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote136",
+    "titulo": "Lote 136",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 2043.03,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote137",
+    "titulo": "Lote 137",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1617.08,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote138",
+    "titulo": "Lote 138",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1502.18,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote139",
+    "titulo": "Lote 139",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.45,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote140",
+    "titulo": "Lote 140",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1515.68,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote141",
+    "titulo": "Lote 141",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.45,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote142",
+    "titulo": "Lote 142",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1504.66,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote143",
+    "titulo": "Lote 143",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1512.28,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote144",
+    "titulo": "Lote 144",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.32,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote145",
+    "titulo": "Lote 145",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.32,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote146",
+    "titulo": "Lote 146",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.32,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote147",
+    "titulo": "Lote 147",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote148",
+    "titulo": "Lote 148",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote149",
+    "titulo": "Lote 149",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1536.63,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote150",
+    "titulo": "Lote 150",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1528.45,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote151",
+    "titulo": "Lote 151",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1504.42,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote152",
+    "titulo": "Lote 152",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518.54,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote153",
+    "titulo": "Lote 153",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1865.53,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote154",
+    "titulo": "Lote 154",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1782.17,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote155",
+    "titulo": "Lote 155",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote156",
+    "titulo": "Lote 156",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote157",
+    "titulo": "Lote 157",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote158",
+    "titulo": "Lote 158",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.07,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote159",
+    "titulo": "Lote 159",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote160",
+    "titulo": "Lote 160",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote161",
+    "titulo": "Lote 161",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote162",
+    "titulo": "Lote 162",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote163",
+    "titulo": "Lote 163",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1530.07,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote164",
+    "titulo": "Lote 164",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1510.09,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote165",
+    "titulo": "Lote 165",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1527.75,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote166",
+    "titulo": "Lote 166",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.45,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote167",
+    "titulo": "Lote 167",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1503.98,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote168",
+    "titulo": "Lote 168",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1507.03,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote169",
+    "titulo": "Lote 169",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1512.44,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote170",
+    "titulo": "Lote 170",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1517.84,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote171",
+    "titulo": "Lote 171",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1519.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote172",
+    "titulo": "Lote 172",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1519.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote173",
+    "titulo": "Lote 173",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1519.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote174",
+    "titulo": "Lote 174",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1519.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote175",
+    "titulo": "Lote 175",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 2647.69,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote176",
+    "titulo": "Lote 176",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1665.67,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote177",
+    "titulo": "Lote 177",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1508.34,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote178",
+    "titulo": "Lote 178",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1511.72,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote179",
+    "titulo": "Lote 179",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1514.98,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote180",
+    "titulo": "Lote 180",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1507.48,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote181",
+    "titulo": "Lote 181",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1505,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote182",
+    "titulo": "Lote 182",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1505,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote183",
+    "titulo": "Lote 183",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1515.15,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote184",
+    "titulo": "Lote 184",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1521.16,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote185",
+    "titulo": "Lote 185",
+    "tipo": "AAA",
+    "estado": "bloqueado",
+    "superficie_m2": 1524.79,
+    "costo_m2": 800,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote186",
+    "titulo": "Lote 186",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.77,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote187",
+    "titulo": "Lote 187",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.59,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote188",
+    "titulo": "Lote 188",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.59,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote189",
+    "titulo": "Lote 189",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.59,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote190",
+    "titulo": "Lote 190",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1510.55,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote191",
+    "titulo": "Lote 191",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1514.17,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote192",
+    "titulo": "Lote 192",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1513.58,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote193",
+    "titulo": "Lote 193",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1517.58,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote194",
+    "titulo": "Lote 194",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1502.63,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote195",
+    "titulo": "Lote 195",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1502.63,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote196",
+    "titulo": "Lote 196",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1541.25,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote197",
+    "titulo": "Lote 197",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1580.91,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote198",
+    "titulo": "Lote 198",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1565.17,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote199",
+    "titulo": "Lote 199",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1542.55,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote200",
+    "titulo": "Lote 200",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518.6,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote201",
+    "titulo": "Lote 201",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1509.66,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote202",
+    "titulo": "Lote 202",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1558.06,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote203",
+    "titulo": "Lote 203",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1937.27,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote204",
+    "titulo": "Lote 204",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.88,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote205",
+    "titulo": "Lote 205",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.92,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote206",
+    "titulo": "Lote 206",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.92,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote207",
+    "titulo": "Lote 207",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1505.58,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote208",
+    "titulo": "Lote 208",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1506.19,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote209",
+    "titulo": "Lote 209",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1507.17,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote210",
+    "titulo": "Lote 210",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1509.34,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote211",
+    "titulo": "Lote 211",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1507.03,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote212",
+    "titulo": "Lote 212",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1515.68,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote213",
+    "titulo": "Lote 213",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.32,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote214",
+    "titulo": "Lote 214",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.32,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote215",
+    "titulo": "Lote 215",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote216",
+    "titulo": "Lote 216",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote217",
+    "titulo": "Lote 217",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote218",
+    "titulo": "Lote 218",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1516.93,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote219",
+    "titulo": "Lote 219",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1536.63,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote220",
+    "titulo": "Lote 220",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1528.45,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote221",
+    "titulo": "Lote 221",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1504.42,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote222",
+    "titulo": "Lote 222",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1518.54,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote223",
+    "titulo": "Lote 223",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1865.53,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote224",
+    "titulo": "Lote 224",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1782.17,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote225",
+    "titulo": "Lote 225",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote226",
+    "titulo": "Lote 226",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote227",
+    "titulo": "Lote 227",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote228",
+    "titulo": "Lote 228",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1501.07,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote229",
+    "titulo": "Lote 229",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  },
+  {
+    "id": "lote230",
+    "titulo": "Lote 230",
+    "tipo": "AA",
+    "estado": "bloqueado",
+    "superficie_m2": 1500.5,
+    "costo_m2": 700,
+    "color": "#c2c1ba",
+    "link": ""
+  }
+]

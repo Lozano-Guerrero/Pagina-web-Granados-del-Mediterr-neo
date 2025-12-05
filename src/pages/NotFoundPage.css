@@ -1,0 +1,127 @@
+/* src/pages/NotFoundPage.css */
+
+/* Variables de Branding (si no están ya en un archivo global) */
+/* Reutilizamos las de LocationAndMap para consistencia */
+:root {
+    --color-dark-bg: #282c34;
+    --color-light-bg: #f7f7f8;
+    --color-text-dark: #23373a;
+    --color-primary-accent: #093011; /* Verde Oscuro */
+    --color-secondary-accent: #314f29; /* Verde (para botones) */
+    --color-card-shadow: rgba(0, 0, 0, 0.15);
+    --color-overlay-bg: rgba(0, 0, 0, 0.9);
+}
+
+
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-color: var(--color-light-bg); /* Fondo claro de tu branding */
+    color: var(--color-text-dark);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Para manejar la imagen de fondo */
+}
+
+.not-found-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(50%) blur(3px); /* Efecto sutil para que el texto resalte */
+    opacity: 0.3; /* Transparencia para que no opaque el contenido */
+    z-index: 1; /* Detrás del contenido */
+    pointer-events: none; /* No interactuable */
+}
+
+.not-found-content {
+    position: relative;
+    z-index: 2; /* Sobre la imagen de fondo */
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente para el texto */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: 20px;
+}
+
+.not-found-title {
+    font-size: 6rem; /* Tamaño grande para el 404 */
+    font-weight: 900;
+    color: var(--color-primary-accent); /* Color principal de tu branding */
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.not-found-tagline {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-text-dark);
+}
+
+.not-found-message {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.not-found-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espacio entre botones */
+}
+
+.not-found-button {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-button.primary {
+    background-color: var(--color-secondary-accent); /* Verde principal */
+    color: white;
+}
+
+.not-found-button.primary:hover {
+    background-color: #2a4123; /* Verde más oscuro al hover */
+    transform: translateY(-2px);
+}
+
+.not-found-button.secondary {
+    background-color: #e0e0e0; /* Gris claro para el secundario */
+    color: var(--color-text-dark);
+    border: 1px solid #ccc;
+}
+
+.not-found-button.secondary:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+/* --- Responsive para Móviles --- */
+@media (max-width: 768px) {
+    .not-found-title {
+        font-size: 4rem;
+    }
+    .not-found-tagline {
+        font-size: 1.8rem;
+    }
+    .not-found-message {
+        font-size: 1rem;
+    }
+    .not-found-actions {
+        flex-direction: column; /* Apilar botones en móvil */
+        gap: 10px;
+    }
+}

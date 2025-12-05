@@ -1,0 +1,526 @@
+/* src/pages/GalleryPage.css - CÓDIGO COMPLETO Y CORREGIDO (v2.0) */
+
+/* --- Variables de Color (Terracota y Neutros) --- */
+:root {
+    --color-terracota: #cd533c; /* Principal Accent */
+    --color-terracota-dark: #a84332; /* Hover */
+    --color-terracota-light: #e09689; /* Texto Secundario CTA */
+    --color-dark-text: #22252a; /* Texto Principal Oscuro */
+    --color-light-bg: #f8f8f8; /* Fondo de Contenido Claro */
+    --color-modal-bg: rgba(0, 0, 0, 0.95); /* Fondo de Modal Ultra-oscuro */
+    --color-border-light: #ececec;
+}
+
+/* --- Reutilizables --- */
+.info-inner-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+.section-heading {
+    text-align: center;
+    font-size: 2.8rem; 
+    font-weight: 800;
+    color: var(--color-dark-text);
+    margin-bottom: 10px;
+}
+.section-subheading {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+.cta-icon-right {
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+
+/* ---------------------------------------------------- */
+/* --- 1. Portada Hero (60vh de Alto - AJUSTADO) --- */
+/* ---------------------------------------------------- */
+.gallery-hero-cover {
+    min-height: 60vh; /* 🛑 AJUSTE SOLICITADO */
+    background-size: cover;
+    background-position: center 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    background-attachment: scroll;
+}
+.gallery-hero-cover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: 1;
+}
+.hero-content-gallery {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 900px;
+    padding: 40px 5%;
+}
+.hero-title {
+    font-size: 4.5rem; 
+    font-weight: 900;
+    margin: 0 0 15px;
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+    line-height: 1.1;
+}
+.hero-tagline {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+.hero-cta-button-gallery {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: var(--color-terracota);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.hero-cta-button-gallery:hover {
+    background-color: var(--color-terracota-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------------------------------------------------- */
+/* --- 2. Galería por Secciones (Tabs & Collage) --- */
+/* ---------------------------------------------------- */
+.gallery-tabs-section {
+    padding: 80px 0;
+    background-color: var(--color-light-bg);
+    position: relative; 
+}
+
+/* 🛑 POPUP FLOTANTE */
+.descriptive-popup {
+    position: absolute;
+    top: 100px; 
+    left: 5%;
+    max-width: 350px;
+    background-color: var(--color-terracota); 
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    animation: fadeIn 0.5s ease-out;
+}
+.popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+.popup-close-btn:hover {
+    opacity: 1;
+}
+.popup-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Navegación de Pestañas (Tabs) */
+.gallery-tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px; 
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 2px solid var(--color-border-light); 
+    padding: 0 5%;
+}
+.gallery-tab {
+    background: none;
+    border: none;
+    padding: 10px 20px 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #999;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+    margin: 0; 
+}
+.gallery-tab:hover {
+    color: var(--color-terracota-dark);
+}
+.gallery-tab.active {
+    color: var(--color-terracota);
+    border-bottom: 3px solid var(--color-terracota);
+    font-weight: 700;
+}
+
+/* TEXTO DESCRIPTIVO DINÁMICO */
+.dynamic-description-container {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    text-align: center;
+    padding: 0 5%;
+}
+.dynamic-description-text {
+    font-size: 1.15rem;
+    color: var(--color-dark-text);
+    line-height: 1.6;
+    font-style: italic; 
+    transition: opacity 0.5s;
+    animation: fadeInText 0.6s ease-out; 
+}
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ---------------------------------------------------- */
+/* --- COLLAGE DE IMÁGENES (GRID MODERNO CORREGIDO) --- */
+/* ---------------------------------------------------- */
+.gallery-content-display {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.image-collage-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 🛑 AJUSTE CLAVE 1: Llenado de huecos con elementos posteriores */
+    grid-auto-flow: dense; 
+    /* 🛑 AJUSTE CLAVE 2: Altura de filas más consistente */
+    grid-auto-rows: minmax(200px, auto); 
+    gap: 20px;
+}
+.collage-item {
+    overflow: hidden;
+    border-radius: 8px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.collage-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+}
+
+/* Estilos de Collage Dinámico */
+.collage-item.item-1 {
+    grid-row: span 2; 
+}
+.collage-item.item-4 {
+    grid-column: span 2;
+}
+/* Estilo agregado para ayudar a llenar huecos */
+.collage-item.item-6 { 
+    grid-column: span 2;
+}
+
+
+/* Overlay de Interacción (Lightbox) */
+.image-expand-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--color-terracota-rgb, 205, 83, 60), 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 8px;
+}
+.collage-item:hover .image-expand-overlay {
+    opacity: 1;
+}
+.expand-icon {
+    color: white;
+    font-size: 2.5rem;
+    transition: transform 0.3s;
+}
+.collage-item:hover .expand-icon {
+    transform: scale(1.1);
+}
+
+/* ---------------------------------------------------- */
+/* --- 3. Componente Amenity Trio (Placeholder) --- */
+/* ---------------------------------------------------- */
+.amenity-trio-integration {
+    padding: 80px 0;
+    background-color: white;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 4. Contact CTA (Footer de la página) --- */
+/* ---------------------------------------------------- */
+.contact-cta-section-gallery {
+    padding: 80px 0;
+    background-color: var(--color-dark-text);
+    color: white;
+    text-align: center;
+}
+.cta-content-gallery {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+.cta-content-gallery h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+.cta-content-gallery p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: var(--color-terracota-light);
+}
+
+
+/* ---------------------------------------------------- */
+/* --- LIGHTBOX MODAL (FUNCIONALIDAD CLAVE) --- */
+/* ---------------------------------------------------- */
+.lightbox-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-modal-bg);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeInModal 0.3s ease-out forwards;
+}
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lightbox-modal-content {
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: slideInModal 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+@keyframes slideInModal {
+    from { transform: scale(0.9); }
+    to { transform: scale(1); }
+}
+
+.lightbox-close-btn {
+    position: absolute;
+    top: 20px; 
+    right: 20px; 
+    background: var(--color-terracota);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1010;
+    transition: all 0.3s;
+}
+.lightbox-close-btn:hover {
+    background-color: var(--color-terracota-dark);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.lightbox-main-image-container {
+    width: 100%;
+    height: 80%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.lightbox-main-image {
+    max-width: 95%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    animation: imageFade 0.3s ease-out;
+}
+@keyframes imageFade {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+
+/* Botones de Navegación (Prev/Next) */
+.lightbox-nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.lightbox-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+.lightbox-nav-btn.prev { left: 10px; }
+.lightbox-nav-btn.next { right: 10px; }
+
+
+/* Carrusel de Miniaturas */
+.lightbox-thumbnail-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto; 
+    max-width: 100%;
+    padding: 10px 0;
+    white-space: nowrap;
+}
+
+.lightbox-thumbnail {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    margin: 0 5px;
+    cursor: pointer;
+    opacity: 0.6;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.lightbox-thumbnail.active {
+    opacity: 1;
+    border-color: var(--color-terracota);
+    transform: scale(1.05);
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 0px; 
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- RESPONSIVE GENERAL Y MODAL --- */
+/* ---------------------------------------------------- */
+
+@media (max-width: 1024px) {
+    .image-collage-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: auto; /* Reseteo en tablet */
+    }
+    /* Reseteo de spans y ajuste para Tablet */
+    .collage-item.item-1 { grid-column: span 3; grid-row: span 1; }
+    .collage-item.item-4 { grid-column: span 1; }
+    .collage-item.item-6 { grid-column: span 2; }
+    .collage-item.item-2, .collage-item.item-3, .collage-item.item-5, .collage-item.item-7, .collage-item.item-8 {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    /* POPUP Desactivado en Tablet */
+    .descriptive-popup { display: none; } 
+    
+    .hero-title { font-size: 3.5rem; }
+    .hero-tagline { font-size: 1.3rem; }
+}
+
+@media (max-width: 768px) {
+    /* HERO */
+    .gallery-hero-cover { min-height: 50vh; }
+    .hero-title { font-size: 2.5rem; }
+    .hero-tagline { font-size: 1.1rem; margin-bottom: 30px; }
+    .hero-cta-button-gallery { padding: 12px 30px; font-size: 1rem; }
+    
+    /* TABS */
+    .gallery-tabs-nav { justify-content: space-around; gap: 5px; padding: 0 10px; }
+    .gallery-tab { padding: 8px 15px 10px; font-size: 1rem; }
+    
+    /* COLLAGE MÓVIL (Cuadrícula simple) */
+    .image-collage-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        grid-auto-rows: auto;
+    }
+    .collage-item {
+        /* Se anulan todos los span para que fluyan en 2 columnas */
+        grid-row: span 1 !important;
+        grid-column: span 1 !important;
+        min-height: 150px;
+    }
+
+    /* LIGHTBOX MÓVIL */
+    .lightbox-modal-content {
+        height: 100vh;
+        width: 100vw;
+    }
+    .lightbox-close-btn {
+        top: 10px; right: 10px;
+        width: 35px; height: 35px;
+        font-size: 1rem;
+    }
+    .lightbox-nav-btn {
+        width: 40px; height: 40px;
+        font-size: 1.2rem;
+        top: 40%;
+    }
+    .lightbox-thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+    .lightbox-counter { display: none; } 
+}

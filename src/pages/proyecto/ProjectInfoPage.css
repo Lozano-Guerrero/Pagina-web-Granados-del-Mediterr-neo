@@ -1,0 +1,331 @@
+/* src/pages/ProjectInfoPage.css - ESTRUCTURA FINAL */
+
+/* Contenedor central para el contenido */
+.info-inner-container2 {
+    max-width: 90%; /* Mantener un ancho máximo para el contenido interno (texto, cards) */
+    margin: 0 auto;
+  
+    height: auto;
+    /* --- CAMBIO CRUCIAL: Eliminar padding lateral para que las secciones abarquen el 100% --- */
+    padding: 60px 0; 
+}
+
+/* Las secciones de componente necesitan su propio padding interno */
+.section-content-wrapper {
+    max-width: 85%;
+    margin: 0 auto;
+    padding: 0 5%; /* Añadimos el padding aquí para el contenido que SÍ debe centrarse */
+}
+
+/* --- Títulos de Sección Reutilizables --- */
+.section-heading {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-primary-accent, #4e7c3e); 
+    margin-bottom: 10px;
+}
+
+.section-subheading {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 50px;
+}
+
+/* ---------------------------------------------------- */
+/* --- 1. Project Hero (Banner Principal) --- */
+/* Esta sección siempre debe ser 100% ancha */
+.project-hero {
+    min-height: 70vh; 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%; /* Asegurar que cubra todo el ancho */
+}
+/* Apuntando al elemento SVG dentro de .feature-icon */
+.feature-icon-wrapper svg {
+    fill: white !important; 
+    color: rgb(255, 255, 255);
+    width: 60px;
+    height: 30px;
+    margin: 0;
+    align-items: center;
+    text-align: center;
+}
+/* Overlay oscuro para que el texto resalte */
+.project-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); 
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 800px;
+    padding: 40px 5%; /* Mantenemos padding interno para el texto */
+    text-align: center;
+    margin: 0 auto;
+    width: 100%; /* Asegurar que ocupe el ancho disponible dentro del Hero */
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin: 0 0 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+}
+
+.hero-tagline {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 30px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); 
+}
+
+/* Estilos compartidos por Link y BrochureDownloadButton */
+.hero-cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: var(--color-primary-accent, #4e7c3e); 
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.hero-cta-button:hover {
+    background-color: var(--color-primary-dark, #3b5f2e); 
+    transform: translateY(-2px); 
+}
+
+/* ---------------------------------------------------- */
+/* --- 2. Value Proposition (Grid de Feature Cards) --- */
+.value-proposition-section {
+    padding: 20px 0;
+    background-color: rgb(215, 215, 215); 
+}
+.feature-cards-grid {
+    /* Usar el wrapper de contenido para centrar la grilla */
+    /* La grilla debe ir dentro del .section-content-wrapper */
+    display: grid;
+   grid-template-columns: repeat(4, 1fr); 
+    gap: 30px;
+}
+
+/* ---------------------------------------------------- */
+/* --- 3. Investment Section --- */
+.investment-section {
+    padding: 60px 0;
+    background-color: white;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. Amenity Highlights (Sección con AmenityCard) --- */
+.amenity-highlights-section {
+    padding: 20px 0;
+    ;
+}
+
+/* ---------------------------------------------------- */
+/* --- 5. Visión Arquitectónica (Sección agregada previamente) --- */
+.vision-section {
+    padding: 30px 0;
+    background-color: var(--color-light-bg, #f4f7f6);
+}
+
+/* ---------------------------------------------------- */
+.SHP-cta-rich-section {
+    padding: 60px 0;
+    background-color: #191919; /* Terracota como fondo principal */
+    color: #f4f4f4; /* Gris claro para el texto */
+    text-align: center;
+    width: 100%;
+}
+
+.SHP-cta-inner-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Ícono Principal */
+.SHP-cta-main-icon {
+    font-size: 4rem;
+    color: #808000; /* Verde Olivo para el acento visual */
+    margin-bottom: 20px;
+    opacity: 0.8; /* Suavizar el ícono */
+}
+
+/* Contenido Principal */
+.SHP-cta-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.SHP-cta-subtitle {
+    font-size: 1.15rem;
+    margin-bottom: 30px;
+    color: #eeeeee; /* Gris ligeramente más oscuro */
+}
+
+/* Botón Principal (CTA) */
+.SHP-cta-main-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #023611; /* Verde Olivo */
+    color: #f4f4f4;
+    padding: 15px 30px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.SHP-cta-main-button svg {
+    margin-right: 10px;
+}
+
+.SHP-cta-main-button:hover {
+    background-color: #033523; /* Olivo más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Efecto sutil */
+}
+
+/* Contacto Rápido */
+.SHP-cta-quick-contact {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Separador sutil */
+}
+
+.SHP-contact-label {
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-style: italic;
+    color: #cccccc;
+}
+
+.SHP-contact-links-group {
+    display: flex;
+    flex-direction: column; /* Apilar en móvil */
+    justify-content: center;
+    gap: 15px;
+}
+
+@media (min-width: 600px) {
+    .SHP-contact-links-group {
+        flex-direction: row; /* En línea en escritorio */
+    }
+}
+
+.SHP-contact-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #f4f4f4;
+    transition: background-color 0.3s;
+}
+
+.SHP-contact-link svg {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+/* Estilos Específicos para Enlaces Rápidos */
+.SHP-whatsapp {
+    background-color: #4CAF50; /* Verde WhatsApp */
+    border: 1px solid #4CAF50;
+}
+
+.SHP-whatsapp:hover {
+    background-color: #43A047;
+}
+
+.SHP-phone {
+    background-color: transparent;
+    border: 1px solid #f4f4f4; /* Borde gris claro */
+}
+
+.SHP-phone:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+/* ---------------------------------------------------- */
+/* --- Responsive (Móvil) --- */
+/* src/pages/ProjectInfoPage.css - AJUSTES PARA MÓVIL (768px y menos) */
+
+/* ---------------------------------------------------- */
+/* --- Responsive (Móvil) --- */
+@media (max-width: 768px) {
+    /* Ajustar el padding interno del contenido en móvil */
+    .info-inner-container2 {
+        max-width: 95%; /* Ajustar el contenedor general a un 95% para mejor uso del espacio */
+        padding: 40px 0; /* Ajustar padding de sección */
+    }
+
+    .section-content-wrapper {
+        padding: 0 4%; 
+        max-width: 100%; 
+    }
+    .project-hero {
+        min-height: 50vh;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .hero-tagline {
+        font-size: 1.2rem;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+    }
+    .section-subheading {
+        margin-bottom: 30px;
+    }
+    
+    /* --- CAMBIO CLAVE: Responsive Feature Cards Grid --- */
+    /* En pantallas medianas (hasta 768px), cambiar a 2 columnas */
+    .feature-cards-grid {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 20px;
+    }
+
+    /* Ajuste para los enlaces rápidos de contacto (ya estaba, pero lo dejamos claro) */
+    .SHP-contact-links-group {
+        flex-direction: column; /* Apilar en móvil */
+        gap: 10px;
+    }
+}
+
+/* Ajuste adicional para móviles muy pequeños (menores a 500px) */
+@media (max-width: 500px) {
+    /* En pantallas muy pequeñas, cambiar a 1 columna */
+    .feature-cards-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    .SHP-cta-title {
+        font-size: 1.8rem;
+    }
+
+    .SHP-cta-main-button {
+        width: 95%; /* Asegurar que el botón principal ocupe casi todo el ancho */
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}

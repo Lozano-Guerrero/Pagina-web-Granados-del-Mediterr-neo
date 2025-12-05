@@ -1,0 +1,263 @@
+/* src/pages/ContactPage.css - CÓDIGO FINAL ESTABLE Y ALINEADO CON LAYOUT DE 2 COLUMNAS MÁS ANCHO */
+
+/* --- 1. Variables Globales y Reset Básico --- */
+:root {
+    /* Mantenemos las variables originales y las asumimos unificadas */
+    --color-terracota-dark: #81463b; /* Principal oscuro: Terracota */
+    --color-terracota-light: #C4A490; /* Acento suave */
+    --color-dark-bg: #383636; /* Fondo de navegación/pie (Gris oscuro) */
+    --color-light-bg: #f7f7f7; /* Fondo de paneles claros (Gris muy claro) */
+    --color-dark-text: #222;
+    --color-white-text: #ffffff;
+    
+    /* Variables para el Formulario Oscuro */
+    --form-dark-bg: #383636;
+    --form-input-bg: #4a4a4a;
+    --form-input-border: #666;
+    --form-input-text: #e0e0e0;
+    --form-placeholder-text: #b0b0b0;
+    
+    --shadow-soft: rgba(0, 0, 0, 0.15); /* Usada en el mapa, la unificamos aquí */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------- */
+/* 2. LAYOUT GENERAL - Centra todas las secciones apiladas */
+/* ------------------------------------------------------------------- */
+.contact-page {
+    /* Contenedor principal para toda la página */
+    width: 100%;
+}
+
+/* 🛑 AJUSTE DE ANCHURA Y CENTRADO DEL CONTENEDOR PRINCIPAL 🛑 */
+.contact-cards-container {
+    /* Eliminamos max-width de 900px */
+    max-width: 1400px; /* Nuevo máximo para pantallas muy grandes */
+    width: 90%; /* Hace que ocupe el 90% del ancho de la página */
+    margin: 40px auto; /* Centrado con margen vertical */
+    padding: 0; 
+}
+
+/* Usamos este envoltorio para los ESTILOS VISUALES de cada tarjeta individual */
+.contact-section-wrapper {
+    max-width: 100%; 
+    width: 100%;
+    margin-top: 0; 
+    margin-bottom: 0; 
+    padding: 40px;
+    box-shadow: 0 15px 40px var(--shadow-soft);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* --- 3. Estilos del Hero y Encabezados Comunes --- */
+.contact-hero {
+  /* Fondo degradado */
+  background: linear-gradient(
+    40deg,
+    rgba(89, 29, 29, 1) 0%,   /* tono oscuro */
+    rgba(252, 157, 157, 1) 100% /* tono claro */
+  );
+
+  color: white;
+  padding: 80px 5%;
+  text-align: center;
+  border-radius: 8px; /* opcional si quieres esquinas redondeadas */
+}
+.contact-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    margin: 0;
+}
+
+.contact-header-image {
+  width: 500px;          /* tamaño fijo máximo */
+  max-width: 100%;       /* nunca excede el ancho del contenedor */
+  height: auto;          /* mantiene proporción */
+  object-fit: cover;     /* recorta si es necesario sin deformar */
+  display: block;
+  margin: 0 auto 20px;   /* centra la imagen */
+}
+/* --- 4. Colores de Fondo para los 3 Paneles --- */
+.contact-info-panel {
+    background-color: white; /* Lo dejo en blanco para que coincida con la imagen */
+}
+.value-list-panel {
+    background-color: white;
+}
+/* Mantenemos el formulario oscuro si lo implementas más adelante */
+.contact-form-panel {
+    background-color: var(--form-dark-bg);
+    color: var(--color-white-text);
+}
+
+/* ------------------------------------------------------------------- */
+/* 5. Estilos Internos de Bloque 1: Expertos / Contacto (Ajuste de contenido) */
+/* ------------------------------------------------------------------- */
+.contact-panel-content h2 {
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--color-dark-text);
+    margin-top: 0;
+    font-weight: 800;
+}
+.contact-info-panel .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+/* Reajustamos el grid interno para desktop a 1 columna para evitar el espacio en blanco */
+.direct-contact-details {
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 25px;
+    
+    /* CAMBIO: Mantenemos la distribución original de 1 columna simple para evitar huecos */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+}
+
+/* Asegura que los ítems internos se distribuyan correctamente */
+.contact-detail-item {
+    display: flex;
+    align-items: flex-start; 
+    margin-bottom: 0; 
+}
+.contact-detail-item .detail-icon {
+    color: var(--color-terracota-dark);
+    font-size: 1.3rem;
+    margin-right: 18px;
+    width: 25px;
+    flex-shrink: 0; 
+}
+.contact-detail-item strong {
+    white-space: nowrap; 
+    display: block; 
+    margin-bottom: 4px;
+}
+.contact-detail-item a, .contact-detail-item span {
+    color: var(--color-dark-text);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s;
+    display: block;
+}
+.contact-detail-item a:hover {
+    color: var(--color-terracota-dark);
+}
+
+/* ------------------------------------------------------------------- */
+/* 6. Estilos Internos de Bloque 2: Propuesta de Valor */
+/* ------------------------------------------------------------------- */
+.value-list h3 {
+    font-size: clamp(1.3rem, 2.5vw, 1.5rem);
+    color: var(--color-terracota-dark);
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--color-terracota-light);
+    padding-bottom: 8px;
+}
+.value-list ul {
+    list-style: none;
+    padding: 0;
+}
+.value-list li {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: var(--color-dark-text);
+}
+.value-list .check-icon {
+    color: var(--color-terracota-dark);
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+/* ... (Secciones 7 y 8 sin cambios) ... */
+
+/* ------------------------------------------------------------------- */
+/* 9. LAYOUT DE 2 COLUMNAS (Desktop/Tablet Grande: min-width: 769px) */
+/* ------------------------------------------------------------------- */
+
+@media (min-width: 769px) {
+    .contact-cards-container {
+        display: grid;
+        /* AJUSTE CLAVE: Damos más espacio a la primera columna (Expertos) */
+        grid-template-columns: 1.3fr 1fr;
+        gap: 30px; /* Espacio entre las dos tarjetas */
+    }
+    
+    /* En desktop, las tarjetas internas no necesitan margen vertical */
+    .contact-cards-container .contact-section-wrapper {
+        margin: 0;
+    }
+}
+
+/* ------------------------------------------------------------------- */
+/* 10. Responsive Móvil/Tablet (max-width: 768px) */
+/* ------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    
+    /* El contenedor principal de tarjetas ocupa todo el ancho y se apila por defecto */
+    .contact-cards-container {
+        width: 100%;
+        margin-top: 0; 
+        margin-bottom: 0;
+    }
+    
+    /* Ajustes para todas las secciones apiladas (quitamos sombras y redondeos en móvil) */
+    .contact-section-wrapper {
+        max-width: 100%;
+        margin-top: 30px;
+        margin-bottom: 0; 
+        box-shadow: none;
+        border-radius: 0;
+        
+        /* AJUSTE CLAVE: Más aire en los costados */
+        padding: 30px 8%; /* Aumentamos el padding lateral de 5% a 8% */
+    }
+    
+    /* Margen para separar la segunda tarjeta (Propuesta de Valor) de la primera */
+    .contact-cards-container .value-list-panel {
+        margin-top: 30px; 
+    }
+    
+    /* Centrado de texto en móvil para los títulos y subtítulos */
+    .contact-panel-content h2,
+    .contact-panel-content .subtitle,
+    .value-list h3,
+    .contact-form-panel .form-title,
+    .contact-form-panel .form-subtitle {
+        text-align: center;
+    }
+
+    /* Ajustes específicos para la Lista de Contacto */
+    .direct-contact-details {
+        /* Se mantiene el apilamiento vertical */
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px 0;
+    }
+    
+    .contact-detail-item {
+        /* Asegura que cada ítem se centre y su contenido no sea forzado */
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    /* Alineación de ícono y texto en móvil */
+    .contact-detail-item .detail-icon {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    .contact-detail-item div {
+        text-align: center;
+    }
+}

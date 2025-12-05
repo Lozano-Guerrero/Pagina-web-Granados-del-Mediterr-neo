@@ -1,0 +1,474 @@
+/* src/pages/amenidades/CasaClubPage.css - DISEÑO ESTABLE, LIMPIO Y COMPLETO */
+
+/* ---------------------------------------------------- */
+/* --- COLORES BASE (Declaración explícita para compatibilidad) --- */
+/* ---------------------------------------------------- */
+:root {
+    /* Fondo claro */
+    --color-light-bg: #f7f9fc;
+    /* Color principal (ej. azul marino o verde botella elegante) */
+    --color-primary-accent: #004b49;
+    /* Color secundario/acento (ej. verde aguamarina sutil) */
+    --color-secondary-accent: #008779;
+    /* Color de texto principal */
+    --color-text-dark: #333333;
+    /* Color de texto secundario */
+    --color-text-medium: #555555;
+    /* Color de borde ligero */
+    --color-border-light: #eeeeee;
+}
+
+/* ------------------------------------------------------------------ */
+/* --- CONTENEDOR PRINCIPAL --- */
+/* ------------------------------------------------------------------ */
+
+.amenity-detail-page {
+    background-color: var(--color-light-bg, #f7f9fc);
+    transition: background-color 0.3s ease;
+    color: var(--color-text-dark, #333333);
+    min-height: 100vh; /* Asegura que la página ocupe al menos la altura completa */
+}
+
+.amenity-inner-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* ------------------------------------------------------------------ */
+/* --- 1. HERO (IMPACTO VISUAL EQUILIBRADO) --- */
+/* ------------------------------------------------------------------ */
+
+.amenity-hero {
+    height: 60vh;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center center; /* Completo y explícito */
+    position: relative;
+    /* Se remueve la transición de background-size para estabilidad */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Degradado sin el uso de 'rgba' con números de coma flotante si es posible */
+    background-image: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 0.1) 0%, 
+        rgba(0, 0, 0, 0.2) 50%, 
+        rgba(0, 0, 0, 0.7) 100%
+    );
+    
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Alinear contenido al final */
+    padding-bottom: 5%;
+}
+
+/* CONTENIDO DEL HERO */
+.hero-content-detail {
+    max-width: 900px;
+    padding-left: 40px;
+    padding-right: 40px;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    z-index: 10;
+    
+    /* Animación de entrada (Asegura que esté definida) */
+    animation: fadeInSlideUp 1s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* 🛑 TÍTULO */
+.amenity-title-page {
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: none;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 🛑 TAGLINE */
+.amenity-tagline {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 0;
+    opacity: 0.9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* 🛑 ENLACE DE REGRESO */
+.back-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: all 0.3s ease-in-out;
+    
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    z-index: 100;
+    padding: 6px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+}
+
+.back-link:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: none;
+}
+
+/* KEYFRAME DE ANIMACIÓN (COMPLETO) */
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* --- 2. CONTENIDO PRINCIPAL / INTRO SECTION --- */
+/* ------------------------------------------------------------------ */
+
+.amenity-intro-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.intro-content-layout {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.text-and-image-column {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.section-heading {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary-accent, #004b49);
+    margin-top: 0;
+    margin-bottom: 15px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.section-heading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-secondary-accent, #008779);
+    border-radius: 2px;
+}
+
+.intro-text p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-medium, #555555);
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.intro-image-wrapper {
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+.intro-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.intro-section-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s;
+}
+
+/* --- Columna de Características (Features List) --- */
+.features-list-wrapper {
+    flex: 2;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 3px solid var(--color-secondary-accent, #008779);
+}
+
+.features-title {
+    font-size: 1.6rem;
+    color: var(--color-primary-accent, #004b49);
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border-light, #eeeeee);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1rem;
+    color: var(--color-text-dark, #333333);
+    transition: transform 0.2s ease-out;
+}
+
+.feature-item:hover {
+    transform: translateX(5px);
+}
+
+.feature-item:last-child {
+    border-bottom: none;
+}
+
+.feature-icon {
+    color: var(--color-secondary-accent, #008779);
+    margin-right: 15px;
+    font-size: 1.2rem;
+    min-width: 1.2rem;
+}
+
+
+/* ------------------------------------------------------------------ */
+/* --- 3. SUB-SECCIÓN (Alternando Diseño) --- */
+/* ------------------------------------------------------------------ */
+
+.play-club-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: #ffffff; /* Fondo blanco explícito */
+}
+
+.play-club-content {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.play-club-image-wrapper {
+    flex: 1;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+.play-club-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.play-club-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+.play-club-details {
+    flex: 1;
+}
+
+.play-club-details .section-heading {
+    /* Hereda estilos de .section-heading */
+}
+
+
+/* ------------------------------------------------------------------ */
+/* --- 4. LLAMADA A LA ACCIÓN (CTA) --- */
+/* ------------------------------------------------------------------ */
+
+.amenity-cta-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: var(--color-primary-accent, #004b49);
+    color: #ffffff;
+    text-align: center;
+}
+
+.cta-inner-container {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.amenity-cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.amenity-cta-section p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: var(--color-secondary-accent, #008779);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:hover {
+    background-color: #007063; /* Tono de hover ajustado */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ------------------------------------------------------------------ */
+/* --- RESPONSIVE (MEDIA QUERIES COMPATIBLES) --- */
+/* ------------------------------------------------------------------ */
+
+/* Tablet Horizontal (1000px y menor) */
+@media screen and (max-width: 1000px) {
+    .amenity-inner-container {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    .back-link {
+        left: 25px;
+    }
+}
+
+/* Tablet Vertical o Móvil Grande (800px y menor) */
+@media screen and (max-width: 800px) {
+    
+    /* Apilamiento de columnas */
+    .intro-content-layout,
+    .play-club-content {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .amenity-intro-section, .play-club-section {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    /* Hero */
+    .hero-overlay {
+        align-items: center; /* Centrado vertical en móvil */
+        padding-bottom: 0;
+    }
+    .hero-content-detail {
+        text-align: center;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    .back-link {
+        top: 20px;
+    }
+
+    .amenity-title-page {
+        font-size: 2.5rem;
+    }
+    .amenity-tagline {
+        font-size: 1.2rem;
+    }
+    
+    /* Contenido */
+    .section-heading {
+        font-size: 2rem;
+        text-align: left; /* Mantener títulos alineados a la izquierda en columna */
+    }
+    .section-heading::after {
+        left: 0;
+        transform: none;
+    }
+
+    .intro-section-img,
+    .play-club-img {
+        height: 280px;
+    }
+
+    .features-list-wrapper {
+        order: -1; /* Mover arriba en móvil */
+    }
+
+    /* CTA */
+    .amenity-cta-section h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Móvil Pequeño (500px y menor) */
+@media screen and (max-width: 500px) {
+    .amenity-inner-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .amenity-hero {
+        height: 50vh;
+        min-height: 300px;
+    }
+    .back-link {
+        left: 15px;
+        top: 15px;
+        padding: 5px 12px;
+    }
+    
+    .amenity-title-page {
+        font-size: 2rem;
+    }
+    .amenity-tagline {
+        font-size: 1rem;
+    }
+    
+    .intro-section-img,
+    .play-club-img {
+        height: 200px; /* Reducir altura de imagen en móvil pequeño */
+    }
+}

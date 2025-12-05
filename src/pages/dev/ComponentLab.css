@@ -1,0 +1,35 @@
+/* src/pages/ComponentLab.css */
+
+.component-lab-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.component-lab-container h1 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.test-section {
+    margin-top: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.test-section h2 {
+    color: #007bff;
+    margin-top: 0;
+}
+
+.test-notes {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fffacd; /* Color amarillo claro */
+    border-left: 5px solid #ffcc00;
+    font-size: 0.95rem;
+}

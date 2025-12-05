@@ -1,0 +1,82 @@
+/* src/components/FeatureCard.css - ESTILOS DE ALTO IMPACTO */
+
+/* --- Colores Sugeridos (Ajustar a tus variables reales) --- */
+/* var(--color-primary-accent): #4e7c3e (Verde Oscuro) */
+/* var(--color-light-bg): #f8f8f8 (Fondo muy claro) */
+/* var(--color-text-dark): #1a4f32 (Texto principal) */
+
+
+.feature-card {
+    text-align: center;
+    padding: 35px 25px; /* Más padding para respirar */
+    background-color: var(--color-light-bg, #ffffff); /* Fondo blanco o muy claro */
+    border-radius: 14px; /* Bordes más suaves */
+    /* Sombra más sutil y profunda */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); 
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Borde sutil */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición más sofisticada */
+    height: 100%; 
+    display: flex; /* Para mejor control del contenido */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/*{ Efecto Hover: Levantamiento y color de sombra del acento
+.feature-card:hover {
+    transform: translateY(-8px); /* Mayor levantamiento 
+    /* Sombra con un toque del color primario 
+    box-shadow: 0 15px 35px rgba(78, 124, 62, 0.2), 
+                0 5px 15px rgba(0, 0, 0, 0.1); 
+}
+ }*/
+/* --- Wrapper del Ícono (El centro de atención) --- */
+.feature-icon-wrapper {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px; /* Tamaño del círculo aumentado */
+    height: 80px; 
+    margin-bottom: 25px; /* Más espacio debajo */
+    /* Fondo principal para un impacto fuerte */
+    background-color: var(--color-primary-accent, #4e7c3e); 
+    border-radius: 50%;
+    /* Efecto 3D sutil */
+    box-shadow: 0 5px 15px rgba(78, 124, 62, 0.4); 
+    transition: background-color 0.3s;
+}
+
+/* Efecto en el Ícono mismo al hacer hover en la tarjeta */
+.feature-card:hover .feature-icon-wrapper {
+    /* Animación del wrapper para destacarlo al hacer hover */
+    background-color: var(--color-primary-dark, #3b5f2e); /* Color más oscuro */
+}
+
+.feature-icon {
+    font-size: 36px; /* Ícono más grande */
+    color: white; /* Color blanco para alto contraste */
+    transition: transform 0.3s;
+}
+/* Efecto de "zoom" o rebote sutil en el ícono al hacer hover */
+.feature-card:hover .feature-icon {
+    transform: scale(1.05);
+}
+
+
+/* --- Título --- */
+.feature-title {
+    font-size: 1.55rem; /* Título más grande y dominante */
+    font-weight: 800; /* Extra-bold para impacto */
+    color: var(--color-text-dark, #1a4f32);
+    margin-top: 0;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px; /* Ajuste para look moderno */
+}
+
+/* --- Descripción --- */
+.feature-description {
+    font-size: 1.05rem; 
+    color: #666; /* Texto un poco más suave */
+    line-height: 1.6; /* Mayor interlineado para mejor lectura */
+    font-weight: 400;
+}

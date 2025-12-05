@@ -1,0 +1,111 @@
+/* src/components/PriceCard.css */
+
+.price-card {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+}
+
+.price-card:hover {
+  transform: translateY(-5px); /* Efecto flotante al pasar el ratón */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------- */
+/* Estilos del Lote Destacado (Featured) */
+/* ---------------------------------- */
+.price-card.featured {
+  border-color: #61dafb; /* Borde de color React */
+  box-shadow: 0 0 20px rgba(97, 218, 251, 0.3);
+}
+
+.card-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ffc107; /* Color amarillo de Early Bird */
+  color: #333;
+  padding: 0.3rem 1rem;
+  border-radius: 0 12px 0 12px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* ---------------------------------- */
+/* Títulos y Precios */
+/* ---------------------------------- */
+.card-title {
+  font-size: 1.8rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.card-size {
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+}
+
+.card-price-container {
+  margin-bottom: 2rem;
+  color: #1a202c;
+}
+
+.price-currency, .price-suffix {
+  font-size: 1.5rem;
+  color: #4a5568;
+  font-weight: 300;
+}
+
+.price-amount {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #48bb78; /* Color de énfasis verde */
+  margin: 0 5px;
+}
+
+/* ---------------------------------- */
+/* Características */
+/* ---------------------------------- */
+.card-features-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #4a5568;
+}
+
+.feature-icon {
+    margin-right: 0.7rem;
+    color: #48bb78;
+}
+
+/* ---------------------------------- */
+/* Botón */
+/* ---------------------------------- */
+.card-button {
+  display: block;
+  width: 100%;
+  background-color: #61dafb;
+  color: #2d3748;
+  padding: 1rem 0;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.card-button:hover {
+  background-color: #38b4d8;
+}
