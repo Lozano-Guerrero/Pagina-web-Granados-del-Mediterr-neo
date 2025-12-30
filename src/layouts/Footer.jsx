@@ -18,7 +18,7 @@ const Footer = () => {
     // Datos Fijos del Proyecto (Ajusta estos valores)
     const COMPANY_NAME = "Granados del Mediterráneo";
     const ADDRESS = "Edificio Connexity, Av. Alfonso Reyes Local 11, Monterrey, N.L.";
-    const PHONE = "+52 81 1234 5678";
+    const PHONE = "+52 81 2385 2034";
     const EMAIL = "contacto@granadosdelmediterraneo.com";
     const WHATSAPP_LINK = "https://wa.me/528123852034?text="; // Reemplaza con tu número real
     const MAPS_LINK = "https://www.google.com/maps/dir//Ubify,+Edificio+Connexity,+Av.+Alfonso+Reyes+Local+11,+Monterrey+Sur,+64920+Monterrey,+N.L./@25.8077333,-100.7403946,11z/data=!4m18!1m8!3m7!1s0x8662bfcfc38d7bd3:0xa20fd5a039bfffc8!2sUbify!8m2!3d25.630086!4d-100.3035008!15sCj9FZGlmaWNpbyBDb25uZXhpdHksIEF2LiBBbGZvbnNvIFJleWVzIExvY2FsIDExLCBNb250ZXJyZXksIE4uTC6SARNob3VzaW5nX2RldmVsb3BtZW50qgGUARABKjAiLGVkaWZpY2lvIGNvbm5leGl0eSBhdiBhbGZvbnNvIHJleWVzIGxvY2FsIDExKA4yHxABIhu_fwhDploP0IwZnOsdzZs9z7svUP7ifnEngLYyPRACIjllZGlmaWNpbyBjb25uZXhpdHkgYXYgYWxmb25zbyByZXllcyBsb2NhbCAxMSBtb250ZXJyZXkgbmzgAQA!16s%2Fg%2F11shn_jqsc!4m8!1m0!1m5!1m1!1s0x8662bfcfc38d7bd3:0xa20fd5a039bfffc8!2m2!1d-100.3035008!2d25.630086!3e0?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"; // Reemplaza con tu enlace

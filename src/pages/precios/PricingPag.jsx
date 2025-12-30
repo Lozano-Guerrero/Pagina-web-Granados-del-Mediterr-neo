@@ -4,6 +4,7 @@ import React from 'react';
 import PriceGrid from '../../components/PriceGrid'; 
 import './PricingPag.css';
 import InteractiveMap from '../../components/InteractiveMap.jsx';
+import FinancingHighlights from '../../components/FinancingHighlights.jsx';
 
 // 🛑 RUTA DE IMAGEN: Usa la ruta de tu nuevo mapa de masterplan
 const MASTERPLAN_IMAGE = '/img/masterplan.jpg'; 
@@ -37,6 +38,7 @@ const PricingPage = () => {
             <section className="map-section">
                 <InteractiveMap/>
             </section>
+            <section className='metodosdepago' ><FinancingHighlights /></section>
 
         </div>
     );

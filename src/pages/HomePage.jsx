@@ -14,6 +14,7 @@ import InteractiveMasterPlanMap from '../components/InteractiveMasterPlanMap';
 import './HomePage.css'; 
 import OfficeInvitationSection from '../components/OfficeInvitationSection';
 import ContactHomePage from '../components/section/ContactHomePage';
+import FinancingHighlights from '../components/FinancingHighlights';
 
 const HomePage = () => {
   return (
@@ -40,8 +41,11 @@ const HomePage = () => {
         {/* Componente placeholder: Cuadrícula de fotos 
         <PhotoGallery />*/}
       </section>
+      <section id="metodosdepago"> 
+        <FinancingHighlights />
+     </section>
     {/* Componente placeholder: Mapa geográfico (Google Maps) */}
-    <section div className="ubicacion-section">  
+    <section className="ubicacion-section">  
         <LocationMap /></section>
       {/* 5. SECCIÓN DE CONTACTO RÁPIDO Y UBICACIÓN */}
       <section id="contacto">

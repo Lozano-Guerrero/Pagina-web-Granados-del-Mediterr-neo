@@ -1,6 +1,3 @@
-/* src/components/PriceGrid.css */
-
-/* --- Variables y Reset --- */
 .price-grid-container {
     width: 95%;
     max-width: 1200px;
@@ -54,168 +51,143 @@
     transform: translateY(-2px);
 }
 
-/* ----------------------------------------------------------- */
-/* --- ESTILOS MÓVIL (Por defecto: Tabs + Single Card) --- */
-/* ----------------------------------------------------------- */
+/* --- ESTILOS MÓVIL (Vista de Lista Vertical Compacta) --- */
 
-/* Tabs Navigation (Visible solo en móvil) */
-.mobile-only-tabs {
+.cards-podium-container {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    /* CORRECTO: Apila verticalmente en móvil */
+    flex-direction: column; 
+    gap: 15px;
+    padding-top: 0;
+    margin-top: 20px;
 }
 
-.tab-button {
-    background: #f4f4f4;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: 600;
-    color: #777;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.tab-button.active {
-    background: #1a4f32;
-    color: white;
-    box-shadow: 0 4px 10px rgba(26,79,50,0.3);
-}
-
-/* Ocultar tarjetas inactivas en móvil */
-.is-hidden-mobile {
-    display: none;
-}
-
-.is-active-mobile {
-    display: block;
-    animation: fadeIn 0.4s ease;
-}
-
-/* Estilo Tarjeta (Base) */
 .lot-card-wrapper {
     width: 100%;
 }
 
 .lot-card-inner {
+    /* Estilos de COMPACTACIÓN MÓVIL */
+    max-height: 250px; 
+    overflow: hidden; 
+    padding: 20px 15px; 
+    
+    /* Estilos base */
     background: white;
     border: 1px solid #eee;
     border-radius: 16px;
-    padding: 30px 20px;
     text-align: center;
     position: relative;
     transition: all 0.3s ease;
+    transform: scale(1); 
 }
 
-.lot-badge-icon {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    display: block;
+/* Tamaños de fuente/márgenes para COMPACTACIÓN MÓVIL */
+.lot-badge-icon { font-size: 2rem; margin-bottom: 5px; }
+.lot-card-title { font-size: 1.4rem; margin: 0 0 5px 0; font-weight: 800; }
+.lot-card-size { font-size: 0.8rem; margin-bottom: 10px; }
+.lot-card-price { padding: 10px; margin-bottom: 10px; }
+.lot-card-price .amount { font-size: 2rem; }
+.lot-card-detail { font-size: 0.8rem; line-height: 1.3; }
+
+/* --- ESTILO DESTACADO PARA LOTE A (MÓVIL) --- */
+.lot-type-a .lot-card-inner {
+    background: #fff;
+    border: 2px solid #E27D60; 
+    box-shadow: 0 10px 20px rgba(226, 125, 96, 0.2); 
+    order: -1; 
 }
 
-.lot-card-title {
-    color: #1a4f32;
-    font-size: 1.5rem;
-    margin: 0 0 10px 0;
-    font-weight: 800;
+.lot-type-a .lot-card-price {
+    background: #E27D60; 
+    color: white;
+    border: none;
+}
+.lot-type-a .lot-card-price .unit {
+    color: rgba(255,255,255,0.8);
 }
 
-.lot-card-size {
-    color: #888;
-    font-size: 0.85rem;
-    margin-bottom: 20px;
-    font-style: italic;
+.lot-type-a .lot-card-title {
+    color: #C9695B;
 }
 
-/* Precio */
-.lot-card-price {
+/* Resetear estilos de tarjetas AA y AAA en móvil */
+.lot-type-aa .lot-card-inner,
+.lot-type-aaa .lot-card-inner {
+    background: white;
+    border-color: #eee;
+    box-shadow: none;
+    opacity: 1;
+    border: 1px solid #eee;
+}
+
+.lot-type-aa .lot-card-price,
+.lot-type-aaa .lot-card-price {
     background: #f8fcf9;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
     color: #1a4f32;
     border: 1px solid #e0eadd;
 }
-
-.lot-card-price .amount {
-    font-size: 2.5rem;
-    font-weight: 900;
-    line-height: 1;
-}
-
-.lot-card-price .unit {
-    font-size: 0.9rem;
-    font-weight: 600;
+.lot-type-aa .lot-card-price .unit,
+.lot-type-aaa .lot-card-price .unit {
     color: #E27D60;
 }
 
-.lot-card-detail {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.5;
-}
 
-/* Notificación flotante móvil */
-.mobile-only-notification {
-    display: flex; /* Visible en móvil */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
-/* ----------------------------------------------------------- */
 /* --- ESTILOS ESCRITORIO (PODIUM) - Min-width 900px --- */
-/* ----------------------------------------------------------- */
 
 @media (min-width: 900px) {
 
-    /* 1. Ocultar elementos de móvil */
-    .mobile-only-tabs,
-    .mobile-only-notification {
-        display: none !important;
-    }
-
-    /* 2. Layout del Podium (Flex) */
+    /* Layout del Podium (Flex) */
     .cards-podium-container {
-        display: flex;
+        /* CORRECTO: Se convierte en fila para el podio */
+        flex-direction: row; 
+        
         justify-content: center;
-        align-items: center; /* Alineación vertical central */
+        align-items: flex-end; /* Efecto de podium */
         gap: 20px;
         padding-top: 20px;
         margin-top: 40px;
     }
 
-    /* 3. Hacer visibles todas las tarjetas e ignorar clases móvil */
-    .is-hidden-mobile,
-    .is-active-mobile {
-        display: block;
-    }
-
-    /* 4. Estructura de Tarjetas en Escritorio */
+    /* Estructura de Tarjetas en Escritorio */
     .lot-card-wrapper {
-        width: 30%; /* 3 columnas */
+        width: 30%; 
         max-width: 320px;
     }
-
-    /* --- ORDENAMIENTO OLIMPICO (Podium) --- */
-    /* Queremos: A (Izq), AAA (Centro), AA (Der) */
     
+    /* **RESTAURACIÓN DE ESTILOS Y TAMAÑOS ORIGINALES PARA DESKTOP** */
+    .lot-card-inner {
+        max-height: none; /* Quita el límite de altura de móvil */
+        padding: 30px 20px; /* Restaura el padding original */
+        transform: none !important; 
+        
+        /* Reset de estilos de tarjeta A/AA/AAA */
+        background: #fcfcfc;
+        border: 1px solid #eee;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        opacity: 0.9;
+    }
+    
+    /* Restauración de tamaños de fuente/márgenes originales para Desktop */
+    .lot-badge-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .lot-card-title { font-size: 1.5rem; margin: 0 0 10px 0; }
+    .lot-card-size { font-size: 0.85rem; margin-bottom: 20px; }
+    .lot-card-price { padding: 15px; margin-bottom: 20px; }
+    .lot-card-price .amount { font-size: 2.5rem; }
+    .lot-card-detail { font-size: 0.9rem; line-height: 1.5; }
+
+
+    /* ORDENAMIENTO (Podium: A, AAA, AA) */
     .lot-type-a { order: 1; }
     .lot-type-aaa { order: 2; }
     .lot-type-aa { order: 3; }
 
-    /* --- ESTILOS ESPECÍFICOS DE JERARQUÍA --- */
-
-    /* SEGUNDO Y TERCER LUGAR (A y AA) */
+    /* SEGUNDO Y TERCER LUGAR (A y AA) - Escala y estilos de base */
     .lot-type-a .lot-card-inner,
     .lot-type-aa .lot-card-inner {
-        transform: scale(0.95);
+        transform: scale(0.95); /* Vuelve a escalar */
         background: #fcfcfc;
-        border-color: #eee;
+        border: 1px solid #eee;
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         opacity: 0.9;
     }
@@ -225,22 +197,34 @@
         opacity: 1;
         border-color: #E27D60;
     }
+    /* Estilos de precio estándar para A y AA en escritorio */
+    .lot-type-a .lot-card-price,
+    .lot-type-aa .lot-card-price {
+        background: #f8fcf9;
+        color: #1a4f32;
+        border: 1px solid #e0eadd;
+    }
+    .lot-type-a .lot-card-price .unit,
+    .lot-type-aa .lot-card-price .unit {
+        color: #E27D60;
+    }
 
-    /* PRIMER LUGAR (AAA) - EL REY DEL PODIUM */
+
+    /* PRIMER LUGAR (AAA) - EL REY DEL PODIUM (Estilo Destacado) */
     .lot-type-aaa {
-        z-index: 10; /* Encima de los otros si se solaparan */
-        margin-bottom: 40px; /* Elevar visualmente */
+        z-index: 10; 
+        margin-bottom: 40px; 
     }
 
     .lot-type-aaa .lot-card-inner {
-        transform: scale(1.1); /* Más grande */
+        transform: scale(1.1); /* Vuelve a escalar para ser más grande */
         background: #fff;
-        border: 2px solid #E27D60; /* Borde Terracota */
-        box-shadow: 0 20px 40px rgba(226, 125, 96, 0.2); /* Sombra terracota difusa */
+        border: 2px solid #E27D60; 
+        box-shadow: 0 20px 40px rgba(226, 125, 96, 0.2); 
     }
 
     .lot-type-aaa .lot-card-price {
-        background: #E27D60; /* Fondo terracota para el precio */
+        background: #E27D60; 
         color: white;
         border: none;
     }
@@ -248,7 +232,6 @@
         color: rgba(255,255,255,0.8);
     }
     
-    /* Ajustes visuales de texto para el destacado */
     .lot-type-aaa .lot-card-title {
         color: #C9695B;
         font-size: 1.8rem;

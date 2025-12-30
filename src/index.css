@@ -14,7 +14,7 @@
   min-height: 100vh;
   
   /* Indicamos el soporte de esquemas de color, pero los colores base los da App.css */
-  color-scheme: light dark; 
+  color-scheme: light; 
 
   /* Evitamos barras de desplazamiento innecesarias */
   overflow-x: hidden;

@@ -1,23 +1,16 @@
-/* ========================================================= */
-/* 1. TIPOGRAFÍA, VARIABLES Y RESET GLOBAL (Frontend Expert) */
-/* ========================================================= */
-
-/* Importación de la fuente Inter: Moderna, legible y excelente para UI (Alternativa a Proxima Nova). */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-/* Definición de Variables CSS (Custom Properties) */
-/* Usar variables es clave para la consistencia, el mantenimiento y los temas (dark/light mode). */
 :root {
   /* Colores Base */
-  --color-fondo-principal: #484848; /* Fondo Blanco */
-  --color-texto-oscuro: #1A1A1A;     /* Texto Negro suave para alto contraste */
-  --color-texto-secundario: #4C4C4C; /* Gris oscuro para texto de apoyo */
-  --color-primario: #646cff;        /* Color de acento (ej. enlaces, botones) */
+  --color-fondo-principal: #FFFFFF;
+  --color-texto-oscuro: #1A1A1A;
+  --color-texto-secundario: #4C4C4C;
+  --color-primario: #646cff;
 
   /* Tipografía */
   --font-family-principal: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-size-base: 16px;
-  --line-height-base: 1.55; /* Altura de línea optimizada para mejor lectura (UX) */
+  --line-height-base: 1.55;
 
   /* Espaciado (Escala Modular) */
   --spacing-xxl: 4rem;
@@ -28,82 +21,74 @@
   --spacing-xs: 0.5rem;
 }
 
-/* Reset Básico (Box-Sizing) */
-/* FUNDAMENTAL para diseños responsive predecibles. Asegura que padding y border no alteren el ancho/alto. */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* ======================================= */
-/* 2. ESTILOS BASE HTML/BODY               */
-/* ======================================= */
-
-/* Establece el tamaño base para el uso de unidades 'rem' */
+/* Estilos Base */
 html {
-    font-size: 100%; /* 1rem = 16px por defecto */
+    font-size: 100%;
 }
 
 body {
   margin: 0;
-  min-height: 100vh; /* Asegura que el fondo cubra toda la altura visible */
-  background-color: #9e5959; /* Fondo gris claro neutro */
+  min-height: 100vh;
+  background-color: #FFFFFF; /* Fondo BLANCO definido en los estilos base */
   color: var(--color-texto-oscuro);
   font-family: var(--font-family-principal);
   line-height: var(--line-height-base);
   font-size: var(--font-size-base);
 
   /* Configuraciones de UX para la calidad del texto */
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale; 
-  text-rendering: optimizeLegibility; /* Mejora la apariencia del texto */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Enlaces (UX) */
 a {
     font-weight: 500;
     color: var(--color-primario);
-    text-decoration: inherit; /* Hereda la decoración del texto (por defecto sin subrayado) */
-    transition: color 0.3s ease; /* Transición suave para el hover (UI/UX) */
+    text-decoration: inherit;
+    transition: color 0.3s ease;
 }
 
 a:hover {
-    color: color-mix(in srgb, var(--color-primario) 90%, #000000); /* Oscurece ligeramente el color al pasar el mouse */
+    color: #4a5cff;
 }
 
-/* ======================================= */
-/* 3. CONTENEDOR PRINCIPAL (#root)         */
-/* ======================================= */
-
+/* Contenedor Principal */
 #root {
-  /* Centrado del contenido y límite de ancho para mejor legibilidad */
-  max-width: 1280px; 
+  max-width: 1280px;
   margin: 0 auto;
-  padding: var(--spacing-lg); /* Padding de 2rem */
-  /* text-align: center; (opcional, si todo tu contenido principal debe estar centrado) */
+  padding: var(--spacing-lg);
 }
 
-/* ======================================= */
-/* 4. RESPONSIVE DESIGN (Media Queries)    */
-/* ======================================= */
-
-/* --- Móviles (Hasta 768px) --- */
+/* Responsive Design (Móviles) */
 @media (max-width: 768px) {
-    /* Reducción del tamaño de la fuente para optimizar la pantalla móvil */
     body {
-        font-size: 0.9375rem; /* ~15px, ligeramente más pequeño para móviles */
+        font-size: 0.9375rem;
         line-height: 1.5;
     }
-    
-    /* Reducción del padding en el contenedor principal para aprovechar el espacio */
+
     #root {
-        padding: var(--spacing-md); /* 1.5rem de padding en móvil */
+        padding: var(--spacing-md);
     }
 }
 
-/* --- Pantallas muy pequeñas (Hasta 480px) --- */
 @media (max-width: 480px) {
-    /* Reducción adicional del padding en los bordes */
     #root {
-        padding: var(--spacing-sm); /* 1rem de padding para dar "aire" en los bordes */
+        padding: var(--spacing-sm);
+    }
+}
+
+/* FIX: FORZAR TEMA CLARO / ANULAR TEMA OSCURO (DarkMode) */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #fff9f9 !important; /* Fuerza el fondo BLANCO */
+        color: var(--color-texto-oscuro) !important; /* Mantiene el texto oscuro sobre el fondo claro */
+    }
+
+    #root {
+        background-color: transparent !important;
     }
 }

@@ -1,0 +1,157 @@
+/* Variables de color */
+:root {
+    --neutral-white: #FFFFFF;
+    --neutral-dark-gray: #202020;
+    --neutral-light-gray: #F8F8F8;
+    --terracotta-pink: #E27D60; 
+    --terracotta-pink-dark: #C9695B;
+    --text-dark: #333333;
+    --shadow-soft: rgba(0, 0, 0, 0.15);
+    --highlight-glow: rgba(226, 125, 96, 0.8);
+}
+
+/* -------------------------------------- */
+/* ESTILOS DEL COMPONENTE Y LAYOUT */
+/* -------------------------------------- */
+
+.financing-section {
+    max-width: 90vw; /* Ocupa el 90% del ancho de la vista */
+    margin: 40px auto; 
+    padding: 30px 20px;
+    background-color: var(--neutral-light-gray); 
+    border-radius: 12px;
+    box-shadow: 0 8px 15px var(--shadow-soft);
+    text-align: center;
+    overflow: hidden; 
+}
+
+.financing-title {
+    color: var(--terracotta-pink-dark);
+    font-size: clamp(1.2rem, 3.5vw, 1.8rem); 
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-transform: uppercase; 
+}
+
+.highlights-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: center;
+    align-items: stretch; 
+    margin-bottom: 40px;
+}
+
+.highlight-card {
+    background-color: var(--neutral-white);
+    padding: 20px 15px;
+    border-radius: 8px;
+    flex: 1 1 200px; 
+    min-width: 150px; 
+    max-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    cursor: default;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* NO se aplica hover ni transition para evitar confusión de botón */
+}
+
+/* -------------------------------------- */
+/* ESTILOS DE ÍCONOS (Color y Visibilidad) */
+/* -------------------------------------- */
+.highlight-icon {
+    font-size: 2.5rem; 
+    display: block;
+    margin-bottom: 10px;
+    color: var(--terracotta-pink-dark); /* Color de acento para que contraste */
+}
+
+.highlight-text {
+    color: var(--text-dark);
+    font-size: clamp(0.9rem, 2vw, 1.1rem); 
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+/* -------------------------------------- */
+/* ANIMACIÓN DE APARICIÓN AL HACER SCROLL */
+/* -------------------------------------- */
+
+/* Estado inicial: invisible y fuera de posición */
+.highlight-card, 
+.financing-title,
+.call-to-action {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Estado final: visible y en posición */
+.financing-section.is-visible .highlight-card,
+.financing-section.is-visible .financing-title,
+.financing-section.is-visible .call-to-action {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Retraso para el título y el CTA */
+.financing-section.is-visible .financing-title,
+.financing-section.is-visible .call-to-action {
+    transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s; 
+}
+
+/* -------------------------------------- */
+/* ESTILOS DEL BOTÓN (CTA y Link) */
+/* -------------------------------------- */
+
+/* Estilo para el contenedor Link para eliminar decoración */
+.cta-button-link {
+    text-decoration: none;
+    display: inline-block; /* Permite que el enlace ocupe el espacio necesario */
+}
+
+/* Estilos aplicados directamente al <button> */
+.cta-button {
+    background-color: var(--terracotta-pink);
+    color: var(--neutral-white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    /* Necesario para que el botón no tenga un fondo blanco por defecto */
+    display: inline-block; 
+}
+
+.cta-button:hover {
+    background-color: var(--terracotta-pink-dark);
+    transform: translateY(-2px);
+}
+
+/* -------------------------------------- */
+/* RESPONSIVE */
+/* -------------------------------------- */
+@media (max-width: 600px) {
+    .financing-section {
+        padding: 25px 15px;
+        margin: 20px auto;
+    }
+    .highlight-card {
+        flex: 1 1 45%; 
+        max-width: 100%;
+    }
+    @media (max-width: 400px) {
+        .highlight-card {
+            flex: 1 1 100%; 
+        }
+    }
+    .cta-button {
+        width: 100%; 
+        max-width: 300px;
+    }
+}

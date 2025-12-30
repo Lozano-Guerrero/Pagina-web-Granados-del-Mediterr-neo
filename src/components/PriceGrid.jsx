@@ -6,26 +6,24 @@ import './PriceGrid.css';
 // --- CONFIGURACIÓN ---
 const API_URL = 'https://n8n.srv894483.hstgr.cloud/webhook/dc83e669-fc96-4384-9a3a-f463a9df64c1';
 
-// Información estática (Nota: Cambié ligeramente el orden del array estático o usamos CSS order para acomodarlos)
+// Información estática
 const STATIC_LOT_INFO = [
     { 
         type: 'A', 
         apiKey: 'tipo_A',
-      
+        // Asegúrate que el icono esté aquí si lo usas, o remuévelo del JSX si no tienes icono
         sizeRange: 'Desde 1500 m²', 
         detail: 'Plusvalía interior, acceso rápido.' 
     },
     { 
         type: 'AA', 
         apiKey: 'tipo_AA',
-        
         sizeRange: 'Desde 1500 m²', 
         detail: 'Cerca de amenidades y áreas verdes.' 
     },
     { 
         type: 'AAA', 
         apiKey: 'tipo_AAA',
-       
         sizeRange: 'Desde 1500 m²', 
         detail: 'Vistas panorámicas o esquinas exclusivas.' 
     }
@@ -37,8 +35,7 @@ const TEXT_CONTENT = {
 };
 
 const PriceGrid = () => {
-    const [activeLotType, setActiveLotType] = useState(STATIC_LOT_INFO[0].type);
-    const [showNotification, setShowNotification] = useState(true);
+    // ELIMINADO: const [activeLotType, setActiveLotType] = useState(STATIC_LOT_INFO[0].type);
     const [prices, setPrices] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -70,13 +67,6 @@ const PriceGrid = () => {
         });
     }, [prices, loading]);
 
-    useEffect(() => {
-        if (showNotification) {
-            const timer = setTimeout(() => setShowNotification(false), 4000);
-            return () => clearTimeout(timer);
-        }
-    }, [showNotification]);
-
     const formatPrice = (val) => {
         if (!val) return '...';
         if (typeof val === 'string') return val;
@@ -93,47 +83,23 @@ const PriceGrid = () => {
                     
                     <Link to="/Contacto" className="agenda-visit-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1H2V3zm12 12H2a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1z"/>
+                            <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1H2V3zm12 12H2a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1z"/>
                         </svg>
                         Agendar Visita
                     </Link>
                 </div>
                 
-                {/* NOTIFICACIÓN (Solo visible en Móvil normalmente o si se desea) */}
-                {showNotification && (
-                    <div className="floating-info-box fade-in-out mobile-only-notification">
-                        <p>Selecciona un lote para ver detalles</p>
-                        <button onClick={() => setShowNotification(false)} className="close-btn">&times;</button>
-                    </div>
-                )}
-                
-                {/* --- PESTAÑAS (SOLO MÓVIL) --- */}
-                <div className="lot-tabs-navigation mobile-only-tabs">
-                    {lots.map((lot) => (
-                        <button 
-                            key={lot.type} 
-                            className={`tab-button ${activeLotType === lot.type ? 'active' : ''}`}
-                            onClick={() => setActiveLotType(lot.type)}
-                        >
-                            <span className="tab-icon">{lot.icon}</span> 
-                            <span className="tab-text">{lot.type}</span>
-                        </button>
-                    ))}
-                </div>
+                {/* --- SE ELIMINÓ: PESTAÑAS (mobile-only-tabs) --- */}
 
-                {/* --- CONTENEDOR DE TARJETAS (PODIUM EN DESKTOP, CARROUSEL EN MÓVIL) --- */}
+                {/* --- CONTENEDOR DE TARJETAS (AHORA VERTICAL EN MÓVIL, PODIUM EN DESKTOP) --- */}
                 <div className="cards-podium-container">
                     {lots.map((lot) => {
-                        const isActive = activeLotType === lot.type;
-                        // En desktop siempre visible, en móvil solo si es active
+                        // ELIMINADA LÓGICA DE VISIBILIDAD MÓVIL
                         return (
                             <div 
                                 key={lot.type} 
-                                className={`
-                                    lot-card-wrapper 
-                                    lot-type-${lot.type.toLowerCase()} 
-                                    ${isActive ? 'is-active-mobile' : 'is-hidden-mobile'}
-                                `}
+                                // Clases de visibilidad móvil removidas para mostrar siempre la tarjeta
+                                className={`lot-card-wrapper lot-type-${lot.type.toLowerCase()}`}
                             >
                                 <div className="lot-card-inner">
                                     <div className="lot-badge-icon">{lot.icon}</div>
