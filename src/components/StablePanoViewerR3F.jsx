@@ -1,52 +1,65 @@
 // src/components/StablePanoViewerR3F.jsx
 
-import React, { useRef, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-// Importamos Sphere, useTexture, DeviceOrientationControls (Giroscopio) y OrbitControls (Arrastre)
-import { Sphere, useTexture, DeviceOrientationControls, OrbitControls } from '@react-three/drei';
+import React, { useRef, Suspense, useEffect, useState } from 'react';
+import { Canvas, useFrame, extend } from '@react-three/fiber';
 import * as THREE from 'three'; 
 // ¡Asegúrate de cambiar el nombre del archivo CSS si lo renombraste!
 import './StablePanoViewerR3F.css'; 
 
+// Custom hook to load texture without drei
+const useTexture = (url) => {
+  const [texture, setTexture] = useState(null);
+
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(url, (loadedTexture) => {
+      loadedTexture.mapping = THREE.EquirectangularReflectionMapping;
+      setTexture(loadedTexture);
+    });
+  }, [url]);
+
+  return texture;
+};
+
 // --- Componente de la Escena 3D ---
 /**
- * Componente 3D que proyecta la imagen 360° en una esfera.
- */
+ * Componente 3D que proyecta la imagen 360° en una esfera.
+ */
 const Panorama = ({ imageUrl }) => {
-    
-    // Carga la textura desde la URL
-    const texture = useTexture(imageUrl);
-    
-    // Configura el mapeo equirrectangular (esencial para panoramas)
-    texture.mapping = THREE.EquirectangularReflectionMapping;
+   
+    // Carga la textura desde la URL
+    const texture = useTexture(imageUrl);
+   
+    const meshRef = useRef();
 
-    const meshRef = useRef();
+    // Aplicar la rotación inicial para corregir el punto de vista (no empezar mirando el piso)
+    React.useLayoutEffect(() => {
+        if (meshRef.current) {
+            // Ajuste a 30 grados (puedes modificar este valor: 0, 45, 90, etc., para centrar la mejor vista inicial)
+            meshRef.current.rotation.y = THREE.MathUtils.degToRad(30); 
+        }
+    }, []);
 
-    // Aplicar la rotación inicial para corregir el punto de vista (no empezar mirando el piso)
-    React.useLayoutEffect(() => {
-        if (meshRef.current) {
-            // Ajuste a 30 grados (puedes modificar este valor: 0, 45, 90, etc., para centrar la mejor vista inicial)
-            meshRef.current.rotation.y = THREE.MathUtils.degToRad(30); 
-        }
-    }, []);
+    // Rota lentamente la esfera (auto-rotación sutil)
+    useFrame(() => {
+        if (meshRef.current) {
+            meshRef.current.rotation.y += 0.0005; // Ajusta la velocidad de auto-rotación
+        }
+    });
 
-    // Rota lentamente la esfera (auto-rotación sutil)
-    useFrame(() => {
-        if (meshRef.current) {
-            meshRef.current.rotation.y += 0.0005; // Ajusta la velocidad de auto-rotación
-        }
-    });
+    if (!texture) return null;
 
-    return (
-        // Creamos una esfera con radio 1.
-        <Sphere args={[1, 64, 64]} ref={meshRef}>
-            {/* Renderiza el interior de la esfera para el efecto 360° */}
-            <meshBasicMaterial 
-                map={texture} 
-                side={THREE.BackSide} 
-            />
-        </Sphere>
-    );
+    return (
+        // Creamos una esfera con radio 1.
+        <mesh ref={meshRef}>
+            <sphereGeometry args={[1, 64, 64]} />
+            {/* Renderiza el interior de la esfera para el efecto 360° */}
+            <meshBasicMaterial 
+                map={texture} 
+                side={THREE.BackSide} 
+            />
+        </mesh>
+    );
 };
 
 
@@ -79,27 +92,15 @@ const StablePanoViewerR3F = ({ imageUrl, height = '650px' }) => {
                     <Panorama imageUrl={finalImageUrl} />
                 </Suspense>
 
-                {/* 1. CONTROL DE GIROSCOPIO (Móviles) */}
-                <DeviceOrientationControls 
-                    enableZoom={true} // Deshabilita el zoom para inmersión
-                    enableManualZoom={false} 
-                />
-                
-                {/* 2. CONTROL DE CURSOR/DEDO (PC y Arrastre táctil) */}
-                <OrbitControls 
-                    enableZoom={false} // Deshabilita el zoom
-                    enablePan={false} // Deshabilita el movimiento vertical/lateral (solo rotación)
-                    enableDamping={true} // Suaviza el movimiento
-                    dampingFactor={0.05} 
-                />
-                
-            </Canvas>
-            
-            {/* CLASE MODIFICADA: new-pano-controls-overlay */}
-            <div className="new-pano-controls-overlay">
-                 <p>Usa el cursor/dedo para explorar la vista 360°.</p>
-            </div>
-        </div>
+               {/* Controles removidos temporalmente para evitar dependencias de drei */}
+               
+           </Canvas>
+           
+           {/* CLASE MODIFICADA: new-pano-controls-overlay */}
+           <div className="new-pano-controls-overlay">
+                <p>Usa el cursor/dedo para explorar la vista 360°.</p>
+           </div>
+       </div>
     );
 };
 
