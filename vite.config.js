@@ -17,6 +17,7 @@ export default defineConfig({
       'react-photo-sphere-viewer',
       'photo-sphere-viewer',
       'three', // Necesario porque PSV lo usa
+      '@react-three/drei', // Agregado para resolver el error de build
     ],
   },
   // 🛑 FIN DE SECCIÓN CRÍTICA
