@@ -30,9 +30,10 @@ const LAGOON_IMAGE = '/img/amenidades/lagoon_club/lagoclubaerea.jpg';
 const CLUB_IMAGE = '/img/hero-granados.jpg'; 
 const PARKING_IMAGE = '/img/amenidades/parque_lineal/jardin.jpg'; 
 
-const PHONE = "+52 81 1234 5678";
+const PHONE = "+52 81 2385 2034";
+const PHONECALL = "+52 81 4166 0969";
 const EMAIL = "contacto@granadosdelmediterraneo.com";
-const WHATSAPP_LINK = "https://wa.me/528112345678"; 
+const WHATSAPP_LINK = "https://wa.me/528123852034"; 
 // -----------------------------------------------------------------
 
 const ProjectInfoPage = () => {
@@ -153,7 +154,7 @@ const ProjectInfoPage = () => {
                             </a>
                             
                             {/* Llamada */}
-                            <a href={`tel:${PHONE.replace(/\s/g, '')}`} className="SHP-contact-link SHP-phone">
+                            <a href={`tel:${PHONECALL.replace(/\s/g, '')}`} className="SHP-contact-link SHP-phone">
                                 <FontAwesomeIcon icon={faPhone} /> Llamar Ahora
                             </a>
                         </div>

@@ -56,7 +56,7 @@ const FinancingHighlights = () => {
     },
     { 
       id: 2, 
-      text: "Hasta 36 Meses Sin Intereses (MSI)", 
+      text: "Hasta 40 Meses Sin Intereses (MSI)", 
       icon: faClockRotateLeft, 
     },
     { 
@@ -66,7 +66,7 @@ const FinancingHighlights = () => {
     },
     { 
       id: 4, 
-      text: "10% al Escriturar", 
+      text: "15% contra escritura", 
       icon: faFileSignature, 
     },
   ];

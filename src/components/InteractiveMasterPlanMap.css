@@ -1,147 +1,86 @@
-/* src/components/InteractiveMasterPlanMap.css - Versión Estática y con Layout de Venta */
+/* InteractiveMasterPlanMap.css */
 
-/* ========================================================= */
-/* 0. VARIABLES (Coherencia de Marca)                        */
-/* ========================================================= */
-:root {
-    --color-primary: var(--navbar-primary-color, #383636); 
-    --color-secondary-accent: var(--color-rose-accent, #C4A490); /* Terracota Claro/Rose */
-    --color-cta: #bc7c74; /* Terracota Oscuro (Para el Botón) */
-    --color-light-border: #e0e0e0; 
-    --spacing-lg: 2rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-}
-
-/* ---------------------------------- */
-/* 1. Estilos para la vista estática (Widget) */
-/* ---------------------------------- */
 .interactive-map-widget {
-
-    
-
-   
-    background-color: white; 
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .map-headerHP {
-    background: rgb(243, 227, 227);
-    padding: 1.5rem;
-   
-  
-    border-radius:0 0 12px 12px;
-   
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-
-    border-bottom: 4px solid var(--terracotta-pink);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .map-headerHP h3 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--color-primary); 
+  font-size: 2rem;
+  color: #333;
+  font-weight: bold;
+  margin: 0;
 }
 
-/* ---------------------------------- */
-/* 2. Contenido del Mapa y Layout (Móvil: Apilado) */
-/* ---------------------------------- */
 .map-content-layout {
-    /* Por defecto en móvil, los bloques se apilan (Comportamiento de flujo normal) */
-    padding: 5%;
-    height: 90%;
-    background-color: rgb(247, 247, 247);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 769px) {
+  .map-content-layout {
+    flex-direction: row;
+  }
 }
 
 .map-info-block {
-    margin-bottom: var(--spacing-md); /* Espacio en móvil antes del mapa */
-    padding: 0 var(--spacing-sm);
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
 }
 
 .map-info-block h4 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .map-info-block p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: var(--spacing-md);
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 .map-cta-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 25px;
-    background-color: var(--color-cta);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    max-width: 300px;
-    border-radius: 6px;
-    transition: background-color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #e27d60;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
 .map-cta-button:hover {
-    background-color: color-mix(in srgb, var(--color-cta) 90%, black);
+  background-color: #c9695b;
 }
 
-.map-cta-button svg {
-    margin-left: 10px;
-}
-
-/* Imagen del mapa */
 .map-image-wrapper-static {
-    padding: 0; /* Quitamos padding aquí, ya lo tiene el map-content-layout */
-    cursor: default; 
-    height: auto; 
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map-image-static {
-    width: 100%;
-    height: auto; 
-    display: block;
-    border-radius: 4px;
-    object-fit: contain; 
-}
-
-
-/* ---------------------------------- */
-/* 3. Responsive (PC/Desktop: Grid Layout) */
-/* ---------------------------------- */
-@media (min-width: 769px) {
-    /* 🛑 APLICACIÓN DE GRID PARA EL LAYOUT DE VENTA */
-    .map-content-layout {
-        display: grid;
-        /* Columna izquierda (info) ocupa 1.5 partes, el mapa (imagen) ocupa 2.5 partes */
-        grid-template-columns: 1.5fr 2.5fr; 
-        gap: 30px;
-         /* Padding generoso en escritorio */
-    }
-
-    .map-info-block {
-        /* Alinea el contenido verticalmente en el centro del bloque */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-bottom: 0; /* Ya no hay apilamiento vertical */
-        padding: 0;
-    }
-    
-    .map-image-wrapper-static {
-        /* En desktop, fijamos la altura del contenedor para una presencia fuerte */
-        height: 450px; 
-        overflow: hidden; 
-    }
-    .map-image-static {
-        /* La imagen ocupa el 100% de la altura de su contenedor y se ajusta con 'contain' */
-        height: 100%; 
-        width: 100%; /* Aseguramos que la horizontal ocupe todo el espacio asignado */
-    }
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

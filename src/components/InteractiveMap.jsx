@@ -11,7 +11,7 @@ const SVG_PATH = '/SVGmapa.svg';
 const COLOR_BY_STATUS = {
     disponible: '#66bb6a', // Verde genérico (usado como fallback)
     reservado: '#fde68a',  // Separado (Amarillo)
-    vendido: '#ef5350',    // Vendido (Rojo)
+    vendido: '#ef5350',    // Vendido (amarillo)
     bloqueado: '#c2c1ba',  // Bloqueado / Próximamente (Gris)
     'n/a': '#e5e7eb'
 };
