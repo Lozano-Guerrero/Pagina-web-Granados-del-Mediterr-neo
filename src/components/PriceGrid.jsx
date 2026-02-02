@@ -8,24 +8,24 @@ const API_URL = 'https://n8n.srv894483.hstgr.cloud/webhook/dc83e669-fc96-4384-9a
 
 // Información estática
 const STATIC_LOT_INFO = [
-    { 
-        type: 'A', 
+    {
+        type: 'A',
         apiKey: 'tipo_A',
         // Asegúrate que el icono esté aquí si lo usas, o remuévelo del JSX si no tienes icono
-        sizeRange: 'Desde 1500 m²', 
-        detail: 'Plusvalía interior, acceso rápido.' 
+        sizeRange: 'Desde 1500 m²',
+        detail: 'Plusvalía interior, acceso rápido.'
     },
-    { 
-        type: 'AA', 
+    {
+        type: 'AA',
         apiKey: 'tipo_AA',
-        sizeRange: 'Desde 1500 m²', 
-        detail: 'Cerca de amenidades y áreas verdes.' 
+        sizeRange: 'Desde 1500 m²',
+        detail: 'Cerca de amenidades y áreas verdes.'
     },
-    { 
-        type: 'AAA', 
+    {
+        type: 'AAA',
         apiKey: 'tipo_AAA',
-        sizeRange: 'Desde 1500 m²', 
-        detail: 'Vistas panorámicas o esquinas exclusivas.' 
+        sizeRange: 'Desde 1500 m²',
+        detail: 'Vistas panorámicas o esquinas exclusivas.'
     }
 ];
 
@@ -62,7 +62,7 @@ const PriceGrid = () => {
             const dynamicPrice = prices ? prices[lot.apiKey] : null;
             return {
                 ...lot,
-                priceM2: dynamicPrice || (loading ? null : 'Consultar') 
+                priceM2: dynamicPrice || (loading ? null : 'Consultar')
             };
         });
     }, [prices, loading]);
@@ -76,19 +76,19 @@ const PriceGrid = () => {
     return (
         <div className="price-grid-container">
             <div className="stage-section current-stage">
-                
+
                 <div className="stage-header-wrapper">
-                    <h2 className="stage-title price-highlight">{TEXT_CONTENT.title}</h2>
-                    <p className="stage-tagline">{TEXT_CONTENT.tagline}</p>
-                    
+                    <h2 className="stage-title price-highlight">Precios de lanzamiento: Su oportunidad exclusiva</h2>
+                    <p className="stage-tagline">Asegure su inversión con las tarifas vigentes por metro cuadrado. ¡Cupo limitado!</p>
+
                     <Link to="/Contacto" className="agenda-visit-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1H2V3zm12 12H2a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1z"/>
+                            <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1H2V3zm12 12H2a1 1 0 0 1-1-1V5h14v9a1 1 0 0 1-1 1z" />
                         </svg>
                         Agendar Visita
                     </Link>
                 </div>
-                
+
                 {/* --- SE ELIMINÓ: PESTAÑAS (mobile-only-tabs) --- */}
 
                 {/* --- CONTENEDOR DE TARJETAS (AHORA VERTICAL EN MÓVIL, PODIUM EN DESKTOP) --- */}
@@ -96,20 +96,20 @@ const PriceGrid = () => {
                     {lots.map((lot) => {
                         // ELIMINADA LÓGICA DE VISIBILIDAD MÓVIL
                         return (
-                            <div 
-                                key={lot.type} 
+                            <div
+                                key={lot.type}
                                 // Clases de visibilidad móvil removidas para mostrar siempre la tarjeta
                                 className={`lot-card-wrapper lot-type-${lot.type.toLowerCase()}`}
                             >
                                 <div className="lot-card-inner">
                                     <div className="lot-badge-icon">{lot.icon}</div>
                                     <h3 className="lot-card-title">TIPO {lot.type}</h3>
-                                    
+
                                     <p className="lot-card-size">{lot.sizeRange}</p>
-                                    
+
                                     <div className="lot-card-price">
                                         <span className="currency">$</span>
-                                        <span className="amount">{formatPrice(lot.priceM2).replace('$','')}</span>
+                                        <span className="amount">{formatPrice(lot.priceM2).replace('$', '')}</span>
                                         <span className="unit">/m²</span>
                                     </div>
 

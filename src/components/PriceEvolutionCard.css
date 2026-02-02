@@ -1,0 +1,187 @@
+.price-evolution-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+}
+
+/* Header */
+.pec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.pec-badge {
+    background-color: #eaf7ed;
+    color: #388e3c;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.pec-live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.pec-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ef5350;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* Price Section */
+.pec-price-container {
+    margin-bottom: 2rem;
+}
+
+.pec-label {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.pec-value-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.pec-currency {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #333;
+}
+
+.pec-amount {
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: #222;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.pec-unit {
+    font-size: 1.2rem;
+    color: #888;
+    font-weight: 500;
+}
+
+.pec-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: #2e7d32;
+    font-weight: 600;
+    background: #eaf7ed;
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+/* Divider */
+.pec-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 1.5rem 0;
+}
+
+/* Counter Section */
+.pec-counter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.pec-counter-info {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.pec-count {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #c62828;
+}
+
+.pec-count-label {
+    font-size: 1rem;
+    color: #444;
+    font-weight: 500;
+}
+
+.pec-scarcity-bar {
+    width: 100%;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pec-progress {
+    height: 100%;
+    background: #4caf50;
+    border-radius: 4px;
+}
+
+.pec-urgency-text {
+    font-size: 0.85rem;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .price-evolution-card {
+        padding: 1.5rem;
+    }
+
+    .pec-amount {
+        font-size: 3rem;
+    }
+
+    .pec-currency {
+        font-size: 1.5rem;
+    }
+
+    .pec-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .pec-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+}

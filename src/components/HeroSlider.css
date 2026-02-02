@@ -73,12 +73,10 @@
 /* ---------------------------------- */
 
 .slide-overlay {
-    background: linear-gradient(
-        to right,
-        color-mix(in srgb, var(--navbar-primary-color) 70%, transparent) 0%,
-        transparent 40%,
-        transparent 100%
-    );
+    background: linear-gradient(to right,
+            color-mix(in srgb, var(--navbar-primary-color) 70%, transparent) 0%,
+            transparent 40%,
+            transparent 100%);
     z-index: 6;
     position: absolute;
     top: 0;
@@ -100,7 +98,7 @@
     color: var(--hero-text-color);
     text-align: left;
 
-    padding-left: var(--spacing-xl,6rem);
+    padding-left: var(--spacing-xl, 6rem);
     padding-right: var(--spacing-xl, 3rem);
 
     width: 100%;
@@ -141,19 +139,19 @@
     font-size: 1rem;
     margin-bottom: var(--spacing-lg, 2rem);
     font-weight: 400;
-    padding: 0 3.3rem ;
+    padding: 0 3.3rem;
     max-width: 500px;
     text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7);
 }
 
-.bottonblock{
+.bottonblock {
     padding-left: 3rem;
 }
 
 /* Botón CTA (Llamada a la Acción) */
 .hero-cta-buttonslide {
     display: inline-block;
-    background-color: var(--hero-cta-bg);
+    background-color: rgb(214, 171, 171);
     color: var(--hero-cta-text);
 
     padding: .5rem 2rem;
@@ -198,8 +196,15 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.nav-arrow.left { left: 0; border-radius: 0 5px 5px 0; }
-.nav-arrow.right { right: 0; border-radius: 5px 0 0 5px; }
+.nav-arrow.left {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.nav-arrow.right {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
 
 /* ---------------------------------- */
 /* 7. Indicadores de Diapositiva (Puntos UX) */
@@ -211,7 +216,7 @@
     transform: translateX(-50%);
     z-index: 20;
     display: flex;
-    gap:10px;
+    gap: 10px;
 }
 
 .slide-indicators button {
@@ -254,7 +259,7 @@
         padding: 0 1rem;
     }
 
-    .bottonblock{
+    .bottonblock {
         padding-left: 1rem;
     }
 
@@ -269,8 +274,13 @@
         font-size: 1.2rem;
     }
 
-    .nav-arrow.left { left: var(--spacing-sm, 1rem); }
-    .nav-arrow.right { right: var(--spacing-sm, 1rem); }
+    .nav-arrow.left {
+        left: var(--spacing-sm, 1rem);
+    }
+
+    .nav-arrow.right {
+        right: var(--spacing-sm, 1rem);
+    }
 
     .slide-indicators {
         bottom: var(--spacing-md, 1.5rem);

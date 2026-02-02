@@ -7,13 +7,13 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 // Importaciones de FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { 
-  faHome, 
-  faPalette, 
-  faTree, 
+import {
+  faHome,
+  faPalette,
+  faTree,
   faHandshake,
   faMapLocation,
-  faLeaf 
+  faLeaf
 } from '@fortawesome/free-solid-svg-icons';
 
 // Añadimos los íconos a la biblioteca de FontAwesome
@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* Envolvemos <App /> para que todos los componentes hijos
         puedan usar las funcionalidades de React Router */}
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

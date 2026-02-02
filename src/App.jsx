@@ -8,6 +8,7 @@ import ContactPage from './pages/contacto/ContactPage';
 import ProjectInfoPage from './pages/proyecto/ProjectInfoPage';
 // NUEVA IMPORTACIÓN
 import PricingPage from './pages/precios/PricingPag';
+import PricingPageV2 from './pages/precios/PricingPagV2';
 import PhotoGallery from './components/PhotoGallery';
 import CasaClubPage from './pages/amenidades/CasaClubPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -22,41 +23,42 @@ import ComponentLab from './pages/dev/ComponentLab';
 function App() {
   return (
     <Routes>
-    
+
       {/* El MainLayout contiene el Navbar y Footer y permanece fijo. */}
       <Route path="/" element={<MainLayout />}>
-        
+
         {/* HOME (Ruta principal) */}
         <Route index element={<HomePage />} />
-        
+
         {/* PÁGINAS DE NAVEGACIÓN PRINCIPAL */}
         {/* Ruta: /proyecto */}
         <Route path="proyecto" element={<ProjectInfoPage />} />
         {/* Ruta: /contacto */}
         <Route path="Contacto" element={<ContactPage />} />
         {/* NUEVA RUTA: /precios */}
-        <Route path="precios" element={<PricingPage />} />
+
+        <Route path="precios" element={<PricingPageV2 />} />
         {/* NUEVA RUTA: /galeria */}
-        <Route path="galeria" element={<GalleryPage/>} />
-        <Route path="componentlab" element={<ComponentLab/>} />
-{/* 🛑 NUEVA RUTA DE AMENIDAD */}
-        <Route 
-            path="/amenidades/casa-club" 
-            element={<CasaClubPage />} 
+        <Route path="galeria" element={<GalleryPage />} />
+        <Route path="componentlab" element={<ComponentLab />} />
+        {/* 🛑 NUEVA RUTA DE AMENIDAD */}
+        <Route
+          path="/amenidades/casa-club"
+          element={<CasaClubPage />}
         />
-        <Route 
-            path="/amenidades/parque-lineal" 
-            element={<ParqueLinealPage />} 
+        <Route
+          path="/amenidades/parque-lineal"
+          element={<ParqueLinealPage />}
         />
-        <Route 
-            path="/amenidades/lagoon-club" 
-            element={<LagoonClubPage />} 
+        <Route
+          path="/amenidades/lagoon-club"
+          element={<LagoonClubPage />}
         />
-        
+
         {/* 🛑 OPCIONAL: Si quieres una página general de Amenidades */}
         {/* <Route path="/amenidades" element={<AmenidadesIndexPage />} /> */}
-       {/* 🛑 Ruta 404: siempre al final para capturar rutas no coincidentes */}
-                <Route path="*" element={<NotFoundPage />} />
+        {/* 🛑 Ruta 404: siempre al final para capturar rutas no coincidentes */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

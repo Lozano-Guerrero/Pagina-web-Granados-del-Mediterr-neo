@@ -1,11 +1,11 @@
 // src/layouts/MainLayout.jsx
 import React from 'react';
 // Outlet es el placeholder donde React Router inyecta la página actual
-import { Outlet } from 'react-router-dom'; 
+import { Outlet } from 'react-router-dom';
 // Importamos el Navbar para que sea visible en todas las páginas
-import Navbar from './navbar'; 
+import Navbar from './navbarV2';
 // Importamos el Footer (asumiendo que tiene un placeholder)
-import Footer from './Footer'; 
+import Footer from './Footer';
 import ScrollToTop from '../components/ScrollToTop';
 
 const MainLayout = () => {
@@ -22,7 +22,7 @@ const MainLayout = () => {
       </main>
 
       {/* El Footer también se mostrará siempre */}
-      <Footer /> 
+      <Footer />
     </div>
   );
 };

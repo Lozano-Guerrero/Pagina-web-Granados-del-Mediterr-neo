@@ -1,0 +1,225 @@
+/* ProjectSummaryV2.css - Fluid Editorial Design */
+
+:root {
+    --color-terracotta: #662c2c;
+    --color-rose-bg: #e0d6d6;
+    /* Backing section color */
+    --color-white: #ffffff;
+    --color-olive: #4a5d23;
+    --color-text-dark: #1a1a1a;
+    --color-text-muted: #666666;
+    --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.summary-section-v2 {
+    width: 100%;
+    padding: clamp(40px, 8vh, 100px) 0;
+    background-color: var(--color-rose-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.summary-container-v2 {
+    width: 95%;
+    max-width: 1600px;
+    /* Capped to prevent "gigantism" */
+    margin: 0 auto;
+}
+
+.summary-layout-v2 {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    /* Better balance for editorial feel */
+    gap: clamp(20px, 4vw, 60px);
+    align-items: stretch;
+}
+
+/* Columna Visual */
+.summary-visual-v2 {
+    display: flex;
+    align-items: center;
+}
+
+.image-frame-v2 {
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-premium);
+}
+
+.image-frame-v2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-frame-v2:hover img {
+    transform: scale(1.05);
+}
+
+/* Columna Informativa */
+.summary-info-v2 {
+    background-color: var(--color-white);
+    padding: clamp(30px, 6vw, 80px);
+    border-radius: 32px;
+    box-shadow: var(--shadow-premium);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-header-v2 {
+    margin-bottom: clamp(20px, 4vh, 40px);
+}
+
+.info-tag-v2 {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-olive);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.info-title-v2 {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--color-terracotta);
+    margin-bottom: 15px;
+    letter-spacing: -0.01em;
+}
+
+.info-subtitle-v2 {
+    display: block;
+    font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+    font-weight: 400;
+    color: var(--color-text-dark);
+    margin-top: 8px;
+}
+
+.info-description-v2 {
+    font-size: clamp(1rem, 1.1vw, 1.2rem);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.info-cta-v2 {
+    margin-top: 10px;
+}
+
+.cta-button-v2 {
+    display: inline-block;
+    padding: 18px 40px;
+    background-color: var(--color-terracotta);
+    color: var(--color-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(102, 44, 44, 0.2);
+}
+
+.cta-button-v2:hover {
+    background-color: var(--color-olive);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(74, 93, 35, 0.2);
+}
+
+/* Grilla de Mini-Features */
+.info-features-v2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.feature-item-v2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feature-icon-wrapper-v2 {
+    width: 45px;
+    height: 45px;
+    background-color: var(--color-olive-bg, #f2f4ed);
+    color: var(--color-olive);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.feature-title-v2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin: 0;
+}
+
+.feature-detail-v2 {
+    font-size: 0.85rem;
+    color: var(--color-terracotta);
+    font-weight: 500;
+}
+
+/* Responsive Desgin */
+
+@media (max-width: 1024px) {
+    .summary-layout-v2 {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .summary-visual-v2 {
+        order: 2;
+    }
+
+    .image-frame-v2 {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .info-features-v2 {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .summary-info-v2 {
+        padding: 30px 20px;
+    }
+
+    .info-title-v2 {
+        font-size: 2.2rem;
+    }
+
+    .cta-button-v2 {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Fix for giant screens */
+@media (min-width: 2000px) {
+    .summary-container-v2 {
+        max-width: 1800px;
+    }
+
+    .info-title-v2 {
+        font-size: 4rem;
+    }
+}

@@ -1,0 +1,202 @@
+/* InteractiveMasterPlanMapV2.css - Luxury Editorial Style */
+
+:root {
+    --mp-olive: #4a5d23;
+    --mp-terracotta: #662c2c;
+    --mp-rose: #fbfbfc;
+    --mp-white: #ffffff;
+    --mp-text: #1a1a1a;
+    --mp-text-muted: #666666;
+    --mp-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.masterplan-v2 {
+    width: 100%;
+    padding: clamp(60px, 10vh, 120px) 0;
+    background-color: var(--mp-rose);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.masterplan-container-v2 {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Section */
+.masterplan-header-v2 {
+    text-align: center;
+    margin-bottom: clamp(40px, 8vh, 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.masterplan-tag-v2 {
+    display: inline-block;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mp-olive);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.masterplan-main-title-v2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--mp-text);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.title-accent-v2 {
+    width: 60px;
+    height: 4px;
+    background-color: var(--mp-terracotta);
+    margin-top: 20px;
+    border-radius: 2px;
+}
+
+/* Content Layout */
+.masterplan-content-v2 {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(30px, 5vw, 80px);
+    align-items: center;
+}
+
+/* Info Side */
+.masterplan-info-v2 {
+    padding-right: 20px;
+}
+
+.info-title-v2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    line-height: 1.1;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 25px;
+    letter-spacing: -0.02em;
+}
+
+.info-title-v2 span {
+    font-weight: 800;
+    color: var(--mp-terracotta);
+}
+
+.info-text-v2 {
+    font-size: 1.1rem;
+    color: var(--mp-text-muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+/* CTA Button */
+.masterplan-cta-v2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--mp-terracotta);
+    color: var(--mp-white);
+    padding: 18px 35px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(102, 44, 44, 0.15);
+}
+
+.masterplan-cta-v2:hover {
+    background-color: var(--mp-olive);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(74, 93, 35, 0.2);
+}
+
+.cta-icon-v2 {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.masterplan-cta-v2:hover .cta-icon-v2 {
+    transform: translateX(5px);
+}
+
+/* Visual Side - Map Frame */
+.masterplan-visual-v2 {
+    position: relative;
+    width: 100%;
+}
+
+.map-frame-v2 {
+    background-color: var(--mp-white);
+    padding: clamp(20px, 4vw, 40px);
+    border-radius: 30px;
+    box-shadow: var(--mp-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    position: relative;
+}
+
+.map-image-v2 {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    transition: transform 0.8s ease;
+}
+
+.masterplan-visual-v2:hover .map-image-v2 {
+    transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .masterplan-content-v2 {
+        grid-template-columns: 1fr;
+
+    }
+
+    .masterplan-info-v2 {
+        padding-right: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .masterplan-visual-v2 {
+        order: 2;
+    }
+
+    .map-frame-v2 {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .masterplan-container-v2 {
+        width: 90%;
+    }
+
+    .masterplan-main-title-v2 {
+        font-size: 1.8rem;
+    }
+
+    .info-title-v2 {
+        font-size: 1.8rem;
+    }
+
+    .masterplan-cta-v2 {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -4,7 +4,7 @@ import './FinancingHighlights.css';
 
 // Importar los componentes y los íconos específicos de Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faHandHoldingDollar, // Enganche
   faClockRotateLeft,   // MSI
   faCalendarCheck,     // Anualidades
@@ -28,7 +28,7 @@ const FinancingHighlights = () => {
         }
       },
       {
-        root: null, 
+        root: null,
         rootMargin: '0px',
         threshold: 0.2, // Visible cuando el 20% entra al viewport
       }
@@ -49,10 +49,10 @@ const FinancingHighlights = () => {
   const titleHook = "NO TE DESCAPITALICES. CONOCE NUESTRAS OPCIONES DE PAGO";
 
   const highlights = [
-    { 
-      id: 1, 
-      text: "Desde el 15% de Enganche", 
-      icon: faHandHoldingDollar, 
+    {
+      id: 1,
+      text: "Hasta 40 Meses Sin Intereses",
+      icon: faClockRotateLeft,
     },
     { 
       id: 2, 
@@ -72,40 +72,40 @@ const FinancingHighlights = () => {
   ];
 
   return (
-    <section 
-      ref={sectionRef} 
-      className={`financing-section ${isVisible ? 'is-visible' : ''}`}
+    <section
+      ref={sectionRef}
+      className={`financing-section-v3 ${isVisible ? 'is-visible' : ''}`}
     >
-      {/* Título usando el hook sugerente */}
-      <h2 className="financing-title">{titleHook}</h2>
-      
-      <div className="highlights-container">
-        {highlights.map((item, index) => (
-          <div 
-            key={item.id} 
-            className="highlight-card"
-            style={{ transitionDelay: `${index * 0.1}s` }} // Animación escalonada
-          >
-            {/* Uso del componente FontAwesomeIcon */}
-            <FontAwesomeIcon 
-              icon={item.icon} 
-              className="highlight-icon" 
-            />
-            
-            <p className="highlight-text">
-              <strong>{item.text}</strong>
-            </p>
-          </div>
-        ))}
-      </div>
-      
-      <div className="call-to-action">
-        {/* Usamos Link para navegar a /Contacto y le aplicamos los estilos del botón */}
-        <Link to="/Contacto" className="cta-button-link">
-          <button className="cta-button">
-            ¡PREGUNTA POR UN PLAN PERSONALIZADO!
-          </button>
-        </Link>
+      <div className="financing-content-wrapper">
+        <header className="financing-header-v3">
+          <span className="section-tag">Inversión Inteligente</span>
+          <h2 className="financing-title-v3">Planes de Financiamiento a tu medida</h2>
+          <p className="financing-subtitle-v3">Opciones flexibles diseñadas para asegurar tu patrimonio sin comprometer tu liquidez.</p>
+        </header>
+
+        <div className="highlights-grid-v3">
+          {highlights.map((item, index) => (
+            <div
+              key={item.id}
+              className="highlight-item-v3"
+              style={{ transitionDelay: `${index * 0.15}s` }}
+            >
+              <div className="icon-wrapper-v3">
+                <FontAwesomeIcon icon={item.icon} className="highlight-icon-v3" />
+              </div>
+              <p className="highlight-text-v3">{item.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="financing-cta-v3">
+          <Link to="/Contacto" className="cta-link-v3">
+            Explorar Plan Personalizado
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,207 @@
+/* LocationSectionV2.css - ULTRA COMPACT FIX */
+
+:root {
+    --color-terracotta: #662c2c;
+    --color-rose-soft: #b47c7c;
+    --color-olive-deep: #4a5d23;
+    --color-olive-light: #808b5e;
+    --color-olive-bg: #f2f4ed;
+    --color-bg-neutral: #fbfbfc;
+}
+
+.location-section-v2 {
+    width: 100%;
+    /* Strict 500px limit requires careful internal sizing */
+    height: 90%;
+    max-height: 100vh;
+    padding: 20px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: var(--color-bg-neutral);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center content vertically */
+    box-sizing: border-box;
+}
+
+.location-content-wrapper-v2 {
+    width: 95%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+.location-header-v2 {
+    text-align: center;
+    margin-bottom: 15px;
+    /* Significantly reduced */
+    flex-shrink: 0;
+}
+
+.section-tag-v2 {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-olive-light);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.location-title-v2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    /* Smaller title */
+    font-weight: 300;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.location-subtitle-v2 {
+    font-size: 0.9rem;
+    color: #777;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.3;
+}
+
+/* Grilla de hechos */
+.location-facts-grid-v2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Force 3 columns on desktop to save vertical space */
+    gap: 20px;
+    margin-bottom: 10px;
+    align-items: stretch;
+}
+
+.location-fact-item-v2 {
+    background: white;
+    padding: 15px 15px;
+    /* Minimal padding */
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(74, 93, 35, 0.08);
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-fact-item-v2:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-olive-light);
+    box-shadow: 0 10px 25px rgba(74, 93, 35, 0.1);
+}
+
+.icon-box-v2 {
+    width: 40px;
+    /* Smaller icon box */
+    height: 40px;
+    background: var(--color-olive-bg);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    color: var(--color-olive-deep);
+    font-size: 1rem;
+    transition: all 0.4s ease;
+}
+
+.location-fact-item-v2:hover .icon-box-v2 {
+    transform: rotate(5deg) scale(1.1);
+    background: var(--color-olive-deep);
+    color: white;
+}
+
+.fact-item-title-v2 {
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.fact-item-detail-v2 {
+    font-size: 1.3rem;
+    /* Compact number */
+    font-weight: 800;
+    color: var(--color-terracotta);
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.fact-item-desc-v2 {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.3;
+    max-width: 90%;
+    /* Prevent text from getting too wide */
+}
+
+/* Footer & CTA */
+.location-footer-v2 {
+    text-align: center;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+/* Footer & CTA */
+.location-footer-v2 {
+    text-align: center;
+}
+
+.cta-location-link-v2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-olive-deep);
+    /* Olive link */
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.cta-location-link-v2:hover {
+    border-color: var(--color-olive-deep);
+    gap: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .location-section-v2 {
+        max-height: none;
+        /* Allow more on mobile */
+        padding: 40px 0;
+    }
+
+    .location-content-wrapper-v2 {
+        padding: 0 20px;
+    }
+
+    .location-facts-grid-v2 {
+        gap: 15px;
+    }
+
+    .location-fact-item-v2 {
+        padding: 20px;
+    }
+
+    .location-title-v2 {
+        font-size: 1.6rem;
+    }
+}

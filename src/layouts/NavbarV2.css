@@ -1,0 +1,376 @@
+/* src/layouts/NavbarV2.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+.navbar-v2 {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 15px 0;
+    background: #111111;
+    /* Fondo original oscuro */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Simplificación: El Navbar es oscuro en todo el sitio para mayor consistencia */
+.nav-links-v2 a,
+.social-links-v2 a {
+    color: #faf4e9 !important;
+    /* Texto claro original */
+}
+
+.logo-img-v2 {
+    filter: brightness(0) invert(1) !important;
+    /* Logo SIEMPRE claro sobre fondo oscuro */
+}
+
+.on-home:not(.scrolled),
+.on-other {
+    background: #111111;
+}
+
+/* ELIMINADO: El padding-top global ya no es necesario porque usamos sticky */
+
+.scroll-progress-bar-v2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: #b47c7c;
+    z-index: 2001;
+    transition: width 0.1s ease-out;
+}
+
+/* Transición al hacer scroll (Más compacto) */
+.navbar-v2.scrolled {
+    padding: 10px 0;
+    background: #000000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.scrolled .logo-img-v2 {
+    height: 34px;
+}
+
+/* Si el fondo es oscuro, cambiamos a modo invertido (opcional) */
+/* .navbar-v2.dark { ... } */
+
+.navbar-inner-v2 {
+    width: 100%;
+    max-width: 100%;
+    /* Full width para look expansivo como V1 */
+    margin: 0;
+    padding: 0 5%;
+    /* Padding dinámico basado en porcentaje */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 1. LOGO */
+.navbar-logo-v2 {
+    flex-shrink: 0;
+}
+
+.logo-img-v2 {
+    height: 42px;
+    /* Un poco más grande para el impacto inicial */
+    width: auto;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: brightness(0) invert(1) !important;
+    /* Siempre blanco sobre fondo negro */
+}
+
+.scrolled .logo-img-v2 {
+    height: 34px;
+}
+
+/* 2. LINKS DESKTOP */
+.navbar-desktop-nav-v2 {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links-v2 {
+    display: flex;
+    gap: 40px;
+    /* Más espacio entre elementos */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links-v2 a {
+    text-decoration: none;
+    color: #faf4e9 !important;
+    /* Forzado a claro sobre fondo negro */
+    font-size: 0.9rem;
+    /* Un poco más grande ahora que hay espacio */
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    /* Más elegancia */
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    /* Evitar saltos de línea */
+}
+
+.nav-links-v2 a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #b47c7c;
+    transition: width 0.3s ease;
+}
+
+.nav-links-v2 a:hover {
+    color: #b47c7c !important;
+}
+
+.nav-links-v2 a:hover::after,
+.nav-links-v2 a.active::after {
+    width: 100%;
+}
+
+.nav-links-v2 a.active {
+    color: #b47c7c !important;
+}
+
+/* 3. ACCIONES */
+.navbar-actions-v2 {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    /* Más espacio entre redes y botón */
+}
+
+.social-links-v2 {
+    display: flex;
+    gap: 20px;
+    /* Más espacio entre iconos */
+}
+
+.social-links-v2 a {
+    color: #faf4e9;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.social-links-v2 a:hover {
+    color: #b47c7c;
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.nav-cta-v2 {
+    background: #b47c7c;
+    /* Terracota para destacar sobre el fondo negro */
+    color: white;
+    padding: 10px 25px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    /* Evitar saltos en el botón */
+}
+
+.nav-cta-v2:hover {
+    background: white;
+    color: #111111;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* HAMBURGER */
+.mobile-toggle-v2 {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 2200;
+}
+
+.bar-v2 {
+    width: 100%;
+    height: 2px;
+    background: #faf4e9;
+    /* Barras claras siempre */
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.mobile-toggle-v2.active .bar-v2:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-toggle-v2.active .bar-v2:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-toggle-v2.active .bar-v2:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* 4. MOBILE OVERLAY */
+.mobile-overlay-v2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #111111;
+    /* Fondo oscuro */
+    z-index: 2100;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 40px;
+}
+
+.mobile-overlay-v2.open {
+    transform: translateX(0);
+}
+
+.mobile-nav-content-v2 {
+    text-align: center;
+}
+
+.mobile-links-v2 {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 60px 0;
+}
+
+.mobile-links-v2 li {
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.mobile-overlay-v2.open .mobile-links-v2 li:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.mobile-links-v2 a {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    color: #faf4e9;
+    /* Texto claro */
+    text-decoration: none;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.mobile-links-v2 a:hover {
+    color: #b47c7c;
+    font-style: italic;
+    /* Toque editorial */
+}
+
+.mobile-links-v2 a.active {
+    color: #b47c7c;
+}
+
+.mobile-footer-v2 {
+    margin-top: auto;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 40px;
+}
+
+.mobile-footer-v2 p {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.mobile-social-v2 {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.mobile-social-v2 a {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+
+    /* Adelantado para evitar amontonamiento */
+    .nav-links-v2 {
+        display: none;
+        /* Ocultar links largos en pantallas medianas */
+    }
+
+    .social-links-v2,
+    .nav-cta-v2 {
+        display: none;
+    }
+
+    .mobile-toggle-v2 {
+        display: flex;
+    }
+
+    .navbar-inner-v2 {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-inner-v2 {
+        padding: 0 20px;
+    }
+
+    .logo-img-v2 {
+        height: 32px;
+    }
+
+    .mobile-links-v2 a {
+        font-size: 1.8rem;
+    }
+}

@@ -2,60 +2,56 @@
 
 /* Contenedor central para el contenido */
 .info-inner-container2 {
-    max-width: 90%; /* Mantener un ancho máximo para el contenido interno (texto, cards) */
+    max-width: 90%;
+    /* Mantener un ancho máximo para el contenido interno (texto, cards) */
     margin: 0 auto;
-  
+
     height: auto;
     /* --- CAMBIO CRUCIAL: Eliminar padding lateral para que las secciones abarquen el 100% --- */
-    padding: 60px 0; 
+    padding: 60px 0;
 }
 
 /* Las secciones de componente necesitan su propio padding interno */
 .section-content-wrapper {
     max-width: 85%;
     margin: 0 auto;
-    padding: 0 5%; /* Añadimos el padding aquí para el contenido que SÍ debe centrarse */
+    padding: 0 5%;
+    /* Añadimos el padding aquí para el contenido que SÍ debe centrarse */
 }
 
 /* --- Títulos de Sección Reutilizables --- */
 .section-heading {
     text-align: center;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 800;
-    color: var(--color-primary-accent, #4e7c3e); 
-    margin-bottom: 10px;
+    color: #4a5d23;
+    /* Consistent Olive Green */
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
 }
 
 .section-subheading {
     text-align: center;
     font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 50px;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    line-height: 1.5;
 }
 
-/* ---------------------------------------------------- */
 /* --- 1. Project Hero (Banner Principal) --- */
-/* Esta sección siempre debe ser 100% ancha */
 .project-hero {
-    min-height: 70vh; 
+    min-height: 80vh;
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
-    width: 100%; /* Asegurar que cubra todo el ancho */
+    width: 100%;
 }
-/* Apuntando al elemento SVG dentro de .feature-icon */
-.feature-icon-wrapper svg {
-    fill: white !important; 
-    color: rgb(255, 255, 255);
-    width: 60px;
-    height: 30px;
-    margin: 0;
-    align-items: center;
-    text-align: center;
-}
-/* Overlay oscuro para que el texto resalte */
+
 .project-hero::before {
     content: '';
     position: absolute;
@@ -63,63 +59,99 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); 
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.6) 100%);
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
     color: white;
-    max-width: 800px;
-    padding: 40px 5%; /* Mantenemos padding interno para el texto */
+    max-width: 1000px;
+    padding: 60px 5%;
     text-align: center;
     margin: 0 auto;
-    width: 100%; /* Asegurar que ocupe el ancho disponible dentro del Hero */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 900;
-    margin: 0 0 15px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); 
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .hero-tagline {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
     font-weight: 300;
-    margin-bottom: 30px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); 
+    margin-bottom: 40px;
+    max-width: 700px;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Estilos compartidos por Link y BrochureDownloadButton */
 .hero-cta-button {
-    display: inline-block;
-    padding: 15px 35px;
-    background-color: var(--color-primary-accent, #4e7c3e); 
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 45px;
+    background-color: #023611;
     color: white;
     text-decoration: none;
     font-weight: 700;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(2, 54, 17, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hero-cta-button:hover {
-    background-color: var(--color-primary-dark, #3b5f2e); 
-    transform: translateY(-2px); 
+    background-color: #4a5d23;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(74, 93, 35, 0.4);
+    letter-spacing: 0.2em;
+}
+
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ---------------------------------------------------- */
 /* --- 2. Value Proposition (Grid de Feature Cards) --- */
 .value-proposition-section {
-    padding: 20px 0;
-    background-color: rgb(215, 215, 215); 
+    padding: clamp(60px, 8vh, 100px) 0;
+    background-color: #f8f9fa;
+    /* Lighter, cleaner background */
 }
+
 .feature-cards-grid {
-    /* Usar el wrapper de contenido para centrar la grilla */
-    /* La grilla debe ir dentro del .section-content-wrapper */
     display: grid;
-   grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
 /* ---------------------------------------------------- */
@@ -146,8 +178,10 @@
 /* ---------------------------------------------------- */
 .SHP-cta-rich-section {
     padding: 60px 0;
-    background-color: #191919; /* Terracota como fondo principal */
-    color: #f4f4f4; /* Gris claro para el texto */
+    background-color: #191919;
+    /* Terracota como fondo principal */
+    color: #f4f4f4;
+    /* Gris claro para el texto */
     text-align: center;
     width: 100%;
 }
@@ -161,9 +195,11 @@
 /* Ícono Principal */
 .SHP-cta-main-icon {
     font-size: 4rem;
-    color: #808000; /* Verde Olivo para el acento visual */
+    color: #808000;
+    /* Verde Olivo para el acento visual */
     margin-bottom: 20px;
-    opacity: 0.8; /* Suavizar el ícono */
+    opacity: 0.8;
+    /* Suavizar el ícono */
 }
 
 /* Contenido Principal */
@@ -176,7 +212,8 @@
 .SHP-cta-subtitle {
     font-size: 1.15rem;
     margin-bottom: 30px;
-    color: #eeeeee; /* Gris ligeramente más oscuro */
+    color: #eeeeee;
+    /* Gris ligeramente más oscuro */
 }
 
 /* Botón Principal (CTA) */
@@ -184,7 +221,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #023611; /* Verde Olivo */
+    background-color: #023611;
+    /* Verde Olivo */
     color: #f4f4f4;
     padding: 15px 30px;
     border-radius: 6px;
@@ -200,15 +238,18 @@
 }
 
 .SHP-cta-main-button:hover {
-    background-color: #033523; /* Olivo más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Efecto sutil */
+    background-color: #033523;
+    /* Olivo más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    /* Efecto sutil */
 }
 
 /* Contacto Rápido */
 .SHP-cta-quick-contact {
     margin-top: 40px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Separador sutil */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    /* Separador sutil */
 }
 
 .SHP-contact-label {
@@ -220,14 +261,16 @@
 
 .SHP-contact-links-group {
     display: flex;
-    flex-direction: column; /* Apilar en móvil */
+    flex-direction: column;
+    /* Apilar en móvil */
     justify-content: center;
     gap: 15px;
 }
 
 @media (min-width: 600px) {
     .SHP-contact-links-group {
-        flex-direction: row; /* En línea en escritorio */
+        flex-direction: row;
+        /* En línea en escritorio */
     }
 }
 
@@ -249,7 +292,8 @@
 
 /* Estilos Específicos para Enlaces Rápidos */
 .SHP-whatsapp {
-    background-color: #4CAF50; /* Verde WhatsApp */
+    background-color: #4CAF50;
+    /* Verde WhatsApp */
     border: 1px solid #4CAF50;
 }
 
@@ -259,12 +303,14 @@
 
 .SHP-phone {
     background-color: transparent;
-    border: 1px solid #f4f4f4; /* Borde gris claro */
+    border: 1px solid #f4f4f4;
+    /* Borde gris claro */
 }
 
 .SHP-phone:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
 /* ---------------------------------------------------- */
 /* --- Responsive (Móvil) --- */
 /* src/pages/ProjectInfoPage.css - AJUSTES PARA MÓVIL (768px y menos) */
@@ -272,59 +318,70 @@
 /* ---------------------------------------------------- */
 /* --- Responsive (Móvil) --- */
 @media (max-width: 768px) {
+
     /* Ajustar el padding interno del contenido en móvil */
     .info-inner-container2 {
-        max-width: 95%; /* Ajustar el contenedor general a un 95% para mejor uso del espacio */
-        padding: 40px 0; /* Ajustar padding de sección */
+        max-width: 95%;
+        /* Ajustar el contenedor general a un 95% para mejor uso del espacio */
+        padding: 40px 0;
+        /* Ajustar padding de sección */
     }
 
     .section-content-wrapper {
-        padding: 0 4%; 
-        max-width: 100%; 
+        padding: 0 4%;
+        max-width: 100%;
     }
+
     .project-hero {
         min-height: 50vh;
     }
+
     .hero-title {
         font-size: 2.5rem;
     }
+
     .hero-tagline {
         font-size: 1.2rem;
     }
+
     .section-heading {
         font-size: 1.8rem;
     }
+
     .section-subheading {
         margin-bottom: 30px;
     }
-    
+
     /* --- CAMBIO CLAVE: Responsive Feature Cards Grid --- */
     /* En pantallas medianas (hasta 768px), cambiar a 2 columnas */
     .feature-cards-grid {
-        grid-template-columns: repeat(2, 1fr); 
+        grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
     /* Ajuste para los enlaces rápidos de contacto (ya estaba, pero lo dejamos claro) */
     .SHP-contact-links-group {
-        flex-direction: column; /* Apilar en móvil */
+        flex-direction: column;
+        /* Apilar en móvil */
         gap: 10px;
     }
 }
 
 /* Ajuste adicional para móviles muy pequeños (menores a 500px) */
 @media (max-width: 500px) {
+
     /* En pantallas muy pequeñas, cambiar a 1 columna */
     .feature-cards-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
-    
+
     .SHP-cta-title {
         font-size: 1.8rem;
     }
 
     .SHP-cta-main-button {
-        width: 95%; /* Asegurar que el botón principal ocupe casi todo el ancho */
+        width: 95%;
+        /* Asegurar que el botón principal ocupe casi todo el ancho */
         padding: 12px 20px;
         font-size: 1rem;
     }

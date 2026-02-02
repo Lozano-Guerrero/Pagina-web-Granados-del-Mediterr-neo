@@ -56,7 +56,7 @@ LINEAL: [
     // La nueva ruta usa /img/Galeria/ParqueLineal/compress/ y el formato .webp
     '/img/Galeria/ParqueLineal/compress/Ajedrez.webp', // Sustituye AJEDREZ3.jpg
     '/img/Galeria/ParqueLineal/compress/asadores.webp', // Sustituye ASADORES.jpg
-    '/img/Galeria/ParqueLineal/compress/cinerender.webp', // Sustituye cine.jpg
+    '/img/Galeria/ParqueLineal/compress/cinerenderdos.webp', // Sustituye cine.jpg
     '/img/Galeria/ParqueLineal/compress/jardinbotanico.webp', // Sustituye jardinComestible.jpg
     '/img/Galeria/ParqueLineal/compress/dogpark.webp', // Sustituye petpark.jpg
     '/img/Galeria/ParqueLineal/compress/Rampas.webp', // Sustituye pistas2.jpg
