@@ -37,7 +37,7 @@
     }
 }
 
-/* 2. Estilos de la Columna de la Oficina (OfficeInvitationSection) */
+/* 2. Estilos de la columna de la oficina */
 
 .SHP-office-column {
     background-color: #2d2727; /* Terracota Oscuro */
@@ -102,7 +102,7 @@
 }
 
 
-/* 3. Estilos del Formulario (ContactForm) */
+/* 3. Estilos del formulario */
 
 .SHP-contact-title {
     font-size: 2rem;

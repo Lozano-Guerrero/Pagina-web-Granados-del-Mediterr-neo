@@ -11,7 +11,7 @@ import {
     faInstagram, 
     faWhatsapp 
 } from '@fortawesome/free-brands-svg-icons';
-import './Footer.css'; // Debes crear este archivo CSS
+import './Footer.css';
 
 const Footer = () => {
 
@@ -60,18 +60,6 @@ const Footer = () => {
                         <li><a href="/Contacto">Contacto</a></li>
                     </ul>
                 </div>
-
-                {/* Columna 3: Legal y Ayuda *
-                <div className="SHP-footer-col">
-                    <h4 className="SHP-col-title">Legal</h4>
-                    <ul className="SHP-footer-links">
-                        <li><a href="/avisos/privacidad">Aviso de Privacidad</a></li>
-                        <li><a href="/avisos/terminos">Términos y Condiciones</a></li>
-                        <li><a href="/preguntas">Preguntas Frecuentes</a></li>
-                        <li><a href="/financiamiento">Planes de Financiamiento</a></li>
-                    </ul>
-                </div>
-                /}
                 {/* Columna 4: Redes Sociales */}
                 <div className="SHP-footer-col SHP-col-social">
                     <h4 className="SHP-col-title">Síguenos</h4>

@@ -1,25 +1,19 @@
-// src/pages/ComponentLab.jsx
-
 import React from 'react';
-// Importamos el componente de visor estable (Pannellum)
-import StablePanoViewerR3F from '../../components/StablePanoViewerR3F';// Asegúrate de que esta ruta sea correcta
+// Visor 360° estable
+import StablePanoViewerR3F from '../../components/StablePanoViewerR3F';
 import './ComponentLab.css';
 
-import InteractiveMap from '../../components/InteractiveMap';
 import InteractiveMapV2 from '../../components/InteractiveMapV2';
 import LocationSectionV2 from '../../components/LocationSectionV2';
-import ProjectSummaryV2 from '../../components/ProjectSummaryV2';
 import PromoVirtualV2 from '../../components/PromoVirtualV2';
-import FeatureCardV2 from '../../components/FeatureCardV2';
 import PlusvaliaDashboard from '../../components/PlusvaliaDashboard';
-import { faPaintBrush } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Página de Laboratorio (Sandbox) para probar componentes.
  */
 const ComponentLab = () => {
 
-    // 💡 RUTA CORREGIDA: Acceso directo a la carpeta public.
+    // Acceso directo a la carpeta public.
     const testImageURL = "/img/360img/lagoon360/CasaLago360.jpg";
     const testImageURL2 = "/img/360img/lagoon360/Fogateros360.jpg";
     return (
@@ -33,7 +27,7 @@ const ComponentLab = () => {
             <PlusvaliaDashboard />
 
             {/* ------------------------------------------------ */}
-            {/* ## COMPARATIVA MAPA INTERACTIVO (V1 vs V2) ## */}
+            {/* ## MAPA INTERACTIVO (V2) ## */}
             {/* ------------------------------------------------ */}
             <section className="test-section" style={{ background: '#fff', padding: '40px', marginBottom: '40px' }}>
                 <h2 style={{ color: '#888', letterSpacing: '2px', textTransform: 'uppercase', fontSize: '1rem' }}>
@@ -53,14 +47,12 @@ const ComponentLab = () => {
                 </div>
 
             </section>
-            <navbarV2 />
             {/* ------------------------------------------------ */}
-            {/* ## Sección de Prueba: Visor 360° (Pannellum) ## */}
+            {/* ## Sección de Prueba: Visor 360° ## */}
             {/* ------------------------------------------------ */}
             <section className="test-section">
                 <h2>1. Visor Panorámico 360°</h2>
 
-                {/* 🛑 USAMOS EL NUEVO COMPONENTE ESTABLE */}
                 <StablePanoViewerR3F
                     imageUrl={testImageURL}
                     height="650px"

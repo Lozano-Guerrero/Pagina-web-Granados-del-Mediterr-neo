@@ -35,10 +35,12 @@ const COLOR_PRESETS = {
     gris: '#e5e7eb',
 };
 
-const SELECTED_COLOR = '#b47c7c';
+const NON_SELECTABLE_STATUSES = new Set(['vendido', 'reservado', 'separado', 'apartado', 'bloqueado']);
+const SELECTED_COLOR = '#1d4ed8';
 const HIGHLIGHT_COLOR = '#9c27b0'; // Morado para "Ver lotes"
 const FALLBACK_COLOR = '#a8a8a8ff';
 const SHAPE_SEL = 'path,polygon,rect,ellipse';
+const LOT_STROKE_COLOR = '#000000';
 
 const INITIAL_LOT_INFO = { titulo: '', superficie_m2: '', estado: 'DISPONIBLE', tipo: 'A', costo_m2: '', nota: '' };
 
@@ -109,11 +111,38 @@ function getPaintables(node) {
         : [...node.querySelectorAll(SHAPE_SEL)].filter(isPaintable);
 }
 
+function getStatusKey(info) {
+    return norm(info?.estado || info?.Estado).toLowerCase();
+}
+
+function isSelectableStatus(info) {
+    return !NON_SELECTABLE_STATUSES.has(getStatusKey(info));
+}
+
+function isHighlightedLot(info, highlightType) {
+    if (!highlightType) return false;
+    const typeMatch = norm(info?.tipo || info?.Tipo) === norm(highlightType);
+    const isAvailable = getStatusKey(info) === 'disponible';
+    return typeMatch && isAvailable;
+}
+
+function isSelectableLot(info, highlightType) {
+    if (!isSelectableStatus(info)) return false;
+    if (!highlightType) return true;
+    return isHighlightedLot(info, highlightType);
+}
+
+function applyLotStroke(el) {
+    el.style.setProperty('stroke', LOT_STROKE_COLOR, 'important');
+}
+
 export default function InteractiveMapV2({
     layoutV2 = false,
     onSelectionChange = null,
+    onLotSelect = null,
     externalSelectionId = null,
-    highlightType = null // Novedad: 'A', 'AA', 'AAA' o null
+    highlightType = null, // Novedad: 'A', 'AA', 'AAA' o null
+    clearSelectionSignal = 0
 }) {
     const svgContainerRef = useRef(null);
     const cleanupRef = useRef(null);
@@ -254,11 +283,29 @@ export default function InteractiveMapV2({
         const active = activeRef.current;
         if (active) {
             const info = byId.get(keyify(active.id));
-            const color = pickColor(info);
+            const filterActive = Boolean(highlightType);
+            const isHighlighted = isHighlightedLot(info, highlightType);
+            const color = pickColor(info, isHighlighted);
             const paintables = getPaintables(active);
-            paintables.forEach(s => { s.style.fill = color; });
+            paintables.forEach(s => {
+                s.style.fill = color;
+                if (filterActive) {
+                    s.style.fillOpacity = isHighlighted ? '1' : '0.22';
+                    if (isHighlighted) {
+                        s.style.strokeWidth = '1px';
+                    } else {
+                        s.style.removeProperty('stroke-width');
+                    }
+                } else {
+                    s.style.fillOpacity = '0.7';
+                    s.style.removeProperty('stroke-width');
+                }
+                s.style.removeProperty('animation');
+                applyLotStroke(s);
+            });
             active.style.filter = 'none';
         }
+        activeRef.current = null;
         setActiveEl(null);
         setCurrentInfo(INITIAL_LOT_INFO);
         if (onSelectionChange) onSelectionChange(INITIAL_LOT_INFO);
@@ -268,7 +315,12 @@ export default function InteractiveMapV2({
             panel.classList.remove('active');
             panel.classList.add('initial-state');
         }
-    }, [onSelectionChange]);
+    }, [highlightType, onSelectionChange]);
+
+    useEffect(() => {
+        if (!clearSelectionSignal) return;
+        resetSelection(byId);
+    }, [clearSelectionSignal, byId, resetSelection]);
 
     // --- EXTERNAL SELECTION TRIGGER ---
     useEffect(() => {
@@ -280,6 +332,7 @@ export default function InteractiveMapV2({
         if (node) {
             const info = byId.get(k);
             if (!info) return;
+            if (!isSelectableLot(info, highlightType)) return;
 
             const prevActive = activeRef.current;
             if (prevActive) {
@@ -289,17 +342,20 @@ export default function InteractiveMapV2({
                 paintablesPrev.forEach(s => {
                     s.style.fill = prevColor;
                     s.style.fillOpacity = '0.7';
-                    s.style.strokeWidth = '0';
+                    s.style.removeProperty('stroke-width');
+                    s.style.removeProperty('animation');
+                    applyLotStroke(s);
                 });
                 prevActive.style.filter = 'none';
             }
 
+            activeRef.current = node;
             setActiveEl(node);
             const paintables = getPaintables(node);
             paintables.forEach(s => {
                 s.style.fill = SELECTED_COLOR;
                 s.style.fillOpacity = '1';
-                s.style.stroke = '#b9b7b7ff';
+                applyLotStroke(s);
                 s.style.strokeWidth = '2px';
                 s.style.animation = 'pulse-v2 2s infinite';
             });
@@ -316,14 +372,16 @@ export default function InteractiveMapV2({
             }
 
             updateStickyPanel(info, externalSelectionId, true);
+            if (onLotSelect) onLotSelect(info);
         }
-    }, [externalSelectionId, data, byId, updateStickyPanel]);
+    }, [externalSelectionId, data, byId, updateStickyPanel, highlightType, onLotSelect]);
 
     // --- HIGHLIGHT TYPE LOGIC ---
     useEffect(() => {
         if (!svgContainerRef.current || !data.length) return;
 
         const allIdElements = [...svgContainerRef.current.querySelectorAll('[id]')];
+        const filterActive = Boolean(highlightType);
 
         allIdElements.forEach(node => {
             const info = byId.get(keyify(node.id));
@@ -332,19 +390,26 @@ export default function InteractiveMapV2({
             const isTargetType = highlightType && norm(info.tipo) === norm(highlightType);
             const isAvailable = norm(info.estado).toLowerCase() === 'disponible';
             const paintables = getPaintables(node);
+            const isHighlighted = filterActive && isTargetType && isAvailable;
 
             // Si el lote es el seleccionado activo, mantenemos su color de selección
             if (activeRef.current === node) return;
 
-            const color = pickColor(info, isTargetType && isAvailable);
+            const color = pickColor(info, isHighlighted);
             paintables.forEach(s => {
                 s.style.fill = color;
-                s.style.fillOpacity = (isTargetType && isAvailable) ? '1' : '0.7';
-                if (isTargetType && isAvailable) {
-                    s.style.stroke = '#fff';
+                if (isHighlighted) {
+                    s.style.fillOpacity = '1';
+                    applyLotStroke(s);
                     s.style.strokeWidth = '1px';
+                } else if (filterActive) {
+                    s.style.fillOpacity = '0.22';
+                    s.style.removeProperty('stroke-width');
+                    applyLotStroke(s);
                 } else {
-                    s.style.strokeWidth = '0';
+                    s.style.fillOpacity = '0.7';
+                    applyLotStroke(s);
+                    s.style.removeProperty('stroke-width');
                 }
             });
         });
@@ -359,37 +424,69 @@ export default function InteractiveMapV2({
             if (!info) return false;
             return true;
         });
+        const lotShapeSet = new Set();
+        lotNodes.forEach(node => {
+            getPaintables(node).forEach(shape => lotShapeSet.add(shape));
+        });
+
+        [...svgRoot.querySelectorAll(SHAPE_SEL)].forEach(shape => {
+            if (lotShapeSet.has(shape)) {
+                shape.style.pointerEvents = 'auto';
+                applyLotStroke(shape);
+            } else {
+                shape.style.pointerEvents = 'none';
+            }
+        });
         const cleanupHandlers = [];
 
         lotNodes.forEach(node => {
             const lotIdRaw = node.id;
             const info = byId.get(keyify(lotIdRaw));
-            const color = pickColor(info);
+            const isSelectable = isSelectableLot(info, highlightType);
+            const isHighlighted = isHighlightedLot(info, highlightType);
+            const filterActive = Boolean(highlightType);
+            const color = pickColor(info, isHighlighted);
+            const isActive = activeRef.current === node;
             const paintables = getPaintables(node);
 
             paintables.forEach(s => {
-                s.style.fill = color;
-                s.style.fillOpacity = '0.7';
-                s.style.transition = 'fill 0.3s ease';
-                s.style.cursor = 'pointer';
+                if (!isActive) {
+                    s.style.fill = color;
+                    s.style.transition = 'fill 0.3s ease, fill-opacity 0.3s ease';
+                    if (filterActive) {
+                        s.style.fillOpacity = isHighlighted ? '1' : '0.22';
+                        if (isHighlighted) {
+                            s.style.strokeWidth = '1px';
+                        } else {
+                            s.style.removeProperty('stroke-width');
+                        }
+                    } else {
+                        s.style.fillOpacity = '0.7';
+                        s.style.removeProperty('stroke-width');
+                    }
+                    applyLotStroke(s);
+                }
+                s.style.cursor = isSelectable ? 'pointer' : 'not-allowed';
             });
             node.style.pointerEvents = 'auto';
 
             const onEnter = () => {
+                if (!isSelectable) return;
                 if (!activeRef.current) updateStickyPanel(info, lotIdRaw, false);
                 if (activeRef.current !== node) {
                     paintables.forEach(s => {
-                        s.style.fillOpacity = '0.9';
+                        s.style.fillOpacity = isHighlighted ? '1' : '0.9';
                         s.style.filter = 'brightness(1.1)';
                     });
                 }
             };
 
             const onLeave = () => {
+                if (!isSelectable) return;
                 if (!activeRef.current) updateStickyPanel(INITIAL_LOT_INFO, null, false);
                 if (activeRef.current !== node) {
                     paintables.forEach(s => {
-                        s.style.fillOpacity = '0.7';
+                        s.style.fillOpacity = isHighlighted ? '1' : '0.7';
                         s.style.filter = 'none';
                     });
                 }
@@ -398,6 +495,7 @@ export default function InteractiveMapV2({
             const onClick = (ev) => {
                 ev.preventDefault();
                 ev.stopPropagation();
+                if (!isSelectable) return;
 
                 if (activeRef.current === node) {
                     setShowPopup(true);
@@ -413,16 +511,19 @@ export default function InteractiveMapV2({
                     getPaintables(prevActive).forEach(s => {
                         s.style.fill = prevColor;
                         s.style.fillOpacity = '0.7';
-                        s.style.strokeWidth = '0';
+                        s.style.removeProperty('stroke-width');
+                        s.style.removeProperty('animation');
+                        applyLotStroke(s);
                     });
                     prevActive.style.filter = 'none';
                 }
 
+                activeRef.current = node;
                 setActiveEl(node);
                 paintables.forEach(s => {
                     s.style.fill = SELECTED_COLOR;
                     s.style.fillOpacity = '1';
-                    s.style.stroke = '#b9b7b7ff';
+                    applyLotStroke(s);
                     s.style.strokeWidth = '2px';
                     s.style.animation = 'pulse-v2 2s infinite';
                 });
@@ -442,6 +543,7 @@ export default function InteractiveMapV2({
                 }
 
                 updateStickyPanel(info, lotIdRaw, true);
+                if (onLotSelect) onLotSelect(info);
             };
 
             node.addEventListener('mouseenter', onEnter);
@@ -473,7 +575,7 @@ export default function InteractiveMapV2({
         cleanupHandlers.push(() => document.removeEventListener('click', onDocClick));
 
         return () => cleanupHandlers.forEach(fn => fn());
-    }, [byId, updateStickyPanel, resetSelection]);
+    }, [byId, updateStickyPanel, resetSelection, highlightType, onLotSelect]);
 
     useEffect(() => {
         if (!data.length || !svgContent || !svgContainerRef.current) return;

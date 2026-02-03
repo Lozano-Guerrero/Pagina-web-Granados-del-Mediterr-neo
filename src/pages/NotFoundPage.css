@@ -1,7 +1,6 @@
 /* src/pages/NotFoundPage.css */
 
-/* Variables de Branding (si no están ya en un archivo global) */
-/* Reutilizamos las de LocationAndMap para consistencia */
+/* Variables de branding (si no están ya en un archivo global) */
 :root {
     --color-dark-bg: #282c34;
     --color-light-bg: #f7f7f8;

@@ -23,16 +23,25 @@ const PricingPagV2 = () => {
         loading: true
     });
     const [triggeredLoteId, setTriggeredLoteId] = useState(null);
+    const [mapResetKey, setMapResetKey] = useState(0);
     const [activeModalType, setActiveModalType] = useState(null); // 'A', 'AA', 'AAA' or null
     const [tutorialStep, setTutorialStep] = useState(0); // 0 = inactive, 1=A, 2=AA, 3=AAA, 4=Fin
     const [highlightType, setHighlightType] = useState(null); // 'A', 'AA', 'AAA' o null
 
 
+    const norm = (val) => val?.toString().trim().toUpperCase() || '';
+
     const handleMapSelection = useCallback((info) => {
         setSelectedLot(info);
     }, []);
 
-    const norm = (val) => val?.toString().trim().toUpperCase() || '';
+    const handleLotSelect = useCallback((info) => {
+        if (!info || !highlightType) return;
+        const type = norm(info.tipo || info.Tipo);
+        if (type === norm(highlightType)) {
+            setHighlightType(null);
+        }
+    }, [highlightType]);
 
     const formatCurrency = (value) => {
         if (!value) return 'Consultar';
@@ -147,6 +156,7 @@ const PricingPagV2 = () => {
 
     const resetSelection = () => {
         setSelectedLot(INITIAL_LOT_INFO);
+        setMapResetKey(prev => prev + 1);
     };
 
     const { titulo, superficie_m2, superficie, estado, tipo, costo_m2, costo, nota } = selectedLot;
@@ -269,12 +279,6 @@ const PricingPagV2 = () => {
 
             {/* 4. MAIN MAP SECTION */}
             <section id="v2-interactive-map" className="v2-map-section reveal-fade">
-                {/* 
-                    Note: To replicate the exact layout of the image (Legend on Left, Map on Right), 
-                    we might need a modified version of InteractiveMap.
-                    For now, I'll structure the Pricing Page to handle the Layout, 
-                    and InteractiveMapV2 might need a 'headless' mode.
-                */}
                 <div className="v2-map-layout">
                     <aside className="v2-map-sidebar reveal-left">
                         <div className={`v2-sidebar-card ${isInitial ? 'v2-initial' : 'v2-active'}`}>
@@ -359,46 +363,66 @@ const PricingPagV2 = () => {
                             </div>
 
                             <div className="v2-sidebar-mini-cards">
-                                {['A', 'AA', 'AAA'].map(type => (
-                                    <div
-                                        key={type}
-                                        className={`v2-neumo-card type-${type.toLowerCase()} ${highlightType === type ? 'is-active' : ''}`}
-                                    >
-                                        <div className="v2-neumo-spine"></div>
-                                        <div className="v2-neumo-content">
-                                            {/* Inner 'Inset/Framed' Top Box */}
-                                            <div className="v2-neumo-box">
-                                                <div className="v2-neumo-title">TIPO {type}</div>
+                                {['A', 'AA', 'AAA'].map(type => {
+                                    const isTypeA = type === 'A';
 
-                                                <div className="v2-neumo-main-info">
-                                                    <span className="v2-neumo-text">Quedan </span>
-                                                    <span className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>
-                                                        {availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}
-                                                    </span>
-                                                    <span className="v2-neumo-text"> a </span>
-                                                    <span className="v2-neumo-price">
-                                                        ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
-                                                    </span>
+                                    return (
+                                        <div
+                                            key={type}
+                                            className={`v2-neumo-card type-${type.toLowerCase()} ${highlightType === type ? 'is-active' : ''}`}
+                                        >
+                                            <div className="v2-neumo-spine"></div>
+                                            <div className="v2-neumo-content">
+                                                <div className="v2-neumo-box">
+                                                    <div className="v2-neumo-title">TIPO {type}</div>
+
+                                                    {isTypeA ? (
+                                                        <div className="v2-neumo-main-info">
+                                                            <span className="v2-neumo-text v2-neumo-unavailable">No disponibles</span>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="v2-neumo-main-info">
+                                                            <span className="v2-neumo-text">Quedan </span>
+                                                            <span className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>
+                                                                {availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}
+                                                            </span>
+                                                            <span className="v2-neumo-text"> a </span>
+                                                            <span className="v2-neumo-price">
+                                                                ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
+                                                            </span>
+                                                        </div>
+                                                    )}
+
+                                                    <div className="v2-neumo-subtitle">
+                                                        {isTypeA ? (
+                                                            '¡Gracias por su confianza!'
+                                                        ) : (
+                                                            <>
+                                                                ¡Separa tu lote <span className="highlight">HOY</span> y asegura tu precio!
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
 
-                                                <div className="v2-neumo-subtitle">
-                                                    ¡Separa tu lote <span className="highlight">HOY</span> y asegura tu precio!
-                                                </div>
+                                                {isTypeA ? (
+                                                    <div className="v2-neumo-btn v2-neumo-btn--soldout">Agotados</div>
+                                                ) : (
+                                                    <button
+                                                        className="v2-neumo-btn"
+                                                        onClick={() => {
+                                                            const nextType = highlightType === type ? null : type;
+                                                            if (nextType) resetSelection();
+                                                            setHighlightType(nextType);
+                                                            scrollToSection('v2-interactive-map');
+                                                        }}
+                                                    >
+                                                        {highlightType === type ? 'QUITAR FILTRO' : 'VER LOTES DISPONIBLES'}
+                                                    </button>
+                                                )}
                                             </div>
-
-                                            {/* Metallic/Raised Button */}
-                                            <button
-                                                className="v2-neumo-btn"
-                                                onClick={() => {
-                                                    setHighlightType(highlightType === type ? null : type);
-                                                    scrollToSection('v2-interactive-map');
-                                                }}
-                                            >
-                                                {highlightType === type ? 'QUITAR FILTRO' : 'VER LOTES DISPONIBLES'}
-                                            </button>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
 
                             <div className="v2-sidebar-financing highlight-box">
@@ -425,8 +449,10 @@ const PricingPagV2 = () => {
                         <InteractiveMapV2
                             layoutV2={true}
                             onSelectionChange={handleMapSelection}
+                            onLotSelect={handleLotSelect}
                             externalSelectionId={triggeredLoteId}
                             highlightType={highlightType}
+                            clearSelectionSignal={mapResetKey}
                         />
                     </main>
                 </div>
@@ -531,24 +557,37 @@ const PricingPagV2 = () => {
                             </div>
                         ) : (() => {
                             const type = activeModalType;
+                            const isTypeA = type === 'A';
                             return (
                                 <div className="v2-modal-content">
                                     <div className="v2-neumo-box" style={{ width: '100%', marginBottom: '20px' }}>
                                         <div className="v2-neumo-title" style={{ textAlign: 'center' }}>TIPO {type}</div>
 
-                                        <div className="v2-neumo-main-info" style={{ justifyContent: 'center', margin: '15px 0' }}>
-                                            <span className="v2-neumo-text">Quedan </span>
-                                            <span className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>
-                                                {availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}
-                                            </span>
-                                            <span className="v2-neumo-text"> a </span>
-                                            <span className="v2-neumo-price">
-                                                ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
-                                            </span>
-                                        </div>
+                                        {isTypeA ? (
+                                            <div className="v2-neumo-main-info" style={{ justifyContent: 'center', margin: '15px 0' }}>
+                                                <span className="v2-neumo-text v2-neumo-unavailable">No disponibles</span>
+                                            </div>
+                                        ) : (
+                                            <div className="v2-neumo-main-info" style={{ justifyContent: 'center', margin: '15px 0' }}>
+                                                <span className="v2-neumo-text">Quedan </span>
+                                                <span className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>
+                                                    {availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}
+                                                </span>
+                                                <span className="v2-neumo-text"> a </span>
+                                                <span className="v2-neumo-price">
+                                                    ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
+                                                </span>
+                                            </div>
+                                        )}
 
                                         <div className="v2-neumo-subtitle" style={{ textAlign: 'center' }}>
-                                            ¡Separa tu lote <span className="highlight">HOY</span> y asegura tu precio!
+                                            {isTypeA ? (
+                                                '¡Gracias por su confianza!'
+                                            ) : (
+                                                <>
+                                                    ¡Separa tu lote <span className="highlight">HOY</span> y asegura tu precio!
+                                                </>
+                                            )}
                                         </div>
                                     </div>
 
@@ -573,17 +612,23 @@ const PricingPagV2 = () => {
                                         </div>
                                     </div>
 
-                                    <button
-                                        className="v2-neumo-btn"
-                                        style={{ width: '100%', padding: '15px 0' }}
-                                        onClick={() => {
-                                            setHighlightType(type);
-                                            setActiveModalType(null);
-                                            scrollToSection('v2-interactive-map');
-                                        }}
-                                    >
-                                        VER LOTES DISPONIBLES
-                                    </button>
+                                    {isTypeA ? (
+                                        <div className="v2-neumo-btn v2-neumo-btn--soldout" style={{ width: '100%', padding: '15px 0' }}>
+                                            Agotados
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="v2-neumo-btn"
+                                            style={{ width: '100%', padding: '15px 0' }}
+                                            onClick={() => {
+                                                setHighlightType(type);
+                                                setActiveModalType(null);
+                                                scrollToSection('v2-interactive-map');
+                                            }}
+                                        >
+                                            VER LOTES DISPONIBLES
+                                        </button>
+                                    )}
                                 </div>
                             );
                         })()}

@@ -1,4 +1,3 @@
-// src/components/ContactHomePage.jsx
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -9,19 +8,19 @@ import {
     faMapMarkerAlt, 
     faDirections 
 } from '@fortawesome/free-solid-svg-icons';
-import './ContactHomePage.css'; // Asegúrate de crear este archivo CSS
+import './ContactHomePage.css';
 
-// 🛑 Sustituir por la ruta real de tu imagen de la torre
+// Ruta de imagen para la torre
 const TOWER_IMAGE_URL = "/img/tower.png"; 
 
 const OFFICE_ADDRESS = "Edificio Connexity, Av. Alfonso Reyes Local 11, Monterrey Sur, 64920 Monterrey, N.L.";
-// Se corrige la construcción del enlace de Google Maps. Se debe usar encodeURIComponent
+// Enlace de Google Maps usando encodeURIComponent
 const GOOGLE_MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
 
 
 const ContactHomePage = ({ lotesData }) => {
     
-    // --- LÓGICA DEL FORMULARIO (Mantenida de ContactForm) ---
+    // Lógica del formulario
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -44,10 +43,10 @@ const ContactHomePage = ({ lotesData }) => {
         setIsSubmitting(true);
         setStatus('idle');
 
-        // 🛑 URL de tu API de Express
+        // URL de tu API de Express
         const ENDPOINT_URL = 'https://granadosdelmediterraneo.com/api/email/send-form';
 
-        // 🛑 Mapear los nombres de campo
+        // Mapear los nombres de campo
         const payload = {
             nombre: formData.name,      // Frontend 'name' -> Backend 'nombre'
             email: formData.email,      // Email coincide
@@ -96,16 +95,9 @@ const ContactHomePage = ({ lotesData }) => {
         </>
     );
 
-    // --- RENDERIZADO COMBINADO ---
-
     return (
-        // Contenedor principal
         <section className="SHP-contact-section">
-            
-            {/* Contenedor que aplica el layout de 50/50 en escritorio */}
             <div className="SHP-layout-container">
-                
-                {/* Columna 1: Formulario de Contacto */}
                 <div className="SHP-form-column">
                     <h2 className="SHP-contact-title">
                         Contáctanos e Inicia Tu Legado
@@ -113,8 +105,6 @@ const ContactHomePage = ({ lotesData }) => {
                     <p className="SHP-contact-subtitle">
                         Déjanos tus datos y un asesor se comunicará contigo de inmediato para brindarte información detallada sobre la disponibilidad y planes de financiamiento.
                     </p>
-                    
-                    {/* Mensajes de Estado */}
                     {status === 'success' && (
                         <div className="SHP-form-alert SHP-success">
                             ¡Mensaje enviado con éxito! Nos comunicaremos contigo a la brevedad.
@@ -127,8 +117,6 @@ const ContactHomePage = ({ lotesData }) => {
                     )}
 
                     <form className="SHP-contact-form" onSubmit={handleSubmit}>
-                        
-                        {/* Grupo 1: Nombre, Email, Teléfono */}
                         <div className="SHP-form-group-triple">
                             <div className="SHP-form-field">
                                 <label htmlFor="name">Nombre Completo *</label>
@@ -178,7 +166,6 @@ const ContactHomePage = ({ lotesData }) => {
                             </div>
                         </div>
 
-                        {/* Campo Lote de Interés */}
                         {lotesOptions.length > 0 && (
                             <div className="SHP-form-field">
                                 <label htmlFor="loteInteres">Lote de Interés (Opcional)</label>
@@ -196,8 +183,6 @@ const ContactHomePage = ({ lotesData }) => {
                             </div>
                         )}
 
-
-                        {/* Campo de Mensaje */}
                         <div className="SHP-form-field">
                             <label htmlFor="message">Tu Mensaje</label>
                             <textarea
@@ -215,12 +200,8 @@ const ContactHomePage = ({ lotesData }) => {
                         </button>
                     </form>
                 </div>
-                
-                {/* Columna 2: Invitación a la Oficina */}
                 <div className="SHP-office-column">
                     <div className="SHP-office-content">
-                        
-                        {/* Contenedor de Texto */}
                         <div className="SHP-text-container">
                             <h3>
                                 <FontAwesomeIcon icon={faMapMarkerAlt} className="SHP-icon-marker" />
@@ -243,8 +224,6 @@ const ContactHomePage = ({ lotesData }) => {
                                 Cómo Llegar
                             </a>
                         </div>
-                        
-                        {/* Contenedor de Imagen */}
                         <div className="SHP-image-container">
                             <img 
                                 src={TOWER_IMAGE_URL} 

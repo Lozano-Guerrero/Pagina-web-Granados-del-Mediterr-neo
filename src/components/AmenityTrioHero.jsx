@@ -1,9 +1,6 @@
-// src/components/AmenityTrioHero.jsx (Versión Final)
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './AmenityTrioHero.css';
-// import InteractiveMasterPlanMap from './InteractiveMasterPlanMap'; // No se usa aquí
 
 // Datos de las Amenidades para la vista Hero
 const AMENITIES_DATA = [
@@ -29,16 +26,14 @@ const AMENITIES_DATA = [
 
 const AmenityTrioHero = () => {
     return (
-        // 🛑 CORRECCIÓN: amenity-trio-container es ahora el elemento de nivel superior
         <div className="amenity-trio-container">
-            <h2 className="sr-only">Explora nuestras Amenidades Principales</h2> {/* Título para accesibilidad */}
+            <h2 className="sr-only">Explora nuestras Amenidades Principales</h2>
 
             {AMENITIES_DATA.map((amenity) => (
                 <Link 
                     key={amenity.title}
                     to={amenity.path}
                     className="amenity-trio-card"
-                    // Nota: Usar background-image con rutas absolutas es bueno, pero asegúrate que las rutas sean correctas
                     style={{ backgroundImage: `url(${amenity.image})` }}
                 >
                     <div className="trio-overlay">
@@ -48,7 +43,6 @@ const AmenityTrioHero = () => {
                     </div>
                 </Link>
             ))}
-            {/* Se elimina el InteractiveMasterPlanMap si no va aquí, como el original */}
         </div>
     );
 };

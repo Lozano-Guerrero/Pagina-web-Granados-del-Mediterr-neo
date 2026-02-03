@@ -15,9 +15,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 // Importaciones de Componentes
 import FeatureCardV2 from "../../components/FeatureCardV2";
-import InvestmentOverview from "../../components/InvestmentOverview";
 import AmenityCard from "../../components/AmenityCard";
-import ArchitecturalVision from "../../components/ArchitecturalVision";
 import InteractiveMasterPlanMapV2 from '../../components/InteractiveMasterPlanMapV2';
 import BrochureDownloadButton from '../../components/BrochureDownloadButton';
 import PromoVirtualV2 from '../../components/PromoVirtualV2';

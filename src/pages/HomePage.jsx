@@ -1,60 +1,41 @@
 // src/pages/HomePage.jsx
 import React from 'react';
-// Importamos los componentes de sección que definimos
 import HeroSlider from '../components/HeroSlider';
 import ProjectSummaryV2 from '../components/ProjectSummaryV2';
-import InteractiveMap from '../components/InteractiveMap';
-import PhotoGallery from '../components/PhotoGallery';
-import ContactForm from '../components/ContactForm';
 import LocationMap from '../components/LocationMap';
 import LocationSectionV2 from '../components/LocationSectionV2';
 import AmenityTrioHero from '../components/AmenityTrioHero';
-import LocationAndMap from '../components/LocationAndMap';
 import InteractiveMasterPlanMapV2 from '../components/InteractiveMasterPlanMapV2';
-// Importamos el archivo CSS de la página (lo crearemos después)
 import './HomePage.css';
-import OfficeInvitationSection from '../components/OfficeInvitationSection';
 import ContactHomePage from '../components/section/ContactHomePage';
 import FinancingHighlights from '../components/FinancingHighlights';
 
 const HomePage = () => {
   return (
     <div className="home-page-container">
-      {/* 1. SECCIÓN DE PORTADA Y SLIDER */}
       <section id="inicio">
-        {/* Componente placeholder: El slider de fotos del proyecto */}
         <HeroSlider />
       </section>
       <section id="LocationAndMap">
-        <LocationSectionV2></LocationSectionV2>
-        {/* 2. Sección de Amenidades Destacadas (REEMPLAZADA) */}
+        <LocationSectionV2 />
         <AmenityTrioHero />
       </section>
 
       <ProjectSummaryV2 />
 
-
-      {/* 3. SECCIÓN DE MAPA INTERACTIVO DE TERRENOS */}
-
       <InteractiveMasterPlanMapV2 />
-      {/* 4. SECCIÓN DE GALERÍA DE FOTOS */}
       <section id="galeria">
-        {/* Componente placeholder: Cuadrícula de fotos 
-        <PhotoGallery />*/}
+        {/* Sección reservada para galería */}
       </section>
       <section id="metodosdepago">
         <FinancingHighlights />
       </section>
-      {/* Componente placeholder: Mapa geográfico (Google Maps) */}
       <section className="ubicacion-section">
-        <LocationMap /></section>
-      {/* 5. SECCIÓN DE CONTACTO RÁPIDO Y UBICACIÓN */}
+        <LocationMap />
+      </section>
       <section id="contacto">
-        {/* Componente placeholder: Formulario de contacto */}
         <ContactHomePage />
       </section>
-
-      {/* Aquí podremos añadir más secciones a medida que el proyecto crezca */}
     </div>
   );
 };

@@ -32,7 +32,7 @@
     width: 100%;
 }
 
-/* 🛑 AJUSTE DE ANCHURA Y CENTRADO DEL CONTENEDOR PRINCIPAL 🛑 */
+/* Ajuste de anchura y centrado del contenedor principal */
 .contact-cards-container {
     /* Eliminamos max-width de 900px */
     max-width: 1400px; /* Nuevo máximo para pantallas muy grandes */
