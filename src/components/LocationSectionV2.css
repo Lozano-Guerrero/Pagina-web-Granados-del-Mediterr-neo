@@ -35,6 +35,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
+    box-sizing: border-box; /* evita overflow horizontal en mobile por padding + width */
 }
 
 .location-header-v2 {
@@ -194,10 +195,14 @@
     }
 
     .location-facts-grid-v2 {
+        grid-template-columns: 1fr;
+        justify-items: center;
         gap: 15px;
     }
 
     .location-fact-item-v2 {
+        width: 100%;
+        max-width: 26rem;
         padding: 20px;
     }
 

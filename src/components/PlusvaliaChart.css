@@ -1,0 +1,91 @@
+.plusvalia-card {
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+    padding: 22px 22px 18px;
+    position: relative;
+}
+
+.plusvalia-head {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 2px 4px 18px;
+}
+
+.plusvalia-hero-message {
+    /* Mensaje principal (dominante) */
+    font-size: clamp(1.25rem, 1.9vw, 2.05rem);
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    color: #8e3a3a;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.plusvalia-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.plusvalia-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: rgba(15, 23, 42, 0.78);
+}
+
+.plusvalia-range {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: rgba(15, 23, 42, 0.68);
+    text-align: right;
+}
+
+.plusvalia-svg {
+    width: 100%;
+    /* Escala general: que “respire” y no se vea mini en laptop/desktop */
+    height: clamp(480px, 36vw, 640px);
+    display: block;
+}
+
+.plusvalia-skeleton {
+    height: clamp(480px, 36vw, 640px);
+    border-radius: 18px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.07) 50%, rgba(0, 0, 0, 0.04) 100%);
+    background-size: 220% 100%;
+    animation: plusvaliaShimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes plusvaliaShimmer {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
+}
+
+@media (max-width: 768px) {
+    .plusvalia-card {
+        padding: 14px 14px 10px;
+        border-radius: 22px;
+    }
+
+    .plusvalia-hero-message {
+        font-size: 1.05rem;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .plusvalia-svg,
+    .plusvalia-skeleton {
+        height: 380px;
+    }
+}

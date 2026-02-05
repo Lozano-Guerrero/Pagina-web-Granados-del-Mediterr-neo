@@ -15,6 +15,19 @@
     box-sizing: border-box;
 }
 
+.v2-brokers-banner {
+    width: min(1400px, 92vw);
+    margin: 8px auto 0;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #f7f5f2;
+    color: #111827;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    text-align: center;
+}
+
 /* --- TUTORIAL GUIDED TOUR --- */
 .v2-tutorial-overlay {
     position: absolute;
@@ -168,6 +181,43 @@
 .v2-mobile-glass-bar {
     display: none;
     /* Desktop hidden */
+}
+
+/* Pills: acentos verdes por tipología (se reutiliza en móvil + iPad horizontal) */
+.v2-glass-pill.pill-a {
+    background: rgba(46, 125, 50, 0.12);
+}
+
+.v2-glass-pill.pill-aa {
+    background: rgba(27, 94, 32, 0.12);
+}
+
+.v2-glass-pill.pill-aaa {
+    background: rgba(0, 77, 64, 0.12);
+}
+
+.v2-glass-pill.pill-a:active {
+    background: rgba(46, 125, 50, 0.2);
+}
+
+.v2-glass-pill.pill-aa:active {
+    background: rgba(27, 94, 32, 0.2);
+}
+
+.v2-glass-pill.pill-aaa:active {
+    background: rgba(0, 77, 64, 0.2);
+}
+
+.pill-a .v2-pill-type {
+    color: #2e7d32;
+}
+
+.pill-aa .v2-pill-type {
+    color: #1b5e20;
+}
+
+.pill-aaa .v2-pill-type {
+    color: #004d40;
 }
 
 .v2-modal-overlay {
@@ -338,7 +388,8 @@
 /* 1. TOP NOTE */
 .v2-top-note {
     position: sticky;
-    top: 70px;
+    /* Pegado justo debajo del navbar (altura real, incluso cuando cambia por "scrolled"). */
+    top: var(--navbar-v2-height, 72px);
     left: 0;
     width: 100%;
     background-color: #1a1a1a;
@@ -404,22 +455,25 @@
 /* 2. HERO SECTION */
 .v2-hero {
     padding: 60px 0 40px 0;
-    width: 75vw;
+    /* Más ancho útil en laptop/desktop (sin verse “pegado” ni demasiado angosto). */
+    width: min(1400px, 92vw);
     margin: 0 auto;
 }
 
 .v2-hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
+    /* Damos un poco más de peso a la gráfica para evitar que se vea “mini”. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(32px, 5vw, 90px);
     align-items: center;
     width: 100%;
 }
 
-.v2-hero-image .reveal-right {
-    background-color: #1f6f43;
-    text-align: center;
-    align-items: center;
+.v2-hero-image {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
 }
 
 .v2-hero-text h1 {
@@ -574,6 +628,22 @@
     /* Centrado */
 }
 
+/* Banner identificador (solo brokers/cotizador) */
+.v2-cotizador-brokers-title {
+    width: 100%;
+    margin: 4px auto 18px;
+    padding: 16px 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(234, 179, 8, 0.22);
+    background: linear-gradient(90deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.95) 100%);
+    color: #92400e;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
 .v2-map-layout {
     background-color: #ffffff;
     display: grid;
@@ -589,6 +659,10 @@
     position: sticky;
     top: 100px;
     height: fit-content;
+}
+
+.v2-map-legend-inline {
+    display: none;
 }
 
 /*contenedor de las cards*/
@@ -671,12 +745,22 @@
 .v2-btn-black {
     background: #1a1a1a;
     color: #fff;
+    border: none;
     padding: 18px;
     text-align: center;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: 0.15rem;
     text-transform: uppercase;
+}
+
+.v2-btn-broker {
+    background: #fbbf24;
+    color: #111827;
+}
+
+.v2-btn-broker:not(.disabled):hover {
+    background: #f59e0b;
 }
 
 .v2-btn-outline {
@@ -704,7 +788,8 @@
 }
 
 .v2-sidebar-legend {
-    margin-top: 35px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .v2-legend-title {
@@ -1008,6 +1093,191 @@
     }
 }
 
+/* iPad/tablet táctil en horizontal: mantener mapa + info lado a lado (no apilado) */
+@media (min-width: 992px) and (max-width: 1400px) and (hover: none) and (pointer: coarse) and (orientation: landscape) {
+    .v2-map-layout {
+        grid-template-columns: clamp(420px, 32vw, 520px) 1fr;
+        gap: clamp(18px, 2.6vw, 34px);
+    }
+
+    /* En iPad horizontal: leyenda arriba del mapa (no dentro del bloque gris) */
+    .v2-sidebar-legend {
+        display: none;
+    }
+
+    /* En iPad horizontal: los filtros de tipo se vuelven los 3 botones flotantes (como móvil) */
+    .v2-sidebar-mini-cards {
+        display: none;
+    }
+
+    .v2-map-legend-inline {
+        display: grid;
+        gap: 10px;
+        padding: clamp(12px, 1.6vw, 16px) clamp(14px, 1.9vw, 18px);
+        margin: 0 0 clamp(12px, 1.8vw, 16px);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Mostrar la barra flotante en iPad horizontal (solo 3 botones; sin "PLANES") */
+    .v2-mobile-glass-bar {
+        display: block;
+        position: fixed;
+        bottom: clamp(14px, 2.2vw, 24px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(680px, 92vw);
+        z-index: 1000;
+    }
+
+    .v2-glass-bar-title {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #3c3c3c;
+        text-align: center;
+        margin-bottom: clamp(8px, 1.4vw, 12px);
+        padding: 0 10px;
+    }
+
+    /* Copia del estilo móvil, pero más grande */
+    .v2-glass-inner {
+        position: relative;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 48px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 14px 46px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+    }
+
+    .v2-glass-items {
+        display: flex;
+        gap: 10px;
+    }
+
+    .v2-glass-pill {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.045);
+        border: none;
+        padding: 12px 18px;
+        border-radius: 999px;
+        transition: all 0.2s ease;
+    }
+
+    .v2-glass-pill:active {
+        transform: scale(0.96);
+        background: rgba(0, 0, 0, 0.08);
+    }
+
+    .v2-pill-type {
+        font-size: 0.82rem;
+        font-weight: 900;
+        color: #666;
+    }
+
+    .v2-pill-count {
+        font-size: 0.92rem;
+        font-weight: 800;
+        color: #1a1a1a;
+    }
+
+    .v2-glass-divider,
+    .v2-glass-fin-btn {
+        display: none;
+    }
+}
+
+/* Celular táctil en horizontal: usar el mismo layout que iPad horizontal (leyenda arriba del mapa + pills flotantes) */
+@media (max-width: 991px) and (hover: none) and (pointer: coarse) and (orientation: landscape) {
+    .v2-map-layout {
+        grid-template-columns: clamp(320px, 44vw, 420px) 1fr;
+        gap: clamp(14px, 2.4vw, 22px);
+    }
+
+    .v2-sidebar-legend {
+        display: none;
+    }
+
+    .v2-sidebar-mini-cards {
+        display: none;
+    }
+
+    .v2-map-legend-inline {
+        display: grid;
+        gap: 8px;
+        padding: 12px 14px;
+        margin: 0 0 12px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
+    }
+
+    .v2-mobile-glass-bar {
+        display: block;
+        position: fixed;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(620px, 94vw);
+        z-index: 1000;
+    }
+
+    .v2-glass-bar-title {
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #3c3c3c;
+        text-align: center;
+        margin-bottom: 10px;
+        padding: 0 10px;
+    }
+
+    .v2-glass-inner {
+        position: relative;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 48px;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 14px 46px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+    }
+
+    .v2-glass-items {
+        display: flex;
+        gap: 10px;
+    }
+
+    .v2-glass-pill {
+        gap: 10px;
+        padding: 12px 18px;
+    }
+
+    .v2-glass-divider,
+    .v2-glass-fin-btn {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     .v2-replica-header-box {
         flex-direction: column;
@@ -1242,12 +1512,14 @@
 }
 
 .v2-sidebar-financing.highlight-box {
-    margin-top: 40px;
+    width: 100%;
+    max-width: 360px;
+    margin: 12px auto 16px;
     background: #1a1a1a;
     color: #fff;
-    padding: 35px 30px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    padding: 14px 16px;
+    border-radius: 18px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.14);
 }
 
 .v2-fin-title {
@@ -1255,7 +1527,7 @@
     /* Muted terracotta */
     font-size: 0.8rem;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 14px;
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -1264,7 +1536,7 @@
 .v2-fin-grid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 }
 
 .v2-fin-item {
@@ -1419,7 +1691,8 @@
 @media (max-width: 768px) {
     .v2-top-note {
         padding: 10px 15px;
-        top: 60px;
+        /* En móvil también debe quedar pegado al navbar real. */
+        top: var(--navbar-v2-height, 60px);
         justify-content: space-between;
     }
 
@@ -1503,14 +1776,22 @@
         padding: 0;
     }
 
+    /* En móvil: la gráfica debe “respirar” antes del identificador de brokers */
+    .v2-map-section .v2-cotizador-brokers-title {
+        margin: clamp(18px, 4.5vw, 26px) auto clamp(10px, 2.6vw, 14px);
+        border-radius: 18px;
+        padding: clamp(12px, 3.6vw, 16px) clamp(14px, 4.2vw, 18px);
+    }
+
     .v2-map-layout {
         display: flex;
         flex-direction: column;
+        gap: clamp(10px, 3vw, 16px);
     }
 
     .v2-map-sidebar {
         width: 100%;
-        padding: 15px;
+        padding: clamp(10px, 3.2vw, 14px);
         position: relative;
         top: 0;
         order: -1;
@@ -1536,9 +1817,28 @@
     }
 
     .v2-sidebar-legend {
-        padding: 20px 15px;
+        /* Compactar: Cotizador -> disponibilidad -> mapa (sin espacios muertos) */
+        padding: clamp(12px, 3.6vw, 16px) clamp(12px, 4vw, 16px);
         background: transparent;
         /* Cleaner */
+    }
+
+    .v2-sidebar-legend {
+        margin-top: clamp(6px, 2vw, 10px);
+        margin-bottom: clamp(8px, 2.4vw, 12px);
+    }
+
+    .v2-legend-title {
+        margin-bottom: clamp(8px, 2.2vw, 10px);
+    }
+
+    .v2-legend-grid {
+        gap: clamp(6px, 2.2vw, 10px);
+    }
+
+    .v2-dot {
+        width: clamp(14px, 4.2vw, 18px);
+        height: clamp(14px, 4.2vw, 18px);
     }
 
     /* GLASS BAR MOBILE */

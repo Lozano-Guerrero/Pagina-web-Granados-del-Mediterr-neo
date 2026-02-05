@@ -1,5 +1,5 @@
 // src/layouts/NavbarV2.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './NavbarV2.css';
 
@@ -14,6 +14,7 @@ const NavbarV2 = () => {
     const [scrolled, setScrolled] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const location = useLocation();
+    const headerRef = useRef(null);
 
     // Efecto de scroll para el Navbar
     useEffect(() => {
@@ -32,6 +33,40 @@ const NavbarV2 = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Exporta la altura real del navbar como CSS variable para que otros sticky elements
+    // (ej. la nota superior en /precios) se peguen exactamente debajo del navbar,
+    // incluso cuando cambia de tamaño por el estado "scrolled".
+    useEffect(() => {
+        const el = headerRef.current;
+        if (!el || typeof window === 'undefined') return undefined;
+
+        const root = document.documentElement;
+        const setVar = () => {
+            try {
+                const h = Math.ceil(el.getBoundingClientRect().height || 0);
+                root.style.setProperty('--navbar-v2-height', `${h}px`);
+            } catch {
+                // ignore
+            }
+        };
+
+        setVar();
+
+        let ro = null;
+        if (typeof ResizeObserver !== 'undefined') {
+            ro = new ResizeObserver(() => setVar());
+            ro.observe(el);
+        }
+
+        return () => {
+            try {
+                ro?.disconnect?.();
+            } catch {
+                // ignore
+            }
+        };
+    }, []);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
         // Bloquear scroll si el menú está abierto
@@ -44,10 +79,14 @@ const NavbarV2 = () => {
     };
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
+    const isBrokersActive = location.pathname.startsWith('/brokers');
     const isHomePage = location.pathname === '/';
 
     return (
-        <header className={`navbar-v2 ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''} ${isHomePage ? 'on-home' : 'on-other'}`}>
+        <header
+            ref={headerRef}
+            className={`navbar-v2 ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''} ${isHomePage ? 'on-home' : 'on-other'}`}
+        >
             {/* Barra de Progreso */}
             <div
                 className="scroll-progress-bar-v2"
@@ -69,6 +108,7 @@ const NavbarV2 = () => {
                         <li><Link to="/proyecto" className={isActive('/proyecto')}>Proyecto y Amenidades</Link></li>
                         <li><Link to="/precios" className={isActive('/precios')}>Precios y Disponibilidad</Link></li>
                         <li><Link to="/galeria" className={isActive('/galeria')}>Galería</Link></li>
+                        <li><Link to="/brokers" className={isBrokersActive ? 'active' : ''}>Acceso Brokers</Link></li>
                         <li><Link to="/Contacto" className={isActive('/Contacto')}>Contacto</Link></li>
                     </ul>
                 </nav>
@@ -101,6 +141,7 @@ const NavbarV2 = () => {
                         <li><Link to="/proyecto" onClick={closeMenu} className={isActive('/proyecto')}>Proyecto y Amenidades</Link></li>
                         <li><Link to="/precios" onClick={closeMenu} className={isActive('/precios')}>Disponibilidad y Precios</Link></li>
                         <li><Link to="/galeria" onClick={closeMenu} className={isActive('/galeria')}>Galería de Fotos</Link></li>
+                        <li><Link to="/brokers" onClick={closeMenu} className={isBrokersActive ? 'active' : ''}>Acceso Brokers</Link></li>
                         <li><Link to="/Contacto" onClick={closeMenu} className={isActive('/Contacto')}>Contacto</Link></li>
                     </ul>
                     <div className="mobile-footer-v2">

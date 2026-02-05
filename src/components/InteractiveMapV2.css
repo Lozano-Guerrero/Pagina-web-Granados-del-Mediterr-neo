@@ -267,10 +267,21 @@
     color: var(--neutral-white);
 }
 
+.cotizar-btn-v2.cotizar-btn-broker-v2 {
+    background-color: #fbbf24;
+    color: #111827;
+}
+
 .cotizar-btn-v2:hover:not(.disabled-btn-v2) {
     background-color: var(--terracotta-pink);
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(217, 125, 96, 0.2);
+}
+
+.cotizar-btn-v2.cotizar-btn-broker-v2:hover:not(.disabled-btn-v2) {
+    background-color: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(245, 158, 11, 0.22);
 }
 
 .cotizar-btn-v2.disabled-btn-v2 {
@@ -628,13 +639,19 @@
         border-radius: 32px 32px 0 0;
         box-shadow: 0 -15px 50px #00000026;
         transition: bottom .6s cubic-bezier(.16, 1, .3, 1);
+        /* Importante: en landscape móvil la hoja puede ser más alta que el viewport.
+           Limitamos altura para que SIEMPRE se pueda cerrar y no quede "atorada". */
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         padding-bottom: env(safe-area-inset-bottom);
         display: block;
-        pointer-events: auto;
+        pointer-events: none;
     }
 
     .mobile-bottom-sheet-v2.active {
         bottom: 0 !important;
+        pointer-events: auto;
     }
 
     .sheet-handle-v2 {
@@ -886,51 +903,153 @@
 
 @media (max-width: 500px) {
     .mapa-section-v2 {
-        overflow: hidden;
-        width: 100vw;
+        overflow: visible;
+        width: 100%;
     }
 
     .map-column-v2 {
-        min-height: 55vh;
+        min-height: auto;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: flex-start;
         padding: 0;
-        overflow: hidden;
+        overflow: visible;
     }
 
     .svgmap-v2 {
-        width: 160%;
+        width: 100%;
+        max-width: 100%;
         display: flex;
         justify-content: center;
         background: transparent;
         border-radius: 0;
         box-shadow: none;
         overflow: visible;
-        padding: 10px 0;
-        /* Compacted */
+        padding: 12px 0;
     }
 
     .svgmap-v2 svg {
-        width: 160% !important;
-        /* BIGGER MAP */
-
-        transform: rotate(8deg) translateX(-10%);
-        /* Adjusted centering */
-        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.12));
-        margin: 10px 0;
-    }
-
-    .svgmap-v2 svg {
-        width: 140% !important;
-        max-width: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
         height: auto;
         flex-shrink: 0;
-        transform: scale(1.1) translateY(-2%) translate(-1%) rotate(4deg);
-        transform-origin: center top;
+        transform: none;
+        transform-origin: center center;
         stroke: #1a1a1a;
         stroke-width: .3px;
         filter: drop-shadow(0 10px 30px rgba(0, 0, 0, .12));
+    }
+}
+
+@media (max-width: 768px),
+(hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+    .mapa-wrapper-v2 {
+        min-height: auto;
+        height: auto;
+    }
+
+    .mapa-section-v2 {
+        overflow: visible;
+    }
+
+    .map-column-v2 {
+        min-height: auto;
+        overflow: visible;
+        padding-bottom: 12px;
+    }
+
+    .map-relative-wrapper-v2 {
+        overflow: visible;
+    }
+
+    .svgmap-v2 {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .svgmap-v2 svg {
+        width: 100% !important;
+        height: auto;
+        max-width: 100% !important;
+        transform: none;
+    }
+
+    .mobile-bottom-sheet-v2 {
+        max-height: 85vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sheet-content-v2 {
+        padding: 4px 18px 24px 18px;
+    }
+
+    .sheet-header-v2 {
+        margin-bottom: 12px;
+    }
+
+    .sheet-header-v2 h3 {
+        font-size: 2rem;
+    }
+
+    .mobile-bottom-sheet-v2 .popup-status-v2 {
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+    }
+
+    .mobile-bottom-sheet-v2 .popup-details-v2 {
+        margin-bottom: 16px;
+        padding-top: 12px;
+    }
+
+    .mobile-bottom-sheet-v2 .popup-detail-row-v2 {
+        margin-bottom: 8px;
+        font-size: 0.98rem;
+    }
+
+    .mobile-bottom-sheet-v2 .popup-detail-row-v2 strong {
+        font-size: 0.78rem;
+    }
+
+    .sheet-availability-v2 {
+        margin: 10px 0;
+        padding: 10px 12px;
+        border-radius: 8px;
+    }
+
+    .avail-label {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+    }
+
+    .avail-price {
+        font-size: 0.95rem;
+    }
+
+    .sheet-financing-v2 {
+        padding: 14px;
+        margin-bottom: 16px;
+        border-radius: 16px;
+    }
+
+    .fin-tag {
+        margin-bottom: 10px;
+        font-size: 0.6rem;
+    }
+
+    .fin-item-v2 strong {
+        font-size: 1.05rem;
+    }
+
+    .mobile-bottom-sheet-v2 .popup-cta-v2 {
+        padding: 16px;
+        font-size: 0.95rem;
+    }
+
+    .sheet-dual-actions-v2 {
+        margin-top: 10px;
+        gap: 10px;
     }
 }

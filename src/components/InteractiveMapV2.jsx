@@ -6,7 +6,7 @@ import './InteractiveMapV2.css';
 
 // --- Constantes y Configuración ---
 const DATA_URL = 'https://n8n.srv894483.hstgr.cloud/webhook/dc83e669-fc96-4384-9a3a-f463a9df64c1';
-const WHATSAPP_BASE = 'https://wa.me/528123852034?text=';
+const WHATSAPP_BASE = 'https://wa.me/5218123852034?text=';
 const CONTACTO_URL = '/Contacto';
 const SVG_PATH = '/SVGmapados.svg';
 
@@ -142,7 +142,9 @@ export default function InteractiveMapV2({
     onLotSelect = null,
     externalSelectionId = null,
     highlightType = null, // Novedad: 'A', 'AA', 'AAA' o null
-    clearSelectionSignal = 0
+    clearSelectionSignal = 0,
+    enableCotizador = false,
+    onOpenCotizador = null
 }) {
     const svgContainerRef = useRef(null);
     const cleanupRef = useRef(null);
@@ -156,18 +158,36 @@ export default function InteractiveMapV2({
     const [showPopup, setShowPopup] = useState(false);
     const [popupPos, setPopupPos] = useState({ x: 0, y: 0 });
     const [isMobile, setIsMobile] = useState(false);
+    const [isSmallMobile, setIsSmallMobile] = useState(false);
+    const [disableMobileSheet, setDisableMobileSheet] = useState(false);
     const [availability, setAvailability] = useState({
         A: { count: 0, minPrice: 0 },
         AA: { count: 0, minPrice: 0 },
         AAA: { count: 0, minPrice: 0 }
     });
 
+    const pendingSelectRef = useRef(null);
+
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 992);
+        const checkMobile = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const isCoarse = window.matchMedia?.('(hover: none) and (pointer: coarse)')?.matches ?? false;
+            const isLandscape = window.matchMedia?.('(orientation: landscape)')?.matches ?? false;
+
+            // Celular en horizontal: queremos el layout tipo iPad horizontal (sin bottom-sheet).
+            const isPhoneLandscape = isCoarse && isLandscape && height <= 600;
+
+            setIsMobile(width < 992);
+            setIsSmallMobile(width <= 768);
+            setDisableMobileSheet(isPhoneLandscape);
+        };
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    const useBottomSheet = isMobile && !disableMobileSheet;
 
     useEffect(() => {
         activeRef.current = activeEl;
@@ -376,6 +396,30 @@ export default function InteractiveMapV2({
         }
     }, [externalSelectionId, data, byId, updateStickyPanel, highlightType, onLotSelect]);
 
+    useEffect(() => {
+        if (!pendingSelectRef.current) return;
+        const { node, info } = pendingSelectRef.current;
+
+        if (activeRef.current === node) {
+            pendingSelectRef.current = null;
+            return;
+        }
+
+        activeRef.current = node;
+        setActiveEl(node);
+        const paintables = getPaintables(node);
+        paintables.forEach(s => {
+            s.style.fill = SELECTED_COLOR;
+            s.style.fillOpacity = '1';
+            applyLotStroke(s);
+            s.style.strokeWidth = '2px';
+            s.style.animation = 'pulse-v2 2s infinite';
+        });
+        node.style.filter = 'drop-shadow(0 8px 16px rgba(0,0,0,0.2))';
+        updateStickyPanel(info, node.id, true);
+        pendingSelectRef.current = null;
+    }, [highlightType, updateStickyPanel]);
+
     // --- HIGHLIGHT TYPE LOGIC ---
     useEffect(() => {
         if (!svgContainerRef.current || !data.length) return;
@@ -497,6 +541,10 @@ export default function InteractiveMapV2({
                 ev.stopPropagation();
                 if (!isSelectable) return;
 
+                if (highlightType) {
+                    pendingSelectRef.current = { node, info };
+                }
+
                 if (activeRef.current === node) {
                     setShowPopup(true);
                     return;
@@ -565,8 +613,10 @@ export default function InteractiveMapV2({
             const clickedInPopup = e.target.closest('.lot-info-popup-v2');
             const clickedInSheet = e.target.closest('.mobile-bottom-sheet-v2');
             const clickedInBackdrop = e.target.classList.contains('mobile-backdrop-v2');
+            const clickedInSidebar = e.target.closest('.v2-map-sidebar');
+            const clickedInCotizador = e.target.closest('.cotizador-modal') || e.target.closest('.cotizador-overlay');
 
-            if (!clickedInSVG && !clickedInPanel && !clickedInPopup && !clickedInSheet && !clickedInBackdrop) {
+            if (!clickedInSVG && !clickedInPanel && !clickedInPopup && !clickedInSheet && !clickedInBackdrop && !clickedInSidebar && !clickedInCotizador) {
                 resetSelection(byId);
             }
         };
@@ -585,7 +635,9 @@ export default function InteractiveMapV2({
         // Brief delay to ensure SVG is in DOM before attaching logic
         const timer = setTimeout(() => {
             cleanupRef.current = initSvgLogic(svgContainerRef.current, data, byId);
-            updateStickyPanel(INITIAL_LOT_INFO, null, false);
+            if (!activeRef.current) {
+                updateStickyPanel(INITIAL_LOT_INFO, null, false);
+            }
         }, 100);
 
         return () => {
@@ -624,7 +676,11 @@ export default function InteractiveMapV2({
 
     const estadoLower = norm(estado).toLowerCase();
     const isCommonArea = !rawCosto || rawCosto === null || (String(rawCosto).toLowerCase() === 'consultar');
-    const cotizarText = RESERVED_STATUSES.includes(estadoLower) ? 'ME INTERESA SI SE LIBERA' : (isCommonArea ? 'CONSULTAR COTIZACIÓN' : 'COTIZAR AHORA');
+    const cotizarText = RESERVED_STATUSES.includes(estadoLower)
+        ? 'ME INTERESA SI SE LIBERA'
+        : (isCommonArea
+            ? 'CONSULTAR COTIZACIÓN'
+            : (enableCotizador ? 'UTILIZAR COTIZADOR' : 'SOLICITAR COTIZACIÓN'));
 
     const isReservado = RESERVED_STATUSES.includes(estadoLower);
     const isVendido = estadoLower === 'vendido';
@@ -636,10 +692,21 @@ export default function InteractiveMapV2({
     if (isVendido) finalLink = '#';
     else if (isReservado) { finalLink = linkLiberacion; target = '_blank'; }
     else {
-        const waMsg = `Hola, me interesa el ${numero}, con superficie de ${sup} y costo de ${formattedCosto}. Estado: ${currentStatus}.`;
+        const supNumber = rawSup ? Number(String(rawSup).replace(/[, ]/g, '')).toLocaleString('es-MX') : 'Consultar';
+        const priceNum = Number(String(rawCosto ?? '').replace(/[^0-9.]/g, ''));
+        const priceText = !Number.isNaN(priceNum) && priceNum > 0 ? `$${priceNum.toLocaleString('es-MX')}` : 'Consultar';
+        const waMsg = `Hola, me gustaría pedir una cotización de ${numero}.\nSuperficie: ${supNumber} m².\nTipo: ${norm(tipo)}.\nPrecio por m²: ${priceText}.`;
         finalLink = `${WHATSAPP_BASE}${encodeURIComponent(waMsg)}`;
         target = '_blank';
     }
+
+    const canOpenCotizador = enableCotizador && typeof onOpenCotizador === 'function' && !isVendido && !isReservado;
+    const handleCotizar = (event) => {
+        if (!canOpenCotizador) return;
+        event?.preventDefault?.();
+        onOpenCotizador?.(currentInfo);
+        setShowPopup(false);
+    };
 
     return (
         <div id="mapa-wrapper-v2" className={`mapa-wrapper-v2 ${layoutV2 ? 'layout-v2-active' : ''}`}>
@@ -660,9 +727,15 @@ export default function InteractiveMapV2({
                                 <div className="lot-status-v2" style={{ color: pickColor({ estado }) }}>{currentStatus}</div>
                                 {!isInitial && (
                                     <div className="lot-actions-v2">
-                                        <a className={`btn-v2 cotizar-btn-v2 ${isVendido ? 'disabled-btn-v2' : ''}`} href={finalLink} target={target} rel="noopener noreferrer">
-                                            {cotizarText}
-                                        </a>
+                                        {canOpenCotizador ? (
+                                            <button type="button" className="btn-v2 cotizar-btn-v2 cotizar-btn-broker-v2" onClick={handleCotizar}>
+                                                {cotizarText}
+                                            </button>
+                                        ) : (
+                                            <a className={`btn-v2 cotizar-btn-v2 ${isVendido ? 'disabled-btn-v2' : ''}`} href={finalLink} target={target} rel="noopener noreferrer">
+                                                {cotizarText}
+                                            </a>
+                                        )}
                                         <button className="btn-v2 change-lot-btn-v2" onClick={() => resetSelection(byId)}>Ver otro lote</button>
                                     </div>
                                 )}
@@ -683,9 +756,15 @@ export default function InteractiveMapV2({
                                             <div className="popup-detail-row-v2"><strong>Tipo:</strong> <span>{norm(tipo)}</span></div>
                                             <div className="popup-detail-row-v2"><strong>Precio m²:</strong> <span>{formattedCosto}</span></div>
                                         </div>
-                                        <a href={finalLink} target={target} className={`popup-cta-v2 ${isVendido ? 'disabled' : ''}`}>
-                                            {isVendido ? 'LOTE VENDIDO' : cotizarText}
-                                        </a>
+                                        {canOpenCotizador ? (
+                                            <button type="button" className="popup-cta-v2" onClick={handleCotizar}>
+                                                {cotizarText}
+                                            </button>
+                                        ) : (
+                                            <a href={finalLink} target={target} className={`popup-cta-v2 ${isVendido ? 'disabled' : ''}`}>
+                                                {isVendido ? 'LOTE VENDIDO' : cotizarText}
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -695,7 +774,7 @@ export default function InteractiveMapV2({
                 </section>
             </div>
 
-            {isMobile && createPortal(
+            {useBottomSheet && createPortal(
                 <>
                     <div className={`mobile-backdrop-v2 ${showPopup ? 'active' : ''}`} onClick={() => setShowPopup(false)}></div>
                     <div className={`mobile-bottom-sheet-v2 ${showPopup ? 'active' : ''}`}>
@@ -714,7 +793,12 @@ export default function InteractiveMapV2({
 
                             {/* Availability Info Section */}
                             <div className="sheet-availability-v2">
-                                <div className="avail-label">Quedan <strong className={availability[norm(tipo)]?.hikeScarcity === 1 ? 'urgent-red' : availability[norm(tipo)]?.hikeScarcity > 1 ? 'urgent-yellow' : ''}>{availability[norm(tipo)]?.hikeScarcity || 0} lotes tipo {norm(tipo)}</strong> a</div>
+                                <div className="avail-label">
+                                    {availability[norm(tipo)]?.hikeScarcity === 1 ? 'Queda ' : 'Quedan '}
+                                    <strong className={availability[norm(tipo)]?.hikeScarcity === 1 ? 'urgent-red' : availability[norm(tipo)]?.hikeScarcity > 1 ? 'urgent-yellow' : ''}>
+                                        {availability[norm(tipo)]?.hikeScarcity || 0} {availability[norm(tipo)]?.hikeScarcity === 1 ? 'lote' : 'lotes'} tipo {norm(tipo)}
+                                    </strong> a
+                                </div>
                                 <div className="avail-price">${formatCurrency(availability[norm(tipo)]?.minPrice || 0).replace('$', '')}/m²</div>
                             </div>
 
@@ -743,9 +827,15 @@ export default function InteractiveMapV2({
                                     <a href={linkLiberacion} target="_blank" rel="noopener noreferrer" className="popup-cta-v2 release-btn-v2">Avisarme si se libera</a>
                                 </div>
                             ) : (
-                                <a href={finalLink} target={target} className={`popup-cta-v2 ${isVendido ? 'disabled' : ''}`}>
-                                    {isVendido ? 'LOTE NO DISPONIBLE' : cotizarText}
-                                </a>
+                                canOpenCotizador ? (
+                                    <button type="button" className="popup-cta-v2" onClick={handleCotizar}>
+                                        {cotizarText}
+                                    </button>
+                                ) : (
+                                    <a href={finalLink} target={target} className={`popup-cta-v2 ${isVendido ? 'disabled' : ''}`}>
+                                        {isVendido ? 'LOTE NO DISPONIBLE' : cotizarText}
+                                    </a>
+                                )
                             )}
                         </div>
                     </div>

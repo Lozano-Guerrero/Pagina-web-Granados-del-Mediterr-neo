@@ -5,6 +5,7 @@ import App from './App.jsx';
 import './index.css';
 // Importamos BrowserRouter para habilitar el ruteo en toda la app
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext.jsx';
 // Importaciones de FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     {/* Envolvemos <App /> para que todos los componentes hijos
         puedan usar las funcionalidades de React Router */}
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
