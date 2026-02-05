@@ -703,7 +703,7 @@ function UserQuotesHistoryModal({ user, onClose }) {
     );
 }
 
-function UserEditModal({ user, onClose, onSave, saving, errorText }) {
+function UserEditModal({ user, onClose, onSave, saving, errorText, onForceRegimeResubmit }) {
     useBodyScrollLock(true);
 
     const [form, setForm] = useState({
@@ -854,6 +854,24 @@ function UserEditModal({ user, onClose, onSave, saving, errorText }) {
                                         Ver cotizaciones
                                     </button>
                                 </div>
+                            </div>
+                        ) : null}
+
+                        {(role === 'broker' || role === 'inmobiliaria') && !(role === 'broker' && isChildBroker) ? (
+                            <div className="admin-field">
+                                <label>Régimen</label>
+                                <div className="admin-muted">
+                                    Habilita el reenvío de régimen para casos especiales (por ejemplo, si el usuario subió un PDF incorrecto).
+                                </div>
+                                <button
+                                    type="button"
+                                    className="admin-modal-btn warn"
+                                    onClick={() => onForceRegimeResubmit?.(user)}
+                                    disabled={saving}
+                                    style={{ marginTop: 10 }}
+                                >
+                                    Habilitar reenvío de régimen
+                                </button>
                             </div>
                         ) : null}
 
@@ -1068,8 +1086,10 @@ export default function AdminPage() {
     const [editingUser, setEditingUser] = useState(null);
     const [deactivateUser, setDeactivateUser] = useState(null);
     const [reactivateUser, setReactivateUser] = useState(null);
+    const [forceRegimeResubmitUser, setForceRegimeResubmitUser] = useState(null);
     const [savingUser, setSavingUser] = useState(false);
     const [userModalError, setUserModalError] = useState('');
+    const [forceRegimeResubmitError, setForceRegimeResubmitError] = useState('');
 
     const [editingLead, setEditingLead] = useState(null);
     const [deleteLead, setDeleteLead] = useState(null);
@@ -1514,6 +1534,25 @@ export default function AdminPage() {
             await refreshData();
         } catch (err) {
             setError(sanitizeBackendMessage(err?.message || 'No se pudo reactivar el usuario.'));
+        } finally {
+            setSavingUser(false);
+        }
+    };
+
+    const forceRegimeResubmitNow = async () => {
+        if (!supabase || !forceRegimeResubmitUser) return;
+        setSavingUser(true);
+        setForceRegimeResubmitError('');
+        setNotice('');
+        setError('');
+        try {
+            await edgePost('manage-user', { action: 'force_regime_resubmit', userId: forceRegimeResubmitUser.id });
+            setNotice('Reenvío de régimen habilitado: el usuario quedó INACTIVO hasta que suba un nuevo régimen firmado.');
+            setForceRegimeResubmitUser(null);
+            setEditingUser(null);
+            await refreshData();
+        } catch (err) {
+            setForceRegimeResubmitError(sanitizeBackendMessage(err?.message || 'No se pudo habilitar el reenvío de régimen.'));
         } finally {
             setSavingUser(false);
         }
@@ -2199,6 +2238,7 @@ export default function AdminPage() {
                     user={editingUser}
                     onClose={() => setEditingUser(null)}
                     onSave={saveUserEdits}
+                    onForceRegimeResubmit={(u) => { setForceRegimeResubmitError(''); setForceRegimeResubmitUser(u); }}
                     saving={savingUser}
                     errorText={userModalError}
                 />
@@ -2224,6 +2264,19 @@ export default function AdminPage() {
                     onConfirm={reactivateUserNow}
                     disabled={savingUser}
                     tone="primary"
+                />
+            ) : null}
+
+            {forceRegimeResubmitUser ? (
+                <ConfirmModal
+                    title="¿Habilitar reenvío de régimen?"
+                    text="Esto desactivará al usuario y bloqueará el registro de leads hasta que suba un nuevo régimen firmado."
+                    confirmLabel={savingUser ? 'Procesando…' : 'Confirmar'}
+                    onCancel={() => { setForceRegimeResubmitUser(null); setForceRegimeResubmitError(''); }}
+                    onConfirm={forceRegimeResubmitNow}
+                    disabled={savingUser}
+                    tone="warn"
+                    errorText={forceRegimeResubmitError}
                 />
             ) : null}
 

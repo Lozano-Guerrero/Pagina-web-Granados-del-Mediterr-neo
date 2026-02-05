@@ -25,7 +25,7 @@ function jsonResponse(status: number, body: unknown) {
 }
 
 type RequestBody = {
-  action: "update" | "deactivate" | "reactivate";
+  action: "update" | "deactivate" | "reactivate" | "force_regime_resubmit";
   userId: string;
   updates?: {
     first_name?: string;
@@ -227,6 +227,85 @@ serve(async (req) => {
       userId: targetUserId,
       is_active: true,
       account_status: nextAccountStatus,
+    });
+  }
+
+  if (action === "force_regime_resubmit") {
+    if (!isStaff) return jsonResponse(403, { error: "Solo staff puede habilitar reenvío de régimen." });
+
+    if (targetRole !== "broker" && targetRole !== "inmobiliaria") {
+      return jsonResponse(400, { error: "Acción inválida para este tipo de usuario." });
+    }
+
+    const orgId = String(finalTargetProfile.org_id ?? "").trim() || null;
+
+    // No aplica para brokers ligados a inmobiliaria.
+    if (targetRole === "broker" && orgId) {
+      const { data: parent } = await adminClient
+        .from("profiles")
+        .select("id")
+        .eq("role", "inmobiliaria")
+        .eq("org_id", orgId)
+        .eq("is_active", true)
+        .maybeSingle();
+      if (parent?.id) {
+        return jsonResponse(400, { error: "No aplica para brokers ligados a una inmobiliaria." });
+      }
+    }
+
+    const isActive = finalTargetProfile.is_active !== false;
+    const currentAccountStatus = String(finalTargetProfile.account_status ?? "").toLowerCase();
+    if (!isActive || currentAccountStatus === "deactivated") {
+      return jsonResponse(400, { error: "Usuario desactivado. Reactívalo antes de habilitar reenvío de régimen." });
+    }
+
+    const target = targetRole === "inmobiliaria" ? "inmobiliaria" : "broker";
+    const { data: activeReg, error: regErr } = await adminClient
+      .from("regimens_master")
+      .select("id, target, is_active, version")
+      .eq("target", target)
+      .eq("is_active", true)
+      .order("version", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (regErr) return jsonResponse(500, { error: "No se pudo leer el régimen activo.", details: regErr.message });
+    if (!activeReg?.id) {
+      return jsonResponse(400, { error: "No hay un régimen activo para este canal. Sube y activa un régimen primero." });
+    }
+
+    const { error: upErr } = await adminClient
+      .from("profiles")
+      .update({ account_status: "inactive" })
+      .eq("id", targetUserId);
+
+    if (upErr) return jsonResponse(500, { error: "No se pudo actualizar el estado del usuario.", details: upErr.message });
+
+    // Mantener coherencia madre-hijo: si la inmobiliaria queda inactiva, sus brokers hijos deben heredarlo.
+    let affectedChildren = 0;
+    if (targetRole === "inmobiliaria" && orgId) {
+      const { data, error } = await adminClient
+        .from("profiles")
+        .update({ account_status: "inactive" })
+        .eq("role", "broker")
+        .eq("org_id", orgId)
+        .eq("is_active", true)
+        .neq("account_status", "deactivated")
+        .select("id");
+
+      if (error) {
+        console.log("[manage-user] No se pudieron actualizar brokers hijos.", error);
+      } else {
+        affectedChildren = Array.isArray(data) ? data.length : 0;
+      }
+    }
+
+    return jsonResponse(200, {
+      ok: true,
+      action,
+      userId: targetUserId,
+      account_status: "inactive",
+      affectedChildren,
     });
   }
 

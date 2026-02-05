@@ -675,6 +675,12 @@
     color: #fff;
 }
 
+.admin-modal-btn.warn {
+    border: none;
+    background: #b45309;
+    color: #fff;
+}
+
 .admin-modal-btn:disabled {
     opacity: 0.55;
     cursor: not-allowed;
