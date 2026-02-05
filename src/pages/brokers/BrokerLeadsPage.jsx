@@ -274,6 +274,13 @@ export default function BrokerLeadsPage() {
                     <button className="brokers-submit" type="submit" disabled={submitting}>
                         {submitting ? 'Registrando…' : 'Registrar'}
                     </button>
+                    <div className="brokers-legal-text">
+                        Asegúrate de que los datos del lead sean correctos.
+                        <br />
+                        Cualquier dato falso o incorrecto hará inválido el registro del lead
+                        <br />
+                        y se considerará como un registro no válido.
+                    </div>
                 </form>
             </div>
         </div>
