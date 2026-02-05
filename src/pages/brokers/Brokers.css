@@ -1,0 +1,982 @@
+.brokers-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 70%);
+}
+
+.brokers-card {
+    width: min(520px, 92vw);
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    display: grid;
+    gap: 20px;
+}
+
+.brokers-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.brokers-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+.brokers-logo {
+    display: block;
+    width: min(320px, 80%);
+    margin: 10px auto 0;
+}
+
+.brokers-helper {
+    font-size: 0.75rem;
+    color: #7a7a7a;
+}
+
+.brokers-form {
+    display: grid;
+    gap: 16px;
+}
+
+.brokers-field {
+    display: grid;
+    gap: 6px;
+}
+
+.brokers-field-error {
+    font-size: 0.78rem;
+    color: #b42318;
+    font-weight: 700;
+}
+
+.brokers-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.brokers-field input {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0 12px;
+    font-size: 0.95rem;
+}
+
+.brokers-field select {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0 12px;
+    font-size: 0.95rem;
+    background: #fff;
+}
+
+.brokers-field input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.brokers-field select:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.brokers-error {
+    background: #fff1f1;
+    color: #b42318;
+    border: 1px solid rgba(180, 35, 24, 0.2);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.brokers-success {
+    background: #ecfdf3;
+    color: #027a48;
+    border: 1px solid rgba(2, 122, 72, 0.22);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.brokers-warning {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid rgba(146, 64, 14, 0.2);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.brokers-submit {
+    height: 46px;
+    border-radius: 12px;
+    border: none;
+    background: #1f2937;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.brokers-login-site {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.brokers-login-site a {
+    color: #6b7280;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.brokers-login-site a:hover {
+    color: #111827;
+}
+
+.brokers-dashboard {
+    min-height: 70vh;
+    padding: 60px 20px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 70%);
+}
+
+.brokers-dashboard-card {
+    width: min(720px, 94vw);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    display: grid;
+    gap: 20px;
+}
+
+.brokers-dashboard-card-wide {
+    width: min(1200px, 94vw);
+}
+
+@media (min-width: 1440px) {
+    .brokers-dashboard-card-wide {
+        width: min(1450px, 94vw);
+    }
+}
+
+@media (min-width: 1920px) {
+    .brokers-dashboard-card-wide {
+        width: min(1600px, 94vw);
+    }
+}
+
+.brokers-panel-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.brokers-panel-left {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+}
+
+.brokers-panel-right {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+}
+
+.brokers-dashboard-card-compact {
+    padding: 22px;
+    gap: 14px;
+}
+
+.brokers-dashboard-card-compact .brokers-welcome {
+    margin-bottom: 2px;
+}
+
+.brokers-dashboard-card-compact .brokers-title {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.brokers-dashboard-card-compact .brokers-subtitle {
+    font-size: 0.85rem;
+    margin: 4px 0 0;
+}
+
+.brokers-welcome {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.brokers-actions {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.brokers-actions-compact {
+    gap: 10px;
+}
+
+.brokers-action-card {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #111827;
+    text-align: center;
+    font-weight: 900;
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 14px 28px rgba(17, 24, 39, 0.12);
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.brokers-action-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 36px rgba(17, 24, 39, 0.16);
+    filter: saturate(1.02);
+}
+
+/* Variantes por posición: Registrar (oscuro) / Cotizador (amarillo) */
+.brokers-actions .brokers-action-card:nth-child(2) {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-color: rgba(245, 158, 11, 0.35);
+    color: #111827;
+    box-shadow: 0 14px 28px rgba(245, 158, 11, 0.18);
+}
+
+.brokers-actions .brokers-action-card:nth-child(2):hover {
+    box-shadow: 0 18px 36px rgba(245, 158, 11, 0.24);
+}
+
+.brokers-action-card-compact {
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 800;
+}
+
+.brokers-subcard {
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.brokers-subcard-whatsapp {
+    border-color: rgba(2, 122, 72, 0.18);
+    background: linear-gradient(180deg, rgba(236, 253, 243, 0.92) 0%, #ffffff 70%);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.brokers-subcard-whatsapp::before {
+    content: '';
+    position: absolute;
+    right: -70px;
+    top: -70px;
+    width: 190px;
+    height: 190px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.22) 0%, rgba(34, 197, 94, 0) 70%);
+    z-index: 0;
+}
+
+.brokers-subcard-whatsapp::after {
+    content: '';
+    position: absolute;
+    left: -90px;
+    bottom: -90px;
+    width: 240px;
+    height: 240px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0) 70%);
+    z-index: 0;
+}
+
+.brokers-subcard-whatsapp > * {
+    position: relative;
+    z-index: 1;
+}
+
+.brokers-logout {
+    justify-self: center;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(17, 24, 39, 0.18);
+    background: #ffffff;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.brokers-placeholder {
+    min-height: 60vh;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.brokers-placeholder h1 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+}
+
+.brokers-back-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: #1d4ed8;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.brokers-leads-card {
+    width: min(980px, 94vw);
+}
+
+.brokers-leads-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.brokers-title-left,
+.brokers-subtitle-left {
+    text-align: left;
+}
+
+.brokers-back-link-tight {
+    margin-top: 6px;
+    white-space: nowrap;
+}
+
+.brokers-leads-form {
+    gap: 18px;
+}
+
+.brokers-leads-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.brokers-leads-divider {
+    height: 1px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.06);
+    margin: 8px 0 2px;
+}
+
+.brokers-leads-table-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.brokers-leads-table-header-dashboard {
+    margin-top: 8px;
+}
+
+.brokers-section-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #111827;
+}
+
+.brokers-table-wrapper {
+    width: 100%;
+    min-height: 320px; /* ~ header + 4 filas */
+    max-height: 50vh;
+    overflow: auto;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.brokers-table-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.brokers-table-search {
+    flex: 1;
+    min-width: 220px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0 12px;
+    font-size: 0.9rem;
+}
+
+.brokers-table-search:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.brokers-table-select {
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 0 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    font-weight: 800;
+}
+
+.brokers-table-select:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.brokers-table {
+    width: 100%;
+    min-width: 820px;
+    border-collapse: collapse;
+}
+
+.brokers-table-dashboard {
+    min-width: 1120px;
+}
+
+.brokers-table th,
+.brokers-table td {
+    text-align: left;
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    vertical-align: top;
+}
+
+.brokers-table th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #4b5563;
+    background: #fafafa;
+    position: sticky;
+    top: 0;
+}
+
+.brokers-table th:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background: #fafafa;
+}
+
+.brokers-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background: #fff;
+}
+
+.brokers-table th:last-child,
+.brokers-table td:last-child {
+    box-shadow: -8px 0 14px rgba(0, 0, 0, 0.04);
+}
+
+.brokers-empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 18px 12px;
+}
+
+.brokers-cell-nowrap {
+    white-space: nowrap;
+}
+
+.brokers-cell-muted {
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-top: 3px;
+    overflow-wrap: anywhere;
+}
+
+.brokers-lead-name {
+    font-weight: 800;
+    color: #111827;
+}
+
+.brokers-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border: 1px solid transparent;
+}
+
+.brokers-badge-created {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: rgba(29, 78, 216, 0.18);
+}
+
+.brokers-badge-exists {
+    background: #fefce8;
+    color: #a16207;
+    border-color: rgba(161, 98, 7, 0.18);
+}
+
+.brokers-badge-error {
+    background: #fff1f1;
+    color: #b42318;
+    border-color: rgba(180, 35, 24, 0.18);
+}
+
+.brokers-badge-warning {
+    background: #fefce8;
+    color: #a16207;
+    border-color: rgba(161, 98, 7, 0.18);
+}
+
+.brokers-badge-expired {
+    background: #fff1f1;
+    color: #b42318;
+    border-color: rgba(180, 35, 24, 0.18);
+}
+
+.brokers-badge-closed {
+    background: #ecfdf3;
+    color: #027a48;
+    border-color: rgba(2, 122, 72, 0.22);
+}
+
+.brokers-badge-owner {
+    background: #f3f4f6;
+    color: #111827;
+    border-color: rgba(17, 24, 39, 0.12);
+}
+
+.brokers-inline-btn {
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    background: #fff;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brokers-inline-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.brokers-inline-btn-full {
+    width: 100%;
+}
+
+.brokers-play-icon {
+    margin-right: 10px;
+}
+
+.brokers-inline-btn-blue {
+    background: #1d4ed8;
+    border-color: rgba(29, 78, 216, 0.24);
+    color: #fff;
+}
+
+.brokers-inline-btn-whatsapp {
+    background: #16a34a;
+    border-color: rgba(22, 163, 74, 0.25);
+    color: #fff;
+}
+
+.brokers-inline-btn-whatsapp:hover:not(:disabled) {
+    background: #15803d;
+}
+
+.brokers-inline-btn-green {
+    background: #027a48;
+    border-color: rgba(2, 122, 72, 0.22);
+    color: #fff;
+}
+
+.brokers-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    z-index: 9999;
+    overscroll-behavior: contain;
+}
+
+.brokers-modal {
+    width: min(520px, 96vw);
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
+    padding: 22px;
+    max-height: 85vh;
+    overflow: auto;
+}
+
+.brokers-modal-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.brokers-modal-x {
+    height: 34px;
+    width: 34px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: #111827;
+}
+
+.brokers-modal-x:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.brokers-form-error {
+    background: #fff1f1;
+    color: #b42318;
+    border: 1px solid rgba(180, 35, 24, 0.2);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.brokers-modal-title {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #111827;
+}
+
+.brokers-modal-text {
+    margin: 0;
+    color: #374151;
+    line-height: 1.45;
+}
+
+.brokers-modal-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.kebab-menu {
+    position: relative;
+    display: inline-flex;
+    justify-content: flex-end;
+}
+
+.kebab-btn {
+    height: 34px;
+    width: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    background: #fff;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.kebab-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.kebab-popover {
+    position: fixed;
+    min-width: 170px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+    padding: 6px;
+    z-index: 9999;
+}
+
+.kebab-item {
+    width: 100%;
+    text-align: left;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 800;
+    color: #111827;
+    padding: 0 10px;
+}
+
+.kebab-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.kebab-item.danger {
+    color: #b42318;
+}
+
+.regimen-card {
+    gap: 14px;
+}
+
+.regimen-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.regimen-title {
+    font-weight: 900;
+    color: #111827;
+}
+
+.regimen-subtitle {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 800;
+}
+
+.regimen-state {
+    display: inline-flex;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-left: 6px;
+    border: 1px solid transparent;
+    font-weight: 900;
+}
+
+.regimen-state.ok {
+    background: #ecfdf3;
+    color: #027a48;
+    border-color: rgba(2, 122, 72, 0.22);
+}
+
+.regimen-state.warn {
+    background: #fffbeb;
+    color: #92400e;
+    border-color: rgba(146, 64, 14, 0.2);
+}
+
+.regimen-state.danger {
+    background: #fff1f1;
+    color: #b42318;
+    border-color: rgba(180, 35, 24, 0.18);
+}
+
+.regimen-block {
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+    padding: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.regimen-block.disabled {
+    opacity: 0.72;
+    pointer-events: none;
+}
+
+.regimen-block-title {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #111827;
+}
+
+.regimen-file {
+    font-size: 0.9rem;
+    color: #374151;
+    font-weight: 800;
+}
+
+/* Dropzone (PDF upload) */
+.brokers-dropzone {
+    border: 2px dashed rgba(0, 0, 0, 0.16);
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 12px 12px;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.brokers-dropzone:hover {
+    border-color: rgba(0, 0, 0, 0.32);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.brokers-dropzone:focus-visible {
+    outline: none;
+    border-color: rgba(29, 78, 216, 0.55);
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.14);
+}
+
+.brokers-dropzone.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.brokers-dropzone-icon {
+    height: 36px;
+    width: 36px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #f7f5f2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #111827;
+}
+
+.brokers-dropzone-title {
+    font-weight: 900;
+    color: #111827;
+    line-height: 1.1;
+}
+
+.brokers-dropzone-hint {
+    margin-top: 2px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #6b7280;
+}
+
+.brokers-dropzone-file {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #111827;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+    .brokers-panel-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .brokers-card,
+    .brokers-dashboard-card {
+        padding: 24px;
+    }
+
+    .brokers-leads-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brokers-table-wrapper {
+        min-height: 240px;
+        max-height: 45vh;
+    }
+}
+
+/* CELULAR (solo mobile): centrado real + tabla usable con Acción sticky más angosta */
+@media (max-width: 600px) {
+    .brokers-dashboard {
+        padding: 28px clamp(12px, 4vw, 16px);
+    }
+
+    .brokers-dashboard-card,
+    .brokers-dashboard-card-wide,
+    .brokers-leads-card {
+        width: 100%;
+    }
+
+    .brokers-dashboard-card {
+        padding: 18px;
+    }
+
+    .brokers-table-controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .brokers-table-search,
+    .brokers-table-select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .brokers-table th,
+    .brokers-table td {
+        padding: 10px 8px;
+    }
+
+    /* Mantener Acción sticky, pero reducir el ancho visible en móvil */
+    .brokers-table th:last-child,
+    .brokers-table td:last-child {
+        width: clamp(84px, 24vw, 112px);
+        min-width: clamp(84px, 24vw, 112px);
+        max-width: clamp(84px, 24vw, 112px);
+    }
+
+    .brokers-table th:last-child,
+    .brokers-table td:last-child,
+    .brokers-table td:last-child.brokers-cell-nowrap {
+        white-space: normal;
+    }
+
+    .brokers-inline-btn {
+        width: 100%;
+        min-height: 40px;
+        height: auto;
+        padding: 8px 8px;
+        line-height: 1.05;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .brokers-cell-muted {
+        font-size: 0.76rem;
+    }
+}
