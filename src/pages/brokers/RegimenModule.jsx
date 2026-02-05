@@ -344,6 +344,11 @@ export default function RegimenModule({ variant }) {
                         >
                             Enviar régimen
                         </button>
+                        <div className="brokers-legal-text warn">
+                            Cualquier documento incorrecto, falso, alterado o con información errónea
+                            <br />
+                            hará inválidos todos los registros realizados bajo el régimen actual.
+                        </div>
                     </>
                 ) : (
                     <div className="brokers-cell-muted">
