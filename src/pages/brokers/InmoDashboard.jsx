@@ -93,6 +93,25 @@ function sanitizeBackendMessage(value) {
         .replace(/leadconnectorhq/gi, 'el sistema');
 }
 
+function normalizeAccountStatus(value) {
+    const status = String(value ?? '').trim().toLowerCase();
+    if (status === 'deactivated') return 'deactivated';
+    if (status === 'inactive') return 'inactive';
+    if (status === 'active') return 'active';
+    return null;
+}
+
+function getBrokerStatusUi(broker) {
+    const status = normalizeAccountStatus(broker?.account_status);
+    if (status === 'deactivated' || broker?.is_active === false) {
+        return { key: 'deactivated', label: 'Desactivado', badgeClass: 'brokers-badge-expired' };
+    }
+    if (status === 'inactive') {
+        return { key: 'inactive', label: 'Inactivo', badgeClass: 'brokers-badge-warning' };
+    }
+    return { key: 'active', label: 'Activo', badgeClass: 'brokers-badge-created' };
+}
+
 function parseFunctionError(fnErr) {
     const res = fnErr?.context;
     const status = res?.status ?? null;
@@ -218,7 +237,7 @@ function KebabMenu({ onEdit, onDeactivate, disabled }) {
     );
 }
 
-function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled }) {
+function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled, errorText, tone = 'green' }) {
     useBodyScrollLock(true);
     useEffect(() => {
         const onKey = (e) => {
@@ -240,11 +259,17 @@ function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled
             <div className="brokers-modal">
                 <h3 className="brokers-modal-title">{title}</h3>
                 <p className="brokers-modal-text">{text}</p>
+                {errorText ? <div className="brokers-form-error">{errorText}</div> : null}
                 <div className="brokers-modal-actions">
                     <button type="button" className="brokers-inline-btn" onClick={onCancel} disabled={disabled}>
                         Cancelar
                     </button>
-                    <button type="button" className="brokers-inline-btn brokers-inline-btn-green" onClick={onConfirm} disabled={disabled}>
+                    <button
+                        type="button"
+                        className={`brokers-inline-btn ${tone === 'blue' ? 'brokers-inline-btn-blue' : 'brokers-inline-btn-green'}`}
+                        onClick={onConfirm}
+                        disabled={disabled}
+                    >
                         {confirmLabel}
                     </button>
                 </div>
@@ -253,7 +278,7 @@ function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled
     );
 }
 
-function BrokerEditModal({ broker, onClose, onSave, saving, errorText }) {
+function BrokerEditModal({ broker, onClose, onSave, saving, errorText, onEnablePasswordReset }) {
     useBodyScrollLock(true);
     useEffect(() => {
         const onKey = (e) => {
@@ -267,8 +292,7 @@ function BrokerEditModal({ broker, onClose, onSave, saving, errorText }) {
         first_name: broker.first_name || '',
         last_name: broker.last_name || '',
         email: broker.email || '',
-        phone: broker.phone || '',
-        password: ''
+        phone: broker.phone || ''
     });
 
     const submit = (e) => {
@@ -277,8 +301,7 @@ function BrokerEditModal({ broker, onClose, onSave, saving, errorText }) {
             first_name: form.first_name.trim(),
             last_name: form.last_name.trim(),
             email: form.email.trim(),
-            phone: form.phone.trim(),
-            password: form.password ? form.password : undefined
+            phone: form.phone.trim()
         });
     };
 
@@ -321,8 +344,18 @@ function BrokerEditModal({ broker, onClose, onSave, saving, errorText }) {
                         <input value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} />
                     </div>
                     <div className="brokers-field">
-                        <label>Contraseña (opcional)</label>
-                        <input type="password" value={form.password} onChange={(e) => setForm((v) => ({ ...v, password: e.target.value }))} />
+                        <label>Acceso</label>
+                        <div className="brokers-helper">
+                            Invalida la contraseña actual y habilita el restablecimiento para este broker.
+                        </div>
+                        <button
+                            type="button"
+                            className="brokers-inline-btn brokers-inline-btn-blue"
+                            onClick={() => onEnablePasswordReset?.(broker)}
+                            disabled={saving}
+                        >
+                            Habilitar restablecimiento de contraseña
+                        </button>
                     </div>
                     <div className="brokers-modal-actions">
                         <button type="button" className="brokers-inline-btn" onClick={onClose} disabled={saving}>
@@ -352,12 +385,13 @@ export default function InmoDashboard() {
     const [leadOwnerFilter, setLeadOwnerFilter] = useState('all');
 
     const [brokerSearchText, setBrokerSearchText] = useState('');
-    const [brokerStatusFilter, setBrokerStatusFilter] = useState('active');
+    const [brokerStatusFilter, setBrokerStatusFilter] = useState('all');
 
     const [notice, setNotice] = useState(null);
     const [error, setError] = useState(null);
     const [brokerModalError, setBrokerModalError] = useState('');
     const [createBrokerModalError, setCreateBrokerModalError] = useState('');
+    const [resetPasswordError, setResetPasswordError] = useState('');
 
     const [confirm, setConfirm] = useState(null);
     const [actingLead, setActingLead] = useState(false);
@@ -367,10 +401,10 @@ export default function InmoDashboard() {
         first_name: '',
         last_name: '',
         email: '',
-        phone: '',
-        password: ''
+        phone: ''
     });
     const [deactivateBroker, setDeactivateBroker] = useState(null);
+    const [resetPasswordBroker, setResetPasswordBroker] = useState(null);
     const [savingBroker, setSavingBroker] = useState(false);
 
     useEffect(() => {
@@ -445,7 +479,7 @@ export default function InmoDashboard() {
         try {
             const { data, error: qErr } = await supabase
                 .from('profiles')
-                .select('id, public_id, first_name, last_name, email, phone, role, org_id, is_active, created_at')
+                .select('id, public_id, first_name, last_name, email, phone, role, org_id, is_active, account_status, created_at')
                 .eq('role', 'broker')
                 .eq('org_id', profile.org_id)
                 .order('created_at', { ascending: false })
@@ -534,7 +568,7 @@ export default function InmoDashboard() {
 
     const brokerOptions = useMemo(() => {
         return brokers
-            .filter((b) => b.is_active !== false)
+            .filter((b) => getBrokerStatusUi(b).key === 'active')
             .map((b) => ({
                 value: `broker:${b.id}`,
                 label: [b.public_id, [b.first_name, b.last_name].filter(Boolean).join(' ')].filter(Boolean).join(' — ') || b.email || b.id
@@ -554,9 +588,9 @@ export default function InmoDashboard() {
         let list = brokers;
 
         if (brokerStatusFilter === 'active') {
-            list = list.filter((b) => b.is_active !== false);
+            list = list.filter((b) => getBrokerStatusUi(b).key === 'active');
         } else if (brokerStatusFilter === 'inactive') {
-            list = list.filter((b) => b.is_active === false);
+            list = list.filter((b) => getBrokerStatusUi(b).key !== 'active');
         }
 
         if (!q) return list;
@@ -646,7 +680,7 @@ export default function InmoDashboard() {
     };
 
     const resetCreateBrokerForm = () => {
-        setCreateBrokerForm({ first_name: '', last_name: '', email: '', phone: '', password: '' });
+        setCreateBrokerForm({ first_name: '', last_name: '', email: '', phone: '' });
     };
 
     const createBrokerNow = async (e) => {
@@ -657,11 +691,10 @@ export default function InmoDashboard() {
             first_name: createBrokerForm.first_name.trim(),
             last_name: createBrokerForm.last_name.trim(),
             email: createBrokerForm.email.trim(),
-            phone: createBrokerForm.phone.trim(),
-            password: createBrokerForm.password
+            phone: createBrokerForm.phone.trim()
         };
 
-        if (!payload.first_name || !payload.last_name || !payload.email || !payload.phone || !payload.password) {
+        if (!payload.first_name || !payload.last_name || !payload.email || !payload.phone) {
             setCreateBrokerModalError('Completa todos los campos para registrar el broker.');
             return;
         }
@@ -673,12 +706,39 @@ export default function InmoDashboard() {
             const data = await edgePost('inmo-create-broker', payload);
             if (!data?.ok) throw new Error(data?.error || 'No se pudo crear el broker.');
 
-            setNotice({ tone: 'success', text: 'Broker registrado correctamente.' });
+            setNotice({
+                tone: 'success',
+                text: 'Broker registrado y correo activado. Deberá crear su propia contraseña en su primer inicio de sesión.'
+            });
             setCreatingBroker(false);
             resetCreateBrokerForm();
             await fetchBrokers();
         } catch (err) {
             setCreateBrokerModalError(sanitizeBackendMessage(err?.message || 'No se pudo crear el broker.'));
+        } finally {
+            setSavingBroker(false);
+        }
+    };
+
+    const enableBrokerPasswordResetNow = async () => {
+        if (!supabase || !resetPasswordBroker) return;
+        setSavingBroker(true);
+        setResetPasswordError('');
+        setError(null);
+        try {
+            await edgePost('manage-user', {
+                action: 'enable_password_reset',
+                userId: resetPasswordBroker.id
+            });
+            setNotice({
+                tone: 'warning',
+                text: 'Restablecimiento habilitado: el broker quedó INACTIVO hasta completar su nueva contraseña desde "Restablecer contraseña".'
+            });
+            setResetPasswordBroker(null);
+            setEditingBroker(null);
+            await fetchBrokers();
+        } catch (err) {
+            setResetPasswordError(sanitizeBackendMessage(err?.message ?? 'No se pudo habilitar restablecimiento de contraseña.'));
         } finally {
             setSavingBroker(false);
         }
@@ -932,28 +992,31 @@ export default function InmoDashboard() {
                                 </tr>
                             ) : null}
 
-                            {filteredBrokers.map((b) => (
-                                <tr key={b.id}>
-                                    <td className="brokers-cell-nowrap">{b.public_id || b.id.slice(0, 6).toUpperCase()}</td>
-                                    <td>
-                                        <div className="brokers-lead-name">{[b.first_name, b.last_name].filter(Boolean).join(' ') || '—'}</div>
-                                    </td>
-                                    <td className="brokers-cell-muted">{b.email || '—'}</td>
-                                    <td className="brokers-cell-nowrap">{b.phone || '—'}</td>
-                                    <td>
-                                        <span className={`brokers-badge ${b.is_active ? 'brokers-badge-created' : 'brokers-badge-expired'}`}>
-                                            {b.is_active ? 'Activo' : 'Inactivo'}
-                                        </span>
-                                    </td>
-                                    <td className="brokers-cell-nowrap" style={{ textAlign: 'right' }}>
-                                        <KebabMenu
-                                            disabled={savingBroker}
-                                            onEdit={() => { setBrokerModalError(''); setEditingBroker(b); }}
-                                            onDeactivate={() => setDeactivateBroker(b)}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                            {filteredBrokers.map((b) => {
+                                const brokerStatus = getBrokerStatusUi(b);
+                                return (
+                                    <tr key={b.id}>
+                                        <td className="brokers-cell-nowrap">{b.public_id || b.id.slice(0, 6).toUpperCase()}</td>
+                                        <td>
+                                            <div className="brokers-lead-name">{[b.first_name, b.last_name].filter(Boolean).join(' ') || '—'}</div>
+                                        </td>
+                                        <td className="brokers-cell-muted">{b.email || '—'}</td>
+                                        <td className="brokers-cell-nowrap">{b.phone || '—'}</td>
+                                        <td>
+                                            <span className={`brokers-badge ${brokerStatus.badgeClass}`}>
+                                                {brokerStatus.label}
+                                            </span>
+                                        </td>
+                                        <td className="brokers-cell-nowrap" style={{ textAlign: 'right' }}>
+                                            <KebabMenu
+                                                disabled={savingBroker}
+                                                onEdit={() => { setBrokerModalError(''); setEditingBroker(b); }}
+                                                onDeactivate={() => setDeactivateBroker(b)}
+                                            />
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             </tbody>
                         </table>
                     </div>
@@ -1007,6 +1070,7 @@ export default function InmoDashboard() {
                     broker={editingBroker}
                     onClose={() => setEditingBroker(null)}
                     onSave={saveBrokerEdits}
+                    onEnablePasswordReset={(b) => { setResetPasswordError(''); setResetPasswordBroker(b); }}
                     saving={savingBroker}
                     errorText={brokerModalError}
                 />
@@ -1058,14 +1122,8 @@ export default function InmoDashboard() {
                                     autoComplete="tel"
                                 />
                             </div>
-                            <div className="brokers-field">
-                                <label>Contraseña</label>
-                                <input
-                                    value={createBrokerForm.password}
-                                    onChange={(e) => setCreateBrokerForm((v) => ({ ...v, password: e.target.value }))}
-                                    autoComplete="new-password"
-                                    type="password"
-                                />
+                            <div className="brokers-helper">
+                                El broker creará su propia contraseña en su primer inicio de sesión.
                             </div>
 
                             <div className="brokers-modal-actions">
@@ -1094,6 +1152,19 @@ export default function InmoDashboard() {
                     onCancel={() => setDeactivateBroker(null)}
                     onConfirm={deactivateBrokerNow}
                     disabled={savingBroker}
+                />
+            ) : null}
+
+            {resetPasswordBroker ? (
+                <ConfirmModal
+                    title="Habilitar restablecimiento de contraseña"
+                    text="¿Seguro? La contraseña actual del broker quedará inválida y deberá crear una nueva desde la ventana de restablecimiento."
+                    confirmLabel={savingBroker ? 'Procesando…' : 'Habilitar restablecimiento'}
+                    onCancel={() => { setResetPasswordBroker(null); setResetPasswordError(''); }}
+                    onConfirm={enableBrokerPasswordResetNow}
+                    disabled={savingBroker}
+                    errorText={resetPasswordError}
+                    tone="blue"
                 />
             ) : null}
         </div>

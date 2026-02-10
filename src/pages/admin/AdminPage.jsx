@@ -703,15 +703,14 @@ function UserQuotesHistoryModal({ user, onClose }) {
     );
 }
 
-function UserEditModal({ user, onClose, onSave, saving, errorText, onForceRegimeResubmit }) {
+function UserEditModal({ user, onClose, onSave, saving, errorText, onForceRegimeResubmit, onEnablePasswordReset }) {
     useBodyScrollLock(true);
 
     const [form, setForm] = useState({
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         email: user.email || '',
-        phone: user.phone || '',
-        password: ''
+        phone: user.phone || ''
     });
 
     const [childInfo, setChildInfo] = useState({ checked: false, isChild: false });
@@ -769,8 +768,7 @@ function UserEditModal({ user, onClose, onSave, saving, errorText, onForceRegime
             first_name: form.first_name.trim(),
             last_name: form.last_name.trim(),
             email: form.email.trim(),
-            phone: form.phone.trim(),
-            password: form.password ? form.password : undefined
+            phone: form.phone.trim()
         });
     };
 
@@ -819,10 +817,23 @@ function UserEditModal({ user, onClose, onSave, saving, errorText, onForceRegime
                             <label>Celular</label>
                             <input value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} />
                         </div>
-                        <div className="admin-field">
-                            <label>Contraseña (opcional)</label>
-                            <input type="password" value={form.password} onChange={(e) => setForm((v) => ({ ...v, password: e.target.value }))} />
-                        </div>
+                        {role !== 'admin' ? (
+                            <div className="admin-field">
+                                <label>Acceso</label>
+                                <div className="admin-muted">
+                                    Invalida la contraseña actual y habilita el flujo de restablecimiento para este usuario.
+                                </div>
+                                <button
+                                    type="button"
+                                    className="admin-modal-btn warn"
+                                    onClick={() => onEnablePasswordReset?.(user)}
+                                    disabled={saving}
+                                    style={{ marginTop: 10 }}
+                                >
+                                    Habilitar restablecimiento de contraseña
+                                </button>
+                            </div>
+                        ) : null}
 
                         {role === 'broker' || role === 'inmobiliaria' ? (
                             <div className="admin-field">
@@ -1047,7 +1058,6 @@ const emptyBrokerForm = {
     last_name: '',
     phone: '',
     email: '',
-    password: '',
     org_id: ''
 };
 
@@ -1064,8 +1074,7 @@ const emptyOrgForm = {
     rep_first_name: '',
     rep_last_name: '',
     rep_phone: '',
-    rep_email: '',
-    rep_password: ''
+    rep_email: ''
 };
 
 export default function AdminPage() {
@@ -1087,9 +1096,11 @@ export default function AdminPage() {
     const [deactivateUser, setDeactivateUser] = useState(null);
     const [reactivateUser, setReactivateUser] = useState(null);
     const [forceRegimeResubmitUser, setForceRegimeResubmitUser] = useState(null);
+    const [resetPasswordUser, setResetPasswordUser] = useState(null);
     const [savingUser, setSavingUser] = useState(false);
     const [userModalError, setUserModalError] = useState('');
     const [forceRegimeResubmitError, setForceRegimeResubmitError] = useState('');
+    const [resetPasswordError, setResetPasswordError] = useState('');
 
     const [editingLead, setEditingLead] = useState(null);
     const [deleteLead, setDeleteLead] = useState(null);
@@ -1397,7 +1408,12 @@ export default function AdminPage() {
                 throw new Error(`Edge Function error: ${response.status}`);
             }
 
-            setNotice('Usuario creado correctamente.');
+            const requiresSelfSetup = Boolean(parsed?.password_setup_required);
+            setNotice(
+                requiresSelfSetup
+                    ? 'Usuario creado y correo activado. Deberá crear su propia contraseña en su primer inicio de sesión.'
+                    : 'Usuario creado correctamente.'
+            );
             return parsed ?? null;
         } catch (err) {
             // Preserve the most specific error already set above.
@@ -1419,7 +1435,6 @@ export default function AdminPage() {
                 last_name: brokerForm.last_name,
                 phone: brokerForm.phone,
                 email: brokerForm.email,
-                password: brokerForm.password,
                 // Brokers asociados se crean desde el panel de la inmobiliaria.
                 org_id: null
             });
@@ -1463,8 +1478,7 @@ export default function AdminPage() {
                 first_name: orgForm.rep_first_name,
                 last_name: orgForm.rep_last_name,
                 phone: orgForm.rep_phone,
-                email: orgForm.rep_email,
-                password: orgForm.rep_password
+                email: orgForm.rep_email
             });
             setOrgForm(emptyOrgForm);
             await refreshData();
@@ -1553,6 +1567,25 @@ export default function AdminPage() {
             await refreshData();
         } catch (err) {
             setForceRegimeResubmitError(sanitizeBackendMessage(err?.message || 'No se pudo habilitar el reenvío de régimen.'));
+        } finally {
+            setSavingUser(false);
+        }
+    };
+
+    const enablePasswordResetNow = async () => {
+        if (!supabase || !resetPasswordUser) return;
+        setSavingUser(true);
+        setResetPasswordError('');
+        setNotice('');
+        setError('');
+        try {
+            await edgePost('manage-user', { action: 'enable_password_reset', userId: resetPasswordUser.id });
+            setNotice('Restablecimiento habilitado: el usuario quedó INACTIVO hasta que complete la creación de su nueva contraseña.');
+            setResetPasswordUser(null);
+            setEditingUser(null);
+            await refreshData();
+        } catch (err) {
+            setResetPasswordError(sanitizeBackendMessage(err?.message || 'No se pudo habilitar restablecimiento de contraseña.'));
         } finally {
             setSavingUser(false);
         }
@@ -1822,9 +1855,8 @@ export default function AdminPage() {
                                         <label>Correo</label>
                                         <input type="email" value={brokerForm.email} onChange={(e) => setBrokerForm(v => ({ ...v, email: e.target.value }))} />
                                     </div>
-                                    <div className="admin-field">
-                                        <label>Contraseña</label>
-                                        <input type="password" value={brokerForm.password} onChange={(e) => setBrokerForm(v => ({ ...v, password: e.target.value }))} />
+                                    <div className="admin-note">
+                                        El broker creará su propia contraseña en su primer inicio de sesión.
                                     </div>
                                     <div className="admin-field">
                                         <label>Inmobiliaria (solo desde panel inmobiliaria)</label>
@@ -1887,9 +1919,8 @@ export default function AdminPage() {
                                         <label>Correo representante</label>
                                         <input type="email" value={orgForm.rep_email} onChange={(e) => setOrgForm(v => ({ ...v, rep_email: e.target.value }))} />
                                     </div>
-                                    <div className="admin-field">
-                                        <label>Contraseña representante</label>
-                                        <input type="password" value={orgForm.rep_password} onChange={(e) => setOrgForm(v => ({ ...v, rep_password: e.target.value }))} />
+                                    <div className="admin-note">
+                                        El representante creará su propia contraseña en su primer inicio de sesión.
                                     </div>
                                     <button className="admin-action" type="submit" disabled={loading}>
                                         Crear inmobiliaria
@@ -2239,6 +2270,7 @@ export default function AdminPage() {
                     onClose={() => setEditingUser(null)}
                     onSave={saveUserEdits}
                     onForceRegimeResubmit={(u) => { setForceRegimeResubmitError(''); setForceRegimeResubmitUser(u); }}
+                    onEnablePasswordReset={(u) => { setResetPasswordError(''); setResetPasswordUser(u); }}
                     saving={savingUser}
                     errorText={userModalError}
                 />
@@ -2277,6 +2309,19 @@ export default function AdminPage() {
                     disabled={savingUser}
                     tone="warn"
                     errorText={forceRegimeResubmitError}
+                />
+            ) : null}
+
+            {resetPasswordUser ? (
+                <ConfirmModal
+                    title="Habilitar restablecimiento de contraseña"
+                    text="¿Seguro? La contraseña actual quedará inválida y el usuario tendrá que crear una nueva desde el acceso de restablecimiento."
+                    confirmLabel={savingUser ? 'Procesando…' : 'Habilitar restablecimiento'}
+                    onCancel={() => { setResetPasswordUser(null); setResetPasswordError(''); }}
+                    onConfirm={enablePasswordResetNow}
+                    disabled={savingUser}
+                    tone="warn"
+                    errorText={resetPasswordError}
                 />
             ) : null}
 

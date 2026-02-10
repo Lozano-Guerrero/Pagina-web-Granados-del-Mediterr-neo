@@ -143,6 +143,74 @@
     cursor: pointer;
 }
 
+.brokers-login-links {
+    display: grid;
+    gap: 4px;
+    justify-items: center;
+}
+
+.brokers-login-link-btn {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 0.78rem;
+    color: #6b7280;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+.brokers-login-link-btn:hover,
+.brokers-login-link-btn.active {
+    color: #1f2937;
+}
+
+.brokers-helper-card {
+    display: grid;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    background: #f9fafb;
+    padding: 12px;
+}
+
+.brokers-helper-title {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #111827;
+}
+
+.brokers-helper-text {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: #6b7280;
+    font-weight: 700;
+}
+
+.brokers-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    border-radius: 10px;
+    background: #128c7e;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+    padding: 0 12px;
+}
+
+.brokers-whatsapp-btn:hover {
+    background: #0f766e;
+}
+
+.brokers-helper-form {
+    margin-top: 2px;
+}
+
 .brokers-login-site {
     text-align: center;
     font-size: 0.9rem;

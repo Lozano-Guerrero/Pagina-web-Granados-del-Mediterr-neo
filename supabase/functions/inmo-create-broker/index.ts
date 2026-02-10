@@ -39,12 +39,20 @@ function generatePublicId(prefix: string) {
   return `${prefix}${out}`;
 }
 
+function generateTemporaryPassword(length = 26) {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  let out = "";
+  for (let i = 0; i < length; i++) out += alphabet[bytes[i] % alphabet.length];
+  return out;
+}
+
 type Body = {
   first_name: string;
   last_name: string;
   email: string;
   phone: string;
-  password: string;
 };
 
 serve(async (req) => {
@@ -104,24 +112,29 @@ serve(async (req) => {
   const last_name = cleanString(body?.last_name);
   const email = cleanString(body?.email);
   const phone = cleanString(body?.phone);
-  const password = cleanString(body?.password);
 
-  if (!first_name || !last_name || !email || !phone || !password) {
-    return jsonResponse(400, { error: "Campos obligatorios: nombre, apellido, correo, celular y contraseña." });
+  if (!first_name || !last_name || !email || !phone) {
+    return jsonResponse(400, { error: "Campos obligatorios: nombre, apellido, correo y celular." });
   }
 
+  const temporaryPassword = generateTemporaryPassword();
   const { data: created, error: createErr } = await adminClient.auth.admin.createUser({
     email,
-    password,
+    password: temporaryPassword,
     email_confirm: true,
+    user_metadata: {
+      password_setup_required: true,
+      password_reset_enabled: false,
+    },
+    app_metadata: {
+      password_setup_required: true,
+      password_reset_enabled: false,
+    },
   });
 
   if (createErr || !created?.user) {
     return jsonResponse(500, { error: "Failed to create user.", details: createErr?.message ?? null });
   }
-
-  const inheritedAccountStatusRaw = String((callerProfile as any)?.account_status ?? "active").trim().toLowerCase();
-  const inheritedAccountStatus = inheritedAccountStatusRaw === "inactive" ? "inactive" : "active";
 
   let publicId: string | null = null;
   try {
@@ -142,8 +155,8 @@ serve(async (req) => {
     role: "broker",
     org_id: callerProfile.org_id,
     is_active: true,
-    // El broker "hijo" hereda el estado de la inmobiliaria madre.
-    account_status: inheritedAccountStatus,
+    // Nuevo broker inicia INACTIVO hasta completar primera configuración de contraseña.
+    account_status: "inactive",
   } as Record<string, unknown>;
 
   // Compat si la DB aún no tiene public_id.
@@ -177,5 +190,10 @@ serve(async (req) => {
     }
   }
 
-  return jsonResponse(200, { ok: true, user_id: created.user.id, public_id: publicId });
+  return jsonResponse(200, {
+    ok: true,
+    user_id: created.user.id,
+    public_id: publicId,
+    password_setup_required: true,
+  });
 });

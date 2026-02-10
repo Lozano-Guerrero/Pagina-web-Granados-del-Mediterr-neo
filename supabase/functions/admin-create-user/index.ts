@@ -20,7 +20,7 @@ const corsHeaders = {
 type CreateUserPayload = {
   role: "broker" | "inmobiliaria" | "subadmin" | "admin";
   email: string;
-  password: string;
+  password?: string;
   first_name?: string;
   last_name?: string;
   phone?: string;
@@ -28,11 +28,20 @@ type CreateUserPayload = {
   company_name?: string;
 };
 
-function normalizeInheritedAccountStatus(value: unknown): "active" | "inactive" | null {
-  const v = String(value ?? "").trim().toLowerCase();
-  if (v === "inactive" || v === "deactivated") return "inactive";
-  if (v === "active") return "active";
-  return null;
+function cleanString(value: unknown) {
+  const s = String(value ?? "").trim();
+  return s.length ? s : null;
+}
+
+function generateTemporaryPassword(length = 26) {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += alphabet[bytes[i] % alphabet.length];
+  }
+  return out;
 }
 
 function pickPublicIdPrefix(role: CreateUserPayload["role"]) {
@@ -137,15 +146,35 @@ serve(async (req) => {
     }
 
     const payload = (await req.json()) as CreateUserPayload;
-    if (!payload?.email || !payload?.password || !payload?.role) {
+    const roleInput = cleanString(payload?.role)?.toLowerCase();
+    const email = cleanString(payload?.email)?.toLowerCase();
+    const providedPassword = cleanString(payload?.password);
+
+    if (!email || !roleInput) {
       return new Response(JSON.stringify({ error: "Missing required fields." }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    if (!["broker", "inmobiliaria", "subadmin", "admin"].includes(roleInput)) {
+      return new Response(JSON.stringify({ error: "role inválido." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const requestedRole = roleInput as CreateUserPayload["role"];
+    const requiresSelfPasswordSetup = requestedRole === "broker" || requestedRole === "inmobiliaria";
+    const effectivePassword = requiresSelfPasswordSetup ? generateTemporaryPassword() : providedPassword;
+    if (!effectivePassword) {
+      return new Response(JSON.stringify({ error: "password es obligatorio para usuarios staff." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Solo el admin "real" puede crear staff (admin/subadmin).
-    const requestedRole = String(payload.role ?? "").toLowerCase();
     if ((requestedRole === "admin" || requestedRole === "subadmin") && !isAdminCaller) {
       return new Response(JSON.stringify({ error: "Forbidden.", details: "Solo admin puede crear sub-admins." }), {
         status: 403,
@@ -156,11 +185,11 @@ serve(async (req) => {
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
     let orgId: string | null = payload.org_id ?? null;
-    // Nuevos usuarios (broker/inmobiliaria) deben iniciar INACTIVOS para forzar firma de régimen.
-    // Admin/Sub-admin se mantienen activos.
+    // Nuevos usuarios (broker/inmobiliaria) siempre inician INACTIVOS hasta completar
+    // su primer acceso (creación/restablecimiento de contraseña).
     let initialAccountStatus: "active" | "inactive" = ["admin", "subadmin"].includes(requestedRole) ? "active" : "inactive";
 
-    if (payload.role === "inmobiliaria") {
+    if (requestedRole === "inmobiliaria") {
       if (!payload.company_name) {
         return new Response(JSON.stringify({ error: "company_name is required for inmobiliaria." }), {
           status: 400,
@@ -184,26 +213,21 @@ serve(async (req) => {
       orgId = org?.id ?? null;
     }
 
-    // Si el admin crea un broker ligado a una inmobiliaria (org_id),
-    // el broker hijo hereda el status de la inmobiliaria madre (activo/inactivo).
-    if (payload.role === "broker" && orgId) {
-      const { data: parentInmo } = await adminClient
-        .from("profiles")
-        .select("account_status")
-        .eq("role", "inmobiliaria")
-        .eq("org_id", orgId)
-        .eq("is_active", true)
-        .limit(1)
-        .maybeSingle();
-
-      const inherited = normalizeInheritedAccountStatus((parentInmo as any)?.account_status);
-      if (inherited) initialAccountStatus = inherited;
-    }
+    // Nota: incluso brokers hijos quedan "inactive" al crearse.
+    // La herencia de estado de inmobiliaria se aplica después del primer acceso.
 
     const { data: created, error: createErr } = await adminClient.auth.admin.createUser({
-      email: payload.email,
-      password: payload.password,
+      email,
+      password: effectivePassword,
       email_confirm: true,
+      user_metadata: {
+        password_setup_required: requiresSelfPasswordSetup,
+        password_reset_enabled: false,
+      },
+      app_metadata: {
+        password_setup_required: requiresSelfPasswordSetup,
+        password_reset_enabled: false,
+      },
     });
 
     if (createErr || !created?.user) {
@@ -213,7 +237,7 @@ serve(async (req) => {
       });
     }
 
-    const prefix = pickPublicIdPrefix(payload.role);
+    const prefix = pickPublicIdPrefix(requestedRole);
 
     let publicId: string | null = null;
     try {
@@ -236,8 +260,8 @@ serve(async (req) => {
       first_name: payload.first_name ?? null,
       last_name: payload.last_name ?? null,
       phone: payload.phone ?? null,
-      email: payload.email ?? null,
-      role: payload.role,
+      email: email ?? null,
+      role: requestedRole,
       org_id: orgId,
       account_status: initialAccountStatus,
     } as Record<string, unknown>;
@@ -304,7 +328,13 @@ serve(async (req) => {
       });
     }
 
-    return new Response(JSON.stringify({ ok: true, user_id: created.user.id, org_id: orgId, public_id: publicId }), {
+    return new Response(JSON.stringify({
+      ok: true,
+      user_id: created.user.id,
+      org_id: orgId,
+      public_id: publicId,
+      password_setup_required: requiresSelfPasswordSetup,
+    }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

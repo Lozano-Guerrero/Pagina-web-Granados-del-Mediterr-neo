@@ -25,7 +25,7 @@ function jsonResponse(status: number, body: unknown) {
 }
 
 type RequestBody = {
-  action: "update" | "deactivate" | "reactivate" | "force_regime_resubmit";
+  action: "update" | "deactivate" | "reactivate" | "force_regime_resubmit" | "enable_password_reset";
   userId: string;
   updates?: {
     first_name?: string;
@@ -40,6 +40,33 @@ function cleanString(value: unknown) {
   if (value === null || value === undefined) return null;
   const s = String(value).trim();
   return s.length ? s : null;
+}
+
+function generateTemporaryPassword(length = 26) {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += alphabet[bytes[i] % alphabet.length];
+  }
+  return out;
+}
+
+function mergePasswordFlowMetadata(
+  value: unknown,
+  nextFlags: { password_setup_required: boolean; password_reset_enabled: boolean },
+) {
+  const base =
+    value && typeof value === "object" && !Array.isArray(value)
+      ? (value as Record<string, unknown>)
+      : {};
+
+  return {
+    ...base,
+    password_setup_required: nextFlags.password_setup_required,
+    password_reset_enabled: nextFlags.password_reset_enabled,
+  };
 }
 
 serve(async (req) => {
@@ -309,6 +336,78 @@ serve(async (req) => {
     });
   }
 
+  if (action === "enable_password_reset") {
+    if (!isStaff && !isInmobiliaria) {
+      return jsonResponse(403, { error: "No tienes permiso para habilitar restablecimiento de contraseña." });
+    }
+    if (targetRole === "admin") {
+      return jsonResponse(403, { error: "No puedes habilitar restablecimiento para el usuario admin." });
+    }
+
+    const currentAccountStatus = String(finalTargetProfile.account_status ?? "").toLowerCase();
+    if (finalTargetProfile.is_active === false || currentAccountStatus === "deactivated") {
+      return jsonResponse(400, {
+        error: "Usuario desactivado. Reactívalo antes de habilitar restablecimiento de contraseña.",
+      });
+    }
+
+    const { data: authUserData, error: authUserErr } = await adminClient.auth.admin.getUserById(targetUserId);
+    if (authUserErr || !authUserData?.user) {
+      return jsonResponse(500, {
+        error: "No se pudo leer usuario en Auth.",
+        details: authUserErr?.message ?? null,
+      });
+    }
+
+    const temporaryPassword = generateTemporaryPassword();
+    const nextUserMetadata = mergePasswordFlowMetadata(authUserData.user.user_metadata, {
+      password_setup_required: false,
+      password_reset_enabled: true,
+    });
+    const nextAppMetadata = mergePasswordFlowMetadata(authUserData.user.app_metadata, {
+      password_setup_required: false,
+      password_reset_enabled: true,
+    });
+
+    const { error: authUpErr } = await adminClient.auth.admin.updateUserById(targetUserId, {
+      password: temporaryPassword,
+      email_confirm: true,
+      user_metadata: nextUserMetadata,
+      app_metadata: nextAppMetadata,
+    });
+
+    if (authUpErr) {
+      return jsonResponse(500, {
+        error: "No se pudo habilitar restablecimiento de contraseña.",
+        details: authUpErr.message,
+      });
+    }
+
+    // Durante restablecimiento, el usuario queda INACTIVO hasta completar
+    // su nuevo acceso en la ventana de restablecer contraseña.
+    if (targetRole === "broker" || targetRole === "inmobiliaria") {
+      const { error: profileUpErr } = await adminClient
+        .from("profiles")
+        .update({ account_status: "inactive" })
+        .eq("id", targetUserId);
+
+      if (profileUpErr && !/account_status/i.test(String(profileUpErr.message ?? ""))) {
+        return jsonResponse(500, {
+          error: "No se pudo actualizar el estado del usuario para restablecimiento.",
+          details: profileUpErr.message,
+        });
+      }
+    }
+
+    return jsonResponse(200, {
+      ok: true,
+      action,
+      userId: targetUserId,
+      password_reset_enabled: true,
+      account_status: targetRole === "broker" || targetRole === "inmobiliaria" ? "inactive" : null,
+    });
+  }
+
   if (action !== "update") return jsonResponse(400, { error: "Acción inválida." });
 
   const updates = body?.updates ?? {};
@@ -326,6 +425,15 @@ serve(async (req) => {
       authPayload.email_confirm = true;
     }
     if (nextPassword) {
+      const { data: authUserData } = await adminClient.auth.admin.getUserById(targetUserId);
+      authPayload.user_metadata = mergePasswordFlowMetadata(authUserData?.user?.user_metadata, {
+        password_setup_required: false,
+        password_reset_enabled: false,
+      });
+      authPayload.app_metadata = mergePasswordFlowMetadata(authUserData?.user?.app_metadata, {
+        password_setup_required: false,
+        password_reset_enabled: false,
+      });
       authPayload.password = nextPassword;
     }
 
