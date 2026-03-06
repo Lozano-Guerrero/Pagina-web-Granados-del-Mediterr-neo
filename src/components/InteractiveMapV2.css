@@ -43,12 +43,11 @@
 .map-header-v2 {
     background-color: var(--neutral-white);
     padding: 1.5rem 1rem;
-    /* Compactado */
     margin-bottom: 15px;
-    /* Compactado */
     border-radius: 4px;
     box-shadow: var(--shadow-soft);
-    width: 90%;
+    width: 100%;
+    /* Expande al 100% de su contenedor (el padre lo centralizará al 90%) */
     border-bottom: 1px solid var(--neutral-light-gray);
 }
 
@@ -173,21 +172,19 @@
     display: flex;
     flex-direction: column;
     pointer-events: auto;
-    opacity: 0;
-    transform: translateY(20px);
-    visibility: hidden;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
 }
 
 .lot-info-sticky-panel-v2.active {
     opacity: 1;
-    transform: translateX(0);
-    visibility: visible;
+    transform: translateY(0);
 }
 
 .lot-info-sticky-panel-v2.initial-state {
     opacity: 1;
-    transform: translateX(0);
-    visibility: visible;
+    transform: translateY(0);
     background: rgba(255, 255, 255, 0.8);
 }
 
@@ -312,7 +309,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 95%;
+    /* Expandiendo el área del mapa en relación con su columna */
     margin: 0 auto;
 }
 
@@ -579,8 +577,6 @@
         margin-top: -10px;
 
     }
-
-    .status-item-inner-v2 {}
 
     .status-item-inner-v2 .status-item-v2 {
         font-size: 0.8rem;

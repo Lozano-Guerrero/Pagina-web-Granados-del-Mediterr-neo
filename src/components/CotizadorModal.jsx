@@ -42,7 +42,7 @@ const toNumber = (value) => {
     return Number.isNaN(num) ? 0 : num;
 };
 
-const sanitizeDigits = (value) => String(value ?? '').replace(/\\D/g, '');
+const sanitizeDigits = (value) => String(value ?? '').replace(/\D/g, '');
 
 const isProbablyIPad = () => {
     if (typeof navigator === 'undefined') return false;
@@ -528,10 +528,26 @@ export default function CotizadorModal({ open, onClose, lotData, discountConfig,
                     engancheAmount = totalCurrent;
                     applyAdjust('Enganche');
                 }
-                adjustedFields.enganche.value = valueFromAmount(adjustedFields.enganche, engancheAmount, totalCurrent);
+
+                // Actualizamos el valor del campo si no es el que estamos editando
+                // o si fue ajustado por exceder el total.
+                if (editedField !== 'enganche' || ajusteCampos.has('Enganche')) {
+                    adjustedFields.enganche.value = valueFromAmount(adjustedFields.enganche, engancheAmount, totalCurrent);
+                }
+
                 remaining = Math.max(0, totalCurrent - engancheAmount);
                 monthly = totalCurrent ? remaining / 44 : 0;
                 sinSaldo = remaining <= 0;
+                pagoTotalEnganche = engancheAmount >= totalCurrent;
+
+                // En el plan 44 no hay anualidades ni contra escritura, aseguramos que sean 0.
+                anualidadAmount = 0;
+                anualidadesTotal = 0;
+                contraAmount = 0;
+
+                if (adjustedFields.anualidad) adjustedFields.anualidad.value = '0';
+                if (adjustedFields.contra) adjustedFields.contra.value = '0';
+
                 break;
             }
 
@@ -642,12 +658,17 @@ export default function CotizadorModal({ open, onClose, lotData, discountConfig,
             }
 
             const newEngancheValue = valueFromAmount(adjustedFields.enganche, engancheAmount, totalCurrent);
+            // Solo sobreescribimos si no es el campo que el usuario está editando
+            // o si fue ajustado por exceder el total o cambiar otros campos.
             const engancheChanged = newEngancheValue !== adjustedFields.enganche.value;
-            adjustedFields.enganche.value = newEngancheValue;
-            if (adjustedFields.anualidad) {
+            if (editedField !== 'enganche' || ajusteCampos.has('Enganche')) {
+                adjustedFields.enganche.value = newEngancheValue;
+            }
+
+            if (adjustedFields.anualidad && (editedField !== 'anualidad' || ajusteCampos.has('Anualidad'))) {
                 adjustedFields.anualidad.value = valueFromAmount(adjustedFields.anualidad, anualidadAmount, totalCurrent);
             }
-            if (adjustedFields.contra) {
+            if (adjustedFields.contra && (editedField !== 'contra' || ajusteCampos.has('Contra escritura'))) {
                 adjustedFields.contra.value = valueFromAmount(adjustedFields.contra, contraAmount, totalCurrent);
             }
 
@@ -1076,30 +1097,30 @@ export default function CotizadorModal({ open, onClose, lotData, discountConfig,
                     <aside className={`cotizador-results ${showPlanInputs ? '' : 'disabled'}`}>
                         <div className="cotizador-results-title">Resumen en $</div>
                         <div className="cotizador-results-list">
-                        <div className="cotizador-result-item">
-                            <span>Enganche</span>
-                            <strong>{displayAmount(calculations.engancheAmount)}</strong>
-                        </div>
-                        {selectedPlan !== PLAN_44 && (
-                            <>
-                                <div className="cotizador-result-item">
-                                    <span>Anualidad</span>
-                                    <strong>{displayAmount(calculations.anualidadAmount)}</strong>
-                                </div>
-                                <div className="cotizador-result-item">
-                                    <span>Total 3 anualidades</span>
-                                    <strong>{displayAmount(calculations.anualidadesTotal)}</strong>
-                                </div>
-                                <div className="cotizador-result-item">
-                                    <span>Contra escritura</span>
-                                    <strong>{displayAmount(calculations.contraAmount)}</strong>
-                                </div>
-                            </>
-                        )}
-                        <div className="cotizador-result-item">
-                            <span>Mensualidad {selectedPlan === PLAN_44 ? '44 MSI' : '40 MSI'}</span>
-                            <strong>{displayAmount(calculations.monthly)}</strong>
-                        </div>
+                            <div className="cotizador-result-item">
+                                <span>Enganche</span>
+                                <strong>{displayAmount(calculations.engancheAmount)}</strong>
+                            </div>
+                            {selectedPlan !== PLAN_44 && (
+                                <>
+                                    <div className="cotizador-result-item">
+                                        <span>Anualidad</span>
+                                        <strong>{displayAmount(calculations.anualidadAmount)}</strong>
+                                    </div>
+                                    <div className="cotizador-result-item">
+                                        <span>Total 3 anualidades</span>
+                                        <strong>{displayAmount(calculations.anualidadesTotal)}</strong>
+                                    </div>
+                                    <div className="cotizador-result-item">
+                                        <span>Contra escritura</span>
+                                        <strong>{displayAmount(calculations.contraAmount)}</strong>
+                                    </div>
+                                </>
+                            )}
+                            <div className="cotizador-result-item">
+                                <span>Mensualidad {selectedPlan === PLAN_44 ? '44 MSI' : '40 MSI'}</span>
+                                <strong>{displayAmount(calculations.monthly)}</strong>
+                            </div>
                         </div>
                         {quoteError ? <div className="cotizador-error" style={{ marginTop: 10 }}>{quoteError}</div> : null}
                         <button className="cotizador-submit" type="button" onClick={onDownloadQuote} disabled={quoteSaving}>

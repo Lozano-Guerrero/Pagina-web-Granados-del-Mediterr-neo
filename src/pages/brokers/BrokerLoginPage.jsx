@@ -210,11 +210,13 @@ export default function BrokerLoginPage() {
             <div className="brokers-card">
                 <div>
                     <h1 className="brokers-title">Acceso Brokers</h1>
-                    <img
-                        className="brokers-logo"
-                        src={LozanoGuerreroLogo}
-                        alt="Lozano Guerrero Group"
-                    />
+                    <a href="https://www.lozanoguerrero.com/" target="_blank" rel="noopener noreferrer">
+                        <img
+                            className="brokers-logo"
+                            src={LozanoGuerreroLogo}
+                            alt="Lozano Guerrero Group"
+                        />
+                    </a>
                     <p className="brokers-subtitle">Ingresa con tus credenciales autorizadas.</p>
                 </div>
 

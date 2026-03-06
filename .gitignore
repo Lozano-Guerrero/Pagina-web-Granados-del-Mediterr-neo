@@ -29,3 +29,6 @@ dist-ssr
 # Ignorar documentos sensibles
 token.docx
 *.docx
+
+# Ignorar videos pesados
+public/video/*.mp4

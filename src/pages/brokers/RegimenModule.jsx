@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './Brokers.css';
 import { supabase } from '../../lib/supabaseClient';
 import { edgePost } from '../../lib/edgeFetch';
@@ -71,7 +72,9 @@ function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled
         return () => window.removeEventListener('keydown', onKey);
     }, [onCancel]);
 
-    return (
+    if (typeof document === 'undefined') return null;
+
+    return createPortal(
         <div
             className="brokers-modal-overlay"
             role="dialog"
@@ -95,13 +98,14 @@ function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }
 
 export default function RegimenModule({ variant }) {
     // variant: 'broker' | 'inmobiliaria'
-    const { profile } = useAuth();
+    const { profile, refreshProfile } = useAuth();
     const [ctx, setCtx] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -128,12 +132,20 @@ export default function RegimenModule({ variant }) {
     const canRegisterLeads = ctx?.ok ? Boolean(ctx?.canRegisterLeads) : true;
 
     const statusLabel = useMemo(() => {
-        const accountStatus = String(ctx?.accountStatus ?? '').toLowerCase();
+        const realStatus = profile?.account_status || String(ctx?.accountStatus ?? '').toLowerCase();
         const isActive = profile?.is_active !== false;
-        if (!isActive || accountStatus === 'deactivated') return { tone: 'danger', text: 'DESACTIVADO' };
-        if (accountStatus === 'inactive' || !canRegisterLeads) return { tone: 'warn', text: 'INACTIVO' };
+
+        if (!isActive || realStatus === 'deactivated') {
+            return { tone: 'danger', text: 'DESACTIVADO' };
+        }
+
+        if (realStatus === 'inactive') {
+            return { tone: 'warn', text: 'INACTIVO' };
+        }
+
+        // Si la cuenta es active, mostramos ACTIVO, aunque el usuario tenga bloqueos operativos
         return { tone: 'ok', text: 'ACTIVO' };
-    }, [canRegisterLeads, ctx?.accountStatus, profile?.is_active]);
+    }, [ctx?.accountStatus, profile?.account_status, profile?.is_active]);
 
     useEffect(() => {
         if (!supabase || !profile?.id) return;
@@ -232,11 +244,18 @@ export default function RegimenModule({ variant }) {
             });
 
             setFile(null);
-            setMessage({ tone: 'success', text: 'Régimen firmado enviado correctamente.' });
+            setMessage({
+                tone: 'success',
+                text: 'Régimen recibido. Tu documento ha entrado a fase de Auditoría y Verificación. Quedas habilitado temporalmente.'
+            });
 
             // Refrescar contexto para desbloquear registro de leads en UI.
             const { data: ctxData } = await supabase.rpc('get_regimen_context');
             setCtx(ctxData ?? null);
+
+            // Forzar actualización visual sincronizada del perfil en React globalmente
+            if (refreshProfile) await refreshProfile();
+
         } catch (e) {
             const msg = sanitizeBackendMessage(e?.message ?? e ?? 'No se pudo enviar el régimen.');
             setError(msg);
@@ -249,123 +268,206 @@ export default function RegimenModule({ variant }) {
     const regimenName = ctx?.regimenName || 'Sin régimen activo';
     const hasActiveRegimen = Boolean(ctx?.activeRegimenId);
 
+    const isHorizontal = variant === 'horizontal';
+
     return (
-        <div className="brokers-subcard regimen-card">
-            <div className="regimen-head">
-                <div>
-                    <div className="regimen-title">{title}</div>
-                    <div className="regimen-subtitle">Estado: <span className={`regimen-state ${statusLabel.tone}`}>{statusLabel.text}</span></div>
-                </div>
-                {loading ? <span className="brokers-cell-muted">Cargando…</span> : null}
-            </div>
+        <div className={`brokers-subcard regimen-card ${isHorizontal ? 'regimen-card-v2' : ''}`}>
+            {isHorizontal ? (
+                <>
+                    <div className="regimen-v2-info">
+                        <div className="regimen-v2-step-label">Descarga el nuevo régimen</div>
+                        <div className="regimen-v2-version">{ctx?.regimenName || '1.0'}</div>
+                    </div>
 
-            {error ? <div className="brokers-error">{error}</div> : null}
-            {message ? <div className="brokers-success">{message.text}</div> : null}
+                    <div className="regimen-v2-divider" />
 
-                <div className="regimen-block">
-                <div className="regimen-block-title">
-                    {statusLabel.text === 'INACTIVO' ? 'Descarga el nuevo régimen' : 'Régimen actual'}
-                </div>
-                <div className="regimen-file">{regimenName}</div>
-                <button
-                    type="button"
-                    className="brokers-inline-btn brokers-inline-btn-blue"
-                    onClick={downloadMaster}
-                    disabled={sending || loading || !hasActiveRegimen}
-                >
-                    Descargar PDF
-                </button>
-            </div>
-
-            <div className={`regimen-block ${statusLabel.text === 'INACTIVO' ? '' : 'disabled'}`}>
-                <div className="regimen-block-title">Sube aquí tu régimen firmado</div>
-                {statusLabel.text === 'INACTIVO' && hasActiveRegimen ? (
-                    <>
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="application/pdf"
-                            onChange={(e) => applyFile(e.target.files?.[0] ?? null)}
-                            disabled={sending}
-                            style={{ display: 'none' }}
-                        />
-                        <div
-                            className={`brokers-dropzone ${sending ? 'disabled' : ''}`}
-                            role="button"
-                            tabIndex={sending ? -1 : 0}
-                            onClick={openFilePicker}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    openFilePicker();
-                                }
-                            }}
-                            onDragOver={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }}
-                            onDrop={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                const f = e.dataTransfer?.files?.[0] ?? null;
-                                applyFile(f);
-                            }}
-                            aria-label="Seleccionar PDF firmado"
-                        >
-                            <span className="brokers-dropzone-icon" aria-hidden="true">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                    <path
-                                        d="M12 3v10m0-10 4 4m-4-4-4 4"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                    <path
-                                        d="M4 15v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-3"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </span>
-                            <div>
-                                <div className="brokers-dropzone-title">Arrastra tu PDF aquí</div>
-                                <div className="brokers-dropzone-hint">o haz clic para seleccionar</div>
-                            </div>
-                        </div>
-                        {file ? <div className="brokers-dropzone-file">{file.name}</div> : null}
+                    <div className="regimen-v2-step">
+                        <div className="regimen-v2-step-label">Paso 1</div>
                         <button
                             type="button"
-                            className="brokers-inline-btn brokers-inline-btn-green"
+                            className="regimen-v2-btn-outline"
+                            onClick={downloadMaster}
+                            disabled={sending || loading || !hasActiveRegimen}
+                        >
+                            Descargar PDF
+                        </button>
+                    </div>
+
+                    <div className="regimen-v2-divider" />
+
+                    <div className="regimen-v2-step">
+                        <div className="regimen-v2-step-label">Paso 2</div>
+                        <div
+                            className={`regimen-v2-dropzone ${sending ? 'disabled' : ''}`}
+                            onClick={openFilePicker}
+                        >
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="application/pdf"
+                                onChange={(e) => applyFile(e.target.files?.[0] ?? null)}
+                                style={{ display: 'none' }}
+                            />
+                            <div className="regimen-v2-drop-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M12 3v10m0-10 4 4m-4-4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M4 15v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-3" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </div>
+                            <div className="regimen-v2-drop-text">
+                                <strong>Arrastra tu PDF aquí</strong>
+                                <span>o haz clic para seleccionar</span>
+                            </div>
+                        </div>
+                        {file && <div className="regimen-v2-file-selected">{file.name}</div>}
+                    </div>
+
+                    <div className="regimen-v2-divider" />
+
+                    <div className="regimen-v2-step">
+                        <div className="regimen-v2-step-label">Paso 3</div>
+                        <button
+                            type="button"
+                            className="regimen-v2-btn-success"
                             onClick={() => setConfirm(true)}
                             disabled={sending || !file}
                         >
                             Enviar régimen
                         </button>
-                        <div className="brokers-legal-text warn">
-                            Cualquier documento incorrecto, falso, alterado o con información errónea
-                            <br />
-                            hará inválidos todos los registros realizados bajo el régimen actual.
-                        </div>
-                    </>
-                ) : (
-                    <div className="brokers-cell-muted">
-                        {hasActiveRegimen ? 'Ya has enviado el régimen firmado.' : 'Aún no hay un régimen activo para firmar.'}
                     </div>
-                )}
-            </div>
 
-            {!canRegisterLeads && ctx?.blockReason ? (
-                <div className="brokers-warning">{ctx.blockReason}</div>
-            ) : null}
+                    {!canRegisterLeads && ctx?.blockReason && (
+                        <div className="regimen-v2-sticky-alert">
+                            {ctx.blockReason}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <>
+                    <div className="regimen-head">
+                        <div>
+                            <div className="regimen-title">{title}</div>
+                            <div className="regimen-subtitle">Estado: <span className={`regimen-state ${statusLabel.tone}`}>{statusLabel.text}</span></div>
+                        </div>
+                        {loading ? <span className="brokers-cell-muted">Cargando…</span> : null}
+                    </div>
+
+                    {error ? <div className="brokers-error">{error}</div> : null}
+                    {message ? <div className="brokers-success">{message.text}</div> : null}
+
+                    <div className="regimen-block">
+                        <div className="regimen-block-title">
+                            {statusLabel.text === 'INACTIVO' ? 'Descarga el nuevo régimen' : 'Régimen actual'}
+                        </div>
+                        <div className="regimen-file">{regimenName}</div>
+                        <button
+                            type="button"
+                            className="brokers-inline-btn brokers-inline-btn-blue"
+                            onClick={downloadMaster}
+                            disabled={sending || loading || !hasActiveRegimen}
+                        >
+                            Descargar PDF
+                        </button>
+                    </div>
+
+                    <div className={`regimen-block ${statusLabel.text === 'INACTIVO' ? '' : 'disabled'}`}>
+                        <div className="regimen-block-title">Sube aquí tu régimen firmado</div>
+                        {statusLabel.text === 'INACTIVO' && hasActiveRegimen ? (
+                            <>
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="application/pdf"
+                                    onChange={(e) => applyFile(e.target.files?.[0] ?? null)}
+                                    disabled={sending}
+                                    style={{ display: 'none' }}
+                                />
+                                <div
+                                    className={`brokers-dropzone ${sending ? 'disabled' : ''}`}
+                                    role="button"
+                                    tabIndex={sending ? -1 : 0}
+                                    onClick={openFilePicker}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            openFilePicker();
+                                        }
+                                    }}
+                                    onDragOver={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const f = e.dataTransfer?.files?.[0] ?? null;
+                                        applyFile(f);
+                                    }}
+                                    aria-label="Seleccionar PDF firmado"
+                                >
+                                    <span className="brokers-dropzone-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M12 3v10m0-10 4 4m-4-4-4 4"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M4 15v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-3"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <div className="brokers-dropzone-title">Arrastra tu PDF aquí</div>
+                                        <div className="brokers-dropzone-hint">o haz clic para seleccionar</div>
+                                    </div>
+                                </div>
+                                {file ? <div className="brokers-dropzone-file">{file.name}</div> : null}
+                                <button
+                                    type="button"
+                                    className="brokers-inline-btn brokers-inline-btn-green"
+                                    onClick={() => setConfirm(true)}
+                                    disabled={sending || !file}
+                                >
+                                    Enviar régimen
+                                </button>
+                                <div className="brokers-legal-text warn">
+                                    Cualquier documento incorrecto, falso, alterado o con información errónea
+                                    <br />
+                                    hará inválidos todos los registros realizados bajo el régimen actual.
+                                </div>
+                            </>
+                        ) : (
+                            <div className="brokers-cell-muted">
+                                {hasActiveRegimen ? 'Ya has enviado el régimen firmado.' : 'Aún no hay un régimen activo para firmar.'}
+                            </div>
+                        )}
+                    </div>
+
+                    {!canRegisterLeads && ctx?.blockReason ? (
+                        <div className="brokers-warning">{ctx.blockReason}</div>
+                    ) : null}
+                </>
+            )}
+
+            {statusLabel.text === 'INACTIVO' && (
+                <div className="regimen-mobile-alert-fixed">
+                    <strong>⚠️ Régimen inactivo</strong>
+                    <span>Desliza al final para actualizar tu documento.</span>
+                </div>
+            )}
 
             {confirm ? (
                 <ConfirmModal
-                    title="Confirmar envío"
-                    text="¿Estás seguro de que estás enviando el archivo correcto? Esta acción actualizará tu estado."
-                    confirmLabel="Confirmar y enviar"
+                    title="Confirmar envío definitivo"
+                    text="¿Estás seguro de enviar este archivo? Los documentos pasan por un proceso de auditoría estricto. Subir un documento alterado, falso o de un tercero resultará en la NEGACIÓN inmediata y el BLOQUEO PRECAUTORIO de tu cuenta."
+                    confirmLabel={sending ? 'Enviando...' : 'Confirmar y enviar'}
                     onCancel={() => setConfirm(false)}
                     onConfirm={sendSigned}
                     disabled={sending}

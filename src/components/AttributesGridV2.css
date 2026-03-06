@@ -1,0 +1,119 @@
+/* src/components/AttributesGridV2.css */
+
+.attributes-grid-v2-container {
+    padding: 20px 2%;
+    /* Reducido el padding lateral y vertical */
+    background-color: transparent;
+    /* Fondo eliminado */
+    display: flex;
+    justify-content: center;
+}
+
+.attributes-grid-v2-wrapper {
+    display: grid;
+    /* Móvil: 2 columnas, 2 filas */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    /* Gap más pequeño para móvil */
+    width: 90%;
+    /* Forzamos ancho relativo */
+    max-width: 90%;
+    /* Expandido para abarcar espacio de pantalla como se solicitó */
+}
+
+.attribute-card-v2 {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease;
+}
+
+.attribute-card-v2:hover {
+    transform: translateY(-5px);
+}
+
+/* Círculo del Icono */
+.attribute-icon-circle-v2 {
+    width: 65px;
+    height: 65px;
+    background-color: #5C6B41;
+    /* Verde oliva/bosque elegante */
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+}
+
+/* Título Sitka */
+.attribute-title-v2 {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+/* Separador Terracota */
+.attribute-separator-v2 {
+    width: 35px;
+    height: 1.5px;
+    background-color: #BF8E81;
+    /* Terracota original */
+    margin-bottom: 20px;
+}
+
+/* Descripción Swis */
+.attribute-desc-v2 {
+    font-family: var(--font-swis, 'Swis721 BT', sans-serif);
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    max-width: 250px;
+}
+
+/* Responsividad para escritorio */
+@media (min-width: 1024px) {
+    .attributes-grid-v2-wrapper {
+        /* Web: 4 columnas en una sola fila */
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+    }
+
+    .attributes-grid-v2-container {
+        padding: 30px 2%;
+    }
+}
+
+/* Ajustes para tablets o móviles pequeños si es necesario */
+@media (max-width: 480px) {
+    .attributes-grid-v2-wrapper {
+        gap: 12px;
+    }
+
+    .attribute-card-v2 {
+        padding: 30px 15px;
+    }
+
+    .attribute-title-v2 {
+        font-size: 1.1rem;
+    }
+
+    .attribute-desc-v2 {
+        font-size: 0.85rem;
+    }
+
+    .attribute-icon-circle-v2 {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+}

@@ -197,7 +197,7 @@
     grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: clamp(40px, 5vw, 100px);
-    max-width: clamp(1200px, 90vw, 2200px);
+    width: 90%;
     margin: 0 auto;
 }
 

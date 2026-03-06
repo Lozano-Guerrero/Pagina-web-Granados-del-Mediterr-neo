@@ -185,7 +185,18 @@ export default function BrokerLeadsPage() {
             setTouched({});
             setSubmitAttempted(false);
         } catch (err) {
-            setError(sanitizeBackendMessage(err?.message ?? 'No se pudo registrar el lead.'));
+            const rawError = String(err?.message || '');
+
+            // Interceptor Humano: Error 400 Duplicado de HighLevel / LeadConnector
+            if (rawError.includes('duplicated contacts') || rawError.includes('Lead register failed')) {
+                setMessage({
+                    tone: 'warning',
+                    text: 'Ups, este prospecto (correo o teléfono) ya está registrado en la base de datos de tu desarrolladora. Por políticas de asignación, no podemos duplicarlo.'
+                });
+                setError(null);
+            } else {
+                setError(sanitizeBackendMessage(rawError || 'No se pudo registrar el lead.'));
+            }
         } finally {
             setSubmitting(false);
         }

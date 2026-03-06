@@ -1,0 +1,33 @@
+/* src/components/LocationMapV2.css */
+/* Nuevos estilos específicos para integrarlo limpiamente en el grid de HomePageV2 */
+
+.location-googlemap-section-v2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.location-googlemap-container-v2 {
+    width: 100%;
+    height: 100%;
+}
+
+.map-embed-wrapper {
+    width: 100%;
+    height: 400px;
+    /* Igualamos la altura que pide el grid de HomePageV2 */
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.map-embed-wrapper iframe {
+    width: 100%;
+    /* Google MyMaps Hack: Movemos el iframe hacia arriba para ocultar la barra de creador (aprox 60px) */
+    height: calc(100% + 60px);
+    margin-top: -60px;
+    display: block;
+}

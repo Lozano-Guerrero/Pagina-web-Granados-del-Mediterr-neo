@@ -1,0 +1,156 @@
+/* src/components/OfficeInvitationSection.css - CÓDIGO FINAL Y COMPLETO */
+
+/* --- 1. Variables Globales --- */
+:root {
+    --color-terracota-dark: #81463b; /* Principal oscuro */
+    --color-light-bg: #f7f7f7; /* Fondo de la sección */
+    --color-dark-text: #222;
+    --color-white-text: #ffffff;
+}
+
+/* --- 2. Contenedor Principal (Sección) --- */
+.office-invitation-section {
+    /* Mayor padding vertical para aire exterior */
+    padding: 30px 5%; 
+    background-color: var(--color-light-bg);
+}
+
+/* --- 3. Tarjeta de Contenido (Contenedor Blanco) --- */
+.office-content {
+    /* Ancho solicitado y centrado */
+    width: 90%; 
+    max-width: 1400px;
+    
+    display: flex;
+    flex-direction: row; 
+    
+    /* Aumento de espacio entre columnas (texto e imagen) */
+    gap: 60px; 
+    
+    margin: 0 auto;
+    align-items: center;
+    background-color: white;
+    
+    /* Aumento de padding interior */
+    padding: 50px; 
+    
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 4. Contenedor de Texto (Lado Izquierdo) --- */
+.text-container {
+    flex: 1; 
+    padding-right: 20px;
+    align-self: stretch; 
+}
+
+/* Título (h3) */
+.text-container h3 {
+    font-size: clamp(1.8rem, 3.5vw, 2.2rem); 
+    color: var(--color-terracota-dark);
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 25px; 
+    
+    /* Alineación de ícono y texto */
+    display: flex; 
+    align-items: center; 
+}
+
+/* 🛑 MEJORA DEL ÍCONO PRINCIPAL */
+.text-container .icon-marker {
+    font-size: 1.8rem; /* Tamaño más grande */
+    margin-right: 20px; /* Más espacio a la derecha */
+    min-width: 25px; 
+}
+
+/* Descripción */
+.text-container .description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 25px; 
+}
+
+/* Dirección */
+.text-container .address-detail {
+    font-size: 1.1rem;
+    color: var(--color-dark-text);
+    margin-bottom: 40px; /* Más espacio antes del botón */
+    line-height: 1.6;
+}
+
+/* --- 5. Botón de Navegación --- */
+.btn-directions {
+    display: inline-flex;
+    align-items: center;
+    
+    /* Aumento de espacio en el botón */
+    padding: 15px 35px; 
+    
+    background-color: var(--color-terracota-dark);
+    color: var(--color-white-text);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-directions:hover {
+    background-color: #9c5c50;
+}
+
+/* 🛑 MEJORA DEL ÍCONO EN EL BOTÓN */
+.btn-directions svg {
+    font-size: 1.1rem; 
+    margin-right: 12px; /* Espacio para separar del texto del botón */
+}
+
+/* --- 6. Contenedor de Imagen (Lado Derecho) --- */
+.image-container {
+    flex: 1;
+    /* Alto máximo solicitado */
+    max-height: 450px; 
+    border-radius: 12px; 
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.office-tower-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+/* --- 7. Diseño Responsive (Mobile/Tablet) --- */
+@media (max-width: 850px) {
+    .office-content {
+        width: 100%; 
+        
+        /* Apilamiento vertical y reducción de padding/gap */
+        flex-direction: column; 
+        padding: 30px 20px; 
+        gap: 30px; 
+        
+        /* 🛑 Orden Invertido: Imagen va abajo, Texto va arriba */
+        flex-direction: column-reverse; 
+    }
+    
+    .image-container {
+        width: 100%;
+        max-height: 300px; 
+        border-radius: 8px;
+    }
+
+    .text-container {
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    /* Centrado de ícono y título en móvil */
+    .text-container h3 {
+        justify-content: center;
+    }
+}

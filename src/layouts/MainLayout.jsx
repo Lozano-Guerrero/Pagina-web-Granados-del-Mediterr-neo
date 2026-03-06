@@ -3,7 +3,7 @@ import React from 'react';
 // Outlet es el placeholder donde React Router inyecta la página actual
 import { Outlet } from 'react-router-dom';
 // Importamos el Navbar para que sea visible en todas las páginas
-import Navbar from './navbarV2';
+import Navbar from './NavbarV3';
 // Importamos el Footer (asumiendo que tiene un placeholder)
 import Footer from './Footer';
 import ScrollToTop from '../components/ScrollToTop';

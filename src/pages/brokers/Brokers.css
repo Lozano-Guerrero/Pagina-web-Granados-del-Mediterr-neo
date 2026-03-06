@@ -1,10 +1,107 @@
-.brokers-page {
-    min-height: 70vh;
+:root {
+    --broker-v2-primary: #064e3b;
+    --broker-v2-secondary: #eab308;
+    --broker-v2-accent: #027a48;
+    --broker-v2-bg: #fdfaf5;
+    --broker-v2-card-bg: #ffffff;
+    --broker-v2-text: #1a1a1a;
+    --broker-v2-text-muted: #6b7280;
+    --broker-v2-border: rgba(0, 0, 0, 0.06);
+    --broker-v2-radius: 24px;
+    --broker-v2-radius-sm: 16px;
+    --broker-v2-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+}
+
+.brokers-page-v2 {
+    min-height: 100vh;
+    background-color: var(--broker-v2-bg);
+    padding: 80px 0;
+    font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+.brokers-shell-v2 {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    gap: 24px;
+}
+
+.brokers-v2-top-bar {
+    width: 100%;
+}
+
+.brokers-v2-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+.brokers-v2-card {
+    background: var(--broker-v2-card-bg);
+    border-radius: var(--broker-v2-radius);
+    border: 1px solid var(--broker-v2-border);
+    box-shadow: var(--broker-v2-shadow);
+    padding: 40px;
+}
+
+.brokers-v2-sidebar {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Transitions & Animations */
+.brokers-v2-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1100px) {
+    .brokers-v2-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brokers-v2-sidebar {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .brokers-shell-v2 {
+        width: 94%;
+    }
+
+    .brokers-v2-card {
+        padding: 24px;
+    }
+}
+
+/* ========================================================= */
+/* BROKER LOGIN PAGE: Estilos alineados con Granados (Navy/Terracota) */
+/* ========================================================= */
+
+.brokers-page {
+    min-height: 100vh;
+    display: flex;
     justify-content: center;
-    padding: 60px 20px;
-    background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 70%);
+    align-items: center;
+    padding: 2rem 1rem;
+    background: #fdfaf5;
+    /* Fondo beige suave similar al corporativo */
+    font-family: var(--font-sitka), 'Outfit', sans-serif;
 }
 
 .brokers-card {
@@ -137,10 +234,21 @@
     height: 46px;
     border-radius: 12px;
     border: none;
-    background: #1f2937;
+    background: #374C64;
+    /* Navy Corporativo */
     color: #fff;
+    font-family: inherit;
     font-weight: 700;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.brokers-submit:hover {
+    background: #2a3a4d;
+}
+
+.brokers-submit:active {
+    transform: scale(0.98);
 }
 
 .brokers-login-links {
@@ -163,7 +271,9 @@
 
 .brokers-login-link-btn:hover,
 .brokers-login-link-btn.active {
-    color: #1f2937;
+    color: #374C64;
+    /* Navy en lugar de text-gray-800 */
+    font-weight: 600;
 }
 
 .brokers-helper-card {
@@ -223,7 +333,8 @@
 }
 
 .brokers-login-site a:hover {
-    color: #111827;
+    color: #BF8E81;
+    /* Terracota Corporativo */
 }
 
 .brokers-dashboard {
@@ -396,7 +507,7 @@
     z-index: 0;
 }
 
-.brokers-subcard-whatsapp > * {
+.brokers-subcard-whatsapp>* {
     position: relative;
     z-index: 1;
 }
@@ -428,9 +539,16 @@
 .brokers-back-link {
     display: inline-block;
     margin-top: 18px;
-    color: #1d4ed8;
-    font-weight: 600;
+    color: #BF8E81;
+    /* Reemplazamos el azul genérico por Terracota */
+    font-weight: 800;
+    font-size: 1.1rem;
     text-decoration: none;
+}
+
+.brokers-back-link:hover {
+    text-decoration: underline;
+    color: #a47669;
 }
 
 .brokers-leads-card {
@@ -491,7 +609,8 @@
 
 .brokers-table-wrapper {
     width: 100%;
-    min-height: 320px; /* ~ header + 4 filas */
+    min-height: 320px;
+    /* ~ header + 4 filas */
     max-height: 50vh;
     overflow: auto;
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -686,9 +805,14 @@
 }
 
 .brokers-inline-btn-blue {
-    background: #1d4ed8;
-    border-color: rgba(29, 78, 216, 0.24);
+    background: #374C64;
+    /* Cambiamos azul genérico por Navy */
+    border-color: rgba(55, 76, 100, 0.24);
     color: #fff;
+}
+
+.brokers-inline-btn-blue:hover:not(:disabled) {
+    background: #2a3a4d;
 }
 
 .brokers-inline-btn-whatsapp {
@@ -983,6 +1107,7 @@
 }
 
 @media (max-width: 768px) {
+
     .brokers-card,
     .brokers-dashboard-card {
         padding: 24px;
@@ -1058,5 +1183,785 @@
 
     .brokers-cell-muted {
         font-size: 0.76rem;
+    }
+}
+
+/* V2 REGIMEN CARD HORIZONTAL */
+.regimen-card-v2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+    gap: 0;
+    overflow: visible;
+}
+
+.regimen-v2-info {
+    flex: 0 0 180px;
+}
+
+.regimen-v2-step-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--broker-v2-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.regimen-v2-version {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--broker-v2-text);
+}
+
+.regimen-v2-divider {
+    width: 1px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.08);
+    margin: 0 32px;
+}
+
+.regimen-v2-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.regimen-v2-btn-outline {
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 100px;
+    border: 2px solid #1d4ed8;
+    background: transparent;
+    color: #1d4ed8;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.regimen-v2-btn-outline:hover {
+    background: #1d4ed8;
+    color: #fff;
+}
+
+.regimen-v2-btn-success {
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 100px;
+    border: 2px solid var(--broker-v2-accent);
+    background: transparent;
+    color: var(--broker-v2-accent);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.regimen-v2-btn-success:hover {
+    background: var(--broker-v2-accent);
+    color: #fff;
+}
+
+.regimen-v2-dropzone {
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    padding: 8px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.regimen-v2-drop-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f3f4f6;
+    display: grid;
+    place-items: center;
+    color: #374151;
+}
+
+.regimen-v2-drop-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.75rem;
+}
+
+.regimen-v2-drop-text strong {
+    color: var(--broker-v2-text);
+}
+
+.regimen-v2-drop-text span {
+    color: var(--broker-v2-text-muted);
+}
+
+.regimen-v2-sticky-alert {
+    background: #fef2f2;
+    color: #b91c1c;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 24px;
+    border-left: 4px solid #ef4444;
+}
+
+/* V2 SIDEBAR COMPONENTS */
+.user-sidebar-card {
+    background: #fff;
+    border-radius: var(--broker-v2-radius-sm);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--broker-v2-border);
+}
+
+.user-sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-sidebar-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: grid;
+    place-items: center;
+    color: var(--broker-v2-primary);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.user-sidebar-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.user-sidebar-logout {
+    font-size: 0.8rem;
+    color: #ef4444;
+    background: transparent;
+    border: 1px solid #ef4444;
+    padding: 4px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.sidebar-v2-label {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--broker-v2-text);
+    margin-bottom: 8px;
+}
+
+.sidebar-v2-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0 0 16px;
+}
+
+.sidebar-v2-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.sidebar-v2-card-green {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.sidebar-v2-card-green .sidebar-v2-label {
+    color: #166534;
+}
+
+.sidebar-v2-card-green .sidebar-v2-desc {
+    color: #15803d;
+}
+
+.sidebar-v2-btn-green {
+    background: #22c55e;
+    color: #fff;
+    border-color: #22c55e;
+}
+
+.sidebar-v2-btn-green:hover {
+    background: #16a34a;
+}
+
+/* V2 DASHBOARD MAIN */
+.dashboard-v2-header {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Align to the bottom of the text lines */
+}
+
+.dashboard-v2-header-left {
+    flex: 1;
+}
+
+.dashboard-v2-header-right {
+    text-align: right;
+    margin-left: 20px;
+    white-space: nowrap;
+}
+
+.dashboard-v2-title {
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 4px;
+    font-family: 'serif';
+    /* Playfair o similar */
+}
+
+/* TABLE V2 GRID AND STYLES */
+.table-v2-grid-layout {
+    display: grid;
+    /* Strict minmax to prevent content overflow from stretching grid tracks */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr);
+    gap: 16px;
+    align-items: center;
+}
+
+.t-v2-cell-truncate {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-v2-header {
+    background: #f9fafb;
+    padding: 16px 24px;
+    border-radius: 12px 12px 0 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.brokers-table-row-v2 {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    transition: background-color 0.2s ease;
+}
+
+.brokers-table-row-v2:hover {
+    background-color: #f8fafc;
+}
+
+.table-v2-action-btn {
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.table-v2-action-btn.blue {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+}
+
+.table-v2-action-btn.blue:hover {
+    background-color: #dbeafe;
+}
+
+.table-v2-action-btn.green {
+    background-color: #f0fdf4;
+    color: #15803d;
+}
+
+.table-v2-action-btn.green:hover {
+    background-color: #dcfce7;
+}
+
+.dashboard-v2-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.btn-v2-primary {
+    flex: 1;
+    height: 54px;
+    background: var(--broker-v2-primary);
+    color: #fff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.btn-v2-secondary {
+    flex: 1;
+    height: 54px;
+    background: var(--broker-v2-secondary);
+    color: #fff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    text-decoration: none;
+    gap: 10px;
+}
+
+.dashboard-v2-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.input-v2-pill {
+    flex: 1;
+    height: 48px;
+    border-radius: 100px;
+    padding: 0 24px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.select-v2-pill {
+    width: 140px;
+    height: 48px;
+    border-radius: 100px;
+    padding: 0 16px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    appearance: none;
+}
+
+/* TABLE V2 */
+.table-v2-container {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #f3f4f6;
+    overflow: hidden;
+}
+
+.table-v2-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.8fr 1fr 1fr 0.8fr;
+    padding: 16px 24px;
+    background: #f9fafb;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+}
+
+/* MOBILE V2 CARDS */
+.leads-mobile-grid {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.lead-v2-mobile-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.regimen-mobile-alert-fixed {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .brokers-shell-v2 {
+        width: 92%;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .brokers-v2-sidebar {
+        order: -2;
+        /* Profile at the very top */
+        gap: 16px;
+    }
+
+    .user-sidebar-card {
+        align-items: center;
+        text-align: center;
+        padding: 16px;
+        /* Reduced from 24px */
+        gap: 12px;
+        /* Reduced from 20px */
+    }
+
+    .user-sidebar-profile {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        /* Reduced gap */
+    }
+
+    .user-sidebar-avatar {
+        width: 64px;
+        /* Reduced from 80px */
+        height: 64px;
+        margin-bottom: 4px;
+    }
+
+    .user-sidebar-info h3 {
+        font-size: 1.05rem;
+        /* Slightly smaller text */
+    }
+
+    .user-sidebar-logout {
+        margin: 4px auto 0;
+        width: fit-content;
+        padding: 4px 12px;
+        font-size: 0.75rem;
+    }
+
+    /* Shrink sidebar buttons and descriptions */
+    .sidebar-v2-desc {
+        margin-bottom: 12px;
+        font-size: 0.8rem;
+    }
+
+    .sidebar-v2-label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .sidebar-v2-btn {
+        height: 40px;
+        /* Reduced from 48px */
+        font-size: 0.85rem;
+    }
+
+    .brokers-v2-main {
+        order: -1;
+        /* Dashboard and leads in middle */
+    }
+
+    .dashboard-v2-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .dashboard-v2-header-left {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard-v2-header-right {
+        text-align: center;
+        margin-left: 0;
+        margin-top: 4px;
+        white-space: normal;
+    }
+
+    .dashboard-v2-title {
+        text-align: center;
+        font-size: 1.6rem;
+        /* Smaller title */
+        margin-top: 8px;
+    }
+
+    .brokers-v2-text-muted {
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    .brokers-v2-top-bar {
+        order: 10;
+        /* Regimen at the bottom */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .dashboard-v2-actions {
+        flex-direction: column;
+    }
+
+    .dashboard-v2-filters {
+        flex-direction: row !important;
+        /* Side by side search/filter */
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Wrap the relative divs to allow shrinking */
+    .dashboard-v2-filters>div {
+        min-width: 0;
+        /* Critical for flex items containing inputs */
+    }
+
+    .input-v2-pill {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .select-v2-pill {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table-v2-container {
+        display: none;
+    }
+
+    /* 2 COLUMNS LEADS IN MOBILE - Adjusted for iPhone 12/13/14 Support */
+    .leads-mobile-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        /* Reduced from 12px for more space */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* For screens 400px and under (iPhone 12/13/SE width is around 390px, 375px) */
+    @media (max-width: 400px) {
+        .leads-mobile-grid {
+            grid-template-columns: 1fr;
+            /* Force 1 column on tight screens */
+            gap: 12px;
+        }
+    }
+
+    .lead-v2-mobile-card {
+        padding: 10px;
+        /* Reduced from 12px to fit 2-columns better on 400-430px screens */
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        /* CRITICAL for text-overflow to work inside a flex/grid child */
+        box-sizing: border-box;
+        /* Prevent padding from blowing out width */
+    }
+
+    .lead-v2-mobile-card-header {
+        margin: -10px -10px 10px;
+        padding: 6px;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .lead-v2-mobile-card-header.state-vigente {
+        background: #f0fdf4;
+        /* Verde muy claro */
+        color: #15803d;
+        /* Verde oscuro */
+    }
+
+    .lead-v2-mobile-card-header.state-reunion {
+        background: #eff6ff;
+        /* Azul muy claro */
+        color: #1d4ed8;
+        /* Azul intenso */
+    }
+
+    .lead-v2-mobile-card-header.state-cerrado {
+        background: #ecfdf5;
+        /* Esmeralda claro */
+        color: #047857;
+        /* Verde esmeralda intenso */
+    }
+
+    .lead-v2-mobile-card-header.state-expirado {
+        background: #fff1f2;
+        /* Rojo claro */
+        color: #be123c;
+        /* Rojo oscuro */
+    }
+
+    .lead-v2-mobile-card h4 {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+    }
+
+    .lead-v2-mobile-detail {
+        font-size: 0.7rem;
+        color: #6b7280;
+        margin-bottom: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+    }
+
+    .lead-v2-mobile-btn {
+        margin-top: auto;
+        height: 32px !important;
+        font-size: 0.75rem !important;
+        border-radius: 8px !important;
+        width: 100%;
+        /* Ensure button stays within bounds */
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* VERTICAL REGIMEN FOR MOBILE */
+    .regimen-card-v2 {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 24px;
+        /* More breathing room vertically */
+        padding: 24px 16px;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .regimen-v2-info {
+        flex: none;
+        /* Override desktop flex */
+        width: 100%;
+        margin-bottom: 8px;
+        /* Extra space below title */
+    }
+
+    .regimen-v2-step {
+        width: 100%;
+        align-items: stretch;
+        /* Make buttons take full width */
+    }
+
+    .regimen-v2-version {
+        font-size: 2.2rem;
+        margin-top: 4px;
+    }
+
+    .regimen-v2-divider {
+        display: none;
+    }
+
+    .regimen-v2-step-label {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    /* Full width buttons in mobile regimen steps */
+    .regimen-v2-btn-outline,
+    .regimen-v2-btn-success {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Stack dropzone horizontally correctly or vertically */
+    .regimen-v2-dropzone {
+        flex-direction: column;
+        /* Stack to prevent width overflow */
+        gap: 12px;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px 12px;
+        /* Bigger tap target */
+        align-items: center;
+    }
+
+    .regimen-v2-drop-text {
+        word-break: break-word;
+        /* Prevent long filenames from breaking container */
+        align-items: center;
+    }
+
+    .regimen-v2-drop-text span {
+        display: block;
+        /* Force secondary text to new line */
+        margin-top: 4px;
+    }
+
+    /* STICKY ALERT FOR MOBILE */
+    .regimen-mobile-alert-fixed {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        bottom: 24px;
+        left: 16px;
+        right: 16px;
+        background: #ef4444;
+        /* Rojo vivo */
+        color: #fff;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
+        z-index: 9999;
+        text-align: center;
+        gap: 6px;
+        animation: slideUpFade 0.4s ease-out forwards;
+    }
+
+    .regimen-mobile-alert-fixed strong {
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: 2px;
+    }
+
+    .regimen-mobile-alert-fixed span {
+        font-size: 0.85rem;
+        opacity: 0.95;
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

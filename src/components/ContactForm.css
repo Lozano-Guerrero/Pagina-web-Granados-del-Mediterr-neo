@@ -1,0 +1,215 @@
+/* src/components/ContactForm.css - Versión Final con Contraste y Alineación */
+
+/* Variables de Branding */
+:root {
+    /* 🛑 CORRECCIÓN FONDO: Usamos un Gris/Azul oscuro, pero más claro que el anterior para mejor contraste */
+    --color-dark-bg: #39424c; 
+    --color-light-text: #f0f0f0; 
+    --color-primary-accent: #bc7c74; /* Terracota */
+    --color-secondary-accent: #66bb6a; /* Verde (para éxito/WhatsApp) */
+    --color-error: #ef5350; /* Rojo */
+    --color-input-bg: #4c5665; /* Input más claro para contrastar con el fondo de la sección */
+    --color-input-border: #667080;
+}
+
+.contact-section {
+    padding: 120px 1%; 
+    background-color: var(--color-dark-bg); /* Nuevo fondo */
+    color: var(--color-light-text);
+}
+
+.contact-layout-container {
+    max-width: 90%; 
+    margin: 0 auto;
+}
+
+/* ------------------ Encabezado ------------------ */
+.contact-title {
+    font-size: 3rem; 
+    font-weight: 800;
+    margin-bottom: 10px;
+    /* 🛑 CORRECCIÓN TÍTULO: Usamos blanco para MÁXIMO contraste y evitar que se pierda */
+    color: var(--color-light-text); 
+    text-align: center;
+}
+
+.contact-subtitle {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    text-align: center;
+    margin-bottom: 40px; 
+}
+
+/* ------------------ Formulario Contenedor ------------------ */
+.contact-form {
+    /* Fondo del formulario ligeramente diferente al fondo de la sección */
+    background-color: #313840; 
+    padding: 40px; 
+    border-radius: 10px; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+}
+
+.form-field {
+    margin-bottom: 30px; 
+}
+
+/* 🛑 CORRECCIÓN DESFASE: Aseguramos el gap y el margin */
+.form-group-triple {
+    display: flex;
+    gap: 30px; 
+    margin-bottom: 30px; 
+}
+
+/* ------------------ Etiquetas y Campos de Formulario ------------------ */
+.form-field label {
+    display: block;
+    margin-bottom: 10px; 
+    font-weight: 700; 
+    color: var(--color-light-text);
+    font-size: 1rem;
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+}
+
+.input-with-icon {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-input-bg); /* Input más visible */
+    border-radius: 6px; 
+    padding-left: 15px; 
+    border: 2px solid var(--color-input-border); 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-with-icon:focus-within {
+    border-color: var(--color-primary-accent);
+    box-shadow: 0 0 0 2px var(--color-primary-accent); 
+}
+
+.input-icon {
+    color: #b0b0b0; 
+    margin-right: 15px; 
+    font-size: 1.2rem; 
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 16px 12px; 
+    border: none;
+    background: transparent;
+    color: var(--color-light-text);
+    font-size: 1.05rem; 
+    box-sizing: border-box;
+    outline: none;
+}
+
+.contact-form textarea {
+    min-height: 180px; 
+    background-color: var(--color-input-bg);
+    border-radius: 6px;
+    padding: 16px;
+    border: 2px solid var(--color-input-border);
+}
+
+.contact-form select {
+    background-color: var(--color-input-bg);
+    border-radius: 6px;
+    border: 2px solid var(--color-input-border);
+    padding: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23f0f0f0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 12px;
+    padding-right: 40px; 
+}
+.contact-form option {
+    background: #333; 
+    color: var(--color-light-text);
+}
+
+
+/* ------------------ Botón de Envío ------------------ */
+.submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 18px; 
+    background-color: var(--color-primary-accent); 
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2rem; 
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+    margin-top: 25px;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-primary-accent) 90%, black);
+}
+
+.submit-button:disabled {
+    background-color: #5a606b;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.submit-button svg {
+    margin-right: 10px;
+}
+
+/* ------------------ Alertas ------------------ */
+.form-alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.form-alert.success {
+    background-color: var(--color-secondary-accent); 
+    color: var(--color-dark-bg);
+}
+
+.form-alert.error {
+    background-color: var(--color-error); 
+    color: white;
+}
+
+/* ------------------ Responsive ------------------ */
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: 2.5rem;
+    }
+    
+    .contact-section {
+        padding: 80px 5%;
+    }
+
+    .contact-form {
+        padding: 30px;
+    }
+
+    /* 🛑 CORRECCIÓN DESFASE EN MÓVIL: Las columnas se apilan sin espacio entre ellas */
+    .form-group-triple {
+        flex-direction: column;
+        gap: 0; /* Aseguramos que no haya gap horizontal */
+        margin-bottom: 0; /* El margen ya viene de .form-field */
+    }
+    
+    /* Aseguramos que los campos tengan su margen individual */
+    .form-group-triple > .form-field {
+        margin-bottom: 20px; 
+    }
+}

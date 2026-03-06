@@ -1,0 +1,179 @@
+/* src/components/AmenitiesCardsV2.css */
+
+.amenities-v2-section {
+    padding: 20px 4%;
+    /* Reducido espacio superior/inferior */
+    background-color: transparent;
+    text-align: center;
+}
+
+.amenities-v2-title {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 2.2rem;
+    color: #444;
+    margin-bottom: 30px;
+    /* Reducido para evitar scroll excesivo */
+    font-weight: 400;
+}
+
+.amenities-v2-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    align-items: center;
+}
+
+/* --- ESTILO MÓVIL (HORIZONTAL - IMAGEN IZQUIERDA, TEXTO DERECHA) --- */
+.amenity-v2-card {
+    background: #141414;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 330px;
+    /* Forzamos la altura solicitada */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.amenity-v2-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Caja de Imagen (Parte Izquierda en Móvil) */
+.amenity-v2-image-box {
+    position: relative;
+    width: 50%;
+    /* Mitad para imagen */
+    height: 100%;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.amenity-v2-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Overlay sobre la imagen */
+.amenity-v2-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 5%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Texto a la base */
+    padding: 15px;
+    text-align: left;
+}
+
+.amenity-v2-card-title {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1.15rem;
+    /* Reducido para que no se corte arriba */
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.amenity-v2-card-tagline {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 10px 0;
+    display: block;
+}
+
+.amenity-v2-link {
+    font-family: var(--font-swis, sans-serif);
+    color: #BF8E81;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* Contenido de Texto (Parte Derecha en Móvil) */
+.amenity-v2-bottom-content {
+    width: 50%;
+    /* Mitad para descripción */
+    padding: 25px;
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+.amenity-v2-long-desc {
+    font-family: var(--font-sitka, serif);
+    font-size: 1.05rem;
+    color: #ffffff;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* --- ADAPTACIÓN A WEB (VERTICAL Y COMPACTO) --- */
+@media (min-width: 1024px) {
+    .amenities-v2-grid {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        /* Fuerza a estar en la misma línea */
+        gap: 25px;
+        width: 100%;
+        /* Aprovecha el 90% definido arriba */
+    }
+
+    .amenity-v2-card {
+        flex-direction: column;
+        flex: 1;
+        /* Quitamos altura estática estricta en favor de que crezcan según contenido */
+        min-height: 580px;
+        height: auto;
+    }
+
+    .amenity-v2-image-box {
+        width: 100%;
+        height: 350px;
+        /* Tamaño de foto fijo predecible */
+        flex-shrink: 0;
+    }
+
+    .amenity-v2-bottom-content {
+        width: 100%;
+        flex-grow: 1;
+        /* Permite crecer para alojar todo el texto */
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .amenity-v2-card-title {
+        font-size: 1.6rem;
+    }
+
+    .amenities-v2-section {
+        padding: 40px 2%;
+    }
+}
+
+@media (max-width: 600px) {
+    .amenity-v2-card {
+        width: 95%;
+        height: 330px;
+        /* Mantenemos altura fija para consistencia visual */
+    }
+
+    .amenity-v2-long-desc {
+        font-size: 0.95rem;
+    }
+}

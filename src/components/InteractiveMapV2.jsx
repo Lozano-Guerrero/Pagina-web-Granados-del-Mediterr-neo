@@ -768,6 +768,8 @@ export default function InteractiveMapV2({
                                     </div>
                                 </div>
                             )}
+                            {/* IMAGEN DE FONDO 3D */}
+
                             <div id="svgmap-v2" className="svgmap-v2" ref={svgContainerRef} dangerouslySetInnerHTML={{ __html: svgContent }} />
                         </div>
                     </div>

@@ -35,47 +35,48 @@ export function AuthProvider({ children }) {
         };
     }, []);
 
-    useEffect(() => {
-        if (!isSupabaseConfigured || !supabase) {
-            setProfile(null);
-            return;
-        }
-
-        const userId = session?.user?.id;
-        if (!userId) {
+    const refreshProfile = async (currentUserId = session?.user?.id) => {
+        if (!currentUserId || !isSupabaseConfigured || !supabase) {
             setProfile(null);
             setProfileError(null);
             return;
         }
 
-        let cancelled = false;
         setLoadingProfile(true);
         setProfileError(null);
 
-        (async () => {
-            // Compat: algunas columnas pueden no existir todavía según migraciones.
-            const attempt = await supabase
+        // Compat: algunas columnas pueden no existir todavía según migraciones.
+        const attempt = await supabase
+            .from('profiles')
+            .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at')
+            .eq('id', currentUserId)
+            .maybeSingle();
+
+        let { data, error } = attempt;
+        if (error && /public_id|account_status/i.test(String(error.message ?? ''))) {
+            const fallback = await supabase
                 .from('profiles')
-                .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at')
-                .eq('id', userId)
+                .select('id, first_name, last_name, phone, email, role, org_id, is_active, created_at')
+                .eq('id', currentUserId)
                 .maybeSingle();
+            data = fallback.data;
+            error = fallback.error;
+        }
 
-            let { data, error } = attempt;
-            if (error && /public_id|account_status/i.test(String(error.message ?? ''))) {
-                const fallback = await supabase
-                    .from('profiles')
-                    .select('id, first_name, last_name, phone, email, role, org_id, is_active, created_at')
-                    .eq('id', userId)
-                    .maybeSingle();
-                data = fallback.data;
-                error = fallback.error;
-            }
+        if (error) setProfileError(error);
+        setProfile(data ?? null);
+        setLoadingProfile(false);
+    };
 
+    useEffect(() => {
+        let cancelled = false;
+
+        const load = async () => {
             if (cancelled) return;
-            if (error) setProfileError(error);
-            setProfile(data ?? null);
-            setLoadingProfile(false);
-        })();
+            await refreshProfile();
+        };
+
+        load();
 
         return () => {
             cancelled = true;
@@ -89,7 +90,8 @@ export function AuthProvider({ children }) {
             profile,
             profileError,
             isSupabaseConfigured,
-            loading: loadingSession || loadingProfile
+            loading: loadingSession || loadingProfile,
+            refreshProfile
         };
     }, [loadingProfile, loadingSession, profile, profileError, session]);
 

@@ -1,0 +1,354 @@
+/* ========================================================= */
+/* Navbar V5 - Smart Glassmorphism, Edge-to-Edge & Pro UX    */
+/* ========================================================= */
+
+:root {
+    /* Paleta de colores de la marca */
+    --text-terracota: #BF8E81;
+    --icon-navy: #374C64;
+    --font-sitka: 'Sitka Display', 'Georgia', 'Times New Roman', serif;
+
+    /* Variables de transición global */
+    --nav-transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========================================================= */
+/* 1. LÓGICA DE COLORES ADAPTATIVOS (DARK / LIGHT MODE)      */
+/* ========================================================= */
+
+/* MODO OSCURO (Sobre el Hero): Todo Blanco y transparente */
+.navbar-v3-container.dark-mode {
+    --nav-color-text: #ffffff;
+    --nav-color-icon: #ffffff;
+    /* Si tu logo original es negro, invert(1) lo hace blanco. Si es blanco, quita invert(1) */
+    --nav-logo-filter: brightness(0) invert(1);
+    --nav-bg-color: rgba(255, 255, 255, 0);
+    --nav-border: transparent;
+}
+
+/* MODO CLARO (Sobre secciones blancas): Colores de marca y Glassmorphism */
+.navbar-v3-container.light-mode {
+    --nav-color-text: var(--text-terracota);
+    --nav-color-icon: var(--icon-navy);
+    --nav-logo-filter: brightness(0);
+    /* Lo vuelve negro oscuro */
+    --nav-bg-color: rgba(255, 255, 255, 0.75);
+    /* Vidrio blanco */
+    --nav-border: rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================================= */
+/* 2. ESTRUCTURA DESKTOP (Distribución a las orillas)        */
+/* ========================================================= */
+
+.navbar-v3-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    transition: var(--nav-transition);
+    background: var(--nav-bg-color);
+    border-bottom: 1px solid var(--nav-border);
+}
+
+/* Activar Glassmorphism al scrollear o al entrar en zona blanca */
+.navbar-v3-container.scrolled,
+.navbar-v3-container.light-mode {
+    height: 70px;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Si hace scroll pero sigue en zona oscura, le damos un ligero cristal oscuro */
+.navbar-v3-container.scrolled.dark-mode {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor interno extendido */
+.navbar-v3-inner {
+    width: 100%;
+    max-width: 1920px;
+    /* Expandido para pantallas grandes */
+    margin: 0 auto;
+    padding: 0 3%;
+    /* Porcentaje para pegarse más a las orillas */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* --- LADO IZQUIERDO: LOGO --- */
+.navbar-v3-logo {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 260px;
+    /* Barrera dura */
+    flex-shrink: 0;
+}
+
+.logo-img-v3 {
+    height: 60px;
+    filter: var(--nav-logo-filter);
+    transition: var(--nav-transition);
+}
+
+.navbar-v3-container.scrolled .logo-img-v3 {
+    height: 48px;
+}
+
+/* --- CENTRO: LINKS DE NAVEGACIÓN --- */
+.navbar-v3-menu {
+    flex: 2;
+    /* Un poco más de espacio para el centro */
+    display: flex;
+    justify-content: center;
+    /* Centrado absoluto */
+}
+
+.navbar-v3-links {
+    display: flex;
+    gap: clamp(1rem, 2.5vw, 3rem);
+    /* Gap más cerrado para dar holgura a zoom */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    max-width: max-content;
+    justify-content: center;
+}
+
+.navbar-v3-links a {
+    text-decoration: none;
+    font-family: var(--font-sitka);
+    font-size: 1.15rem;
+    color: var(--nav-color-text);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar-v3-links a:hover {
+    opacity: 0.7;
+}
+
+/* --- LADO DERECHO: REDES SOCIALES DESKTOP --- */
+.navbar-v3-social-desktop {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    align-items: center;
+    min-width: 220px;
+    /* Barrera dura contra compresión por izquierda */
+    flex-shrink: 0;
+}
+
+.social-icon-v3 {
+    font-size: 1.25rem;
+    color: var(--nav-color-icon);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon-v3:hover {
+    transform: translateY(-2px);
+    color: var(--text-terracota);
+}
+
+/* Ocultar elementos móviles en Desktop */
+.menu-toggle-v3,
+.mobile-social-container {
+    display: none;
+}
+
+/* ========================================================= */
+/* 3. RESPONSIVE Y EXPERIENCIA MÓVIL "PRO"                   */
+/* ========================================================= */
+
+/* CORRECCIÓN DE CONTRASTE: Forzar elementos oscuros si el menú abre en el Hero */
+.navbar-v3-container.menu-open .logo-img-v3 {
+    filter: brightness(0) !important;
+}
+
+.navbar-v3-container.menu-open .menu-toggle-v3 {
+    color: var(--icon-navy) !important;
+}
+
+.navbar-v3-container.menu-open {
+    border-bottom: transparent;
+}
+
+@media (max-width: 1024px) {
+
+    /* Ajustes básicos de tamaño */
+    .navbar-v3-container {
+        height: 70px;
+    }
+
+    .navbar-v3-container.scrolled {
+        height: 60px;
+    }
+
+    .navbar-v3-inner {
+        padding: 0 15px;
+    }
+
+    /* Margen seguro para touch */
+
+    /* --- LOGO MÓVIL REDUCIDO --- */
+    .logo-img-v3 {
+        height: 35px;
+    }
+
+    /* Logo más elegante en móvil */
+    .navbar-v3-container.scrolled .logo-img-v3 {
+        height: 30px;
+    }
+
+    /* Controles de visibilidad */
+    .navbar-v3-social-desktop {
+        display: none;
+    }
+
+    /* Redefinimos los flex para móvil para que el centro (ahora vacío) no ocupe espacio */
+    .navbar-v3-menu {
+        flex: initial;
+        justify-content: flex-end;
+    }
+
+    .menu-toggle-v3 {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--nav-color-icon);
+        cursor: pointer;
+        z-index: 1100;
+        /* Sobre el menú */
+        position: relative;
+        transition: var(--nav-transition);
+        padding: 5px;
+        /* Área táctil más fácil de tocar */
+    }
+
+    /* --- MENÚ DESPLEGABLE (FROSTED GLASS) --- */
+    .navbar-v3-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(25px) saturate(200%);
+        -webkit-backdrop-filter: blur(25px) saturate(200%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        /* Animación Fade In y Slide Up general */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1050;
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* --- ENLACES ANIMADOS EN CASCADA --- */
+    .navbar-v3-links {
+        flex-direction: column;
+        gap: 2.5rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .navbar-v3-links li {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+    }
+
+    .navbar-v3-links a {
+        font-size: 2rem;
+        color: var(--icon-navy) !important;
+        font-weight: 400;
+        display: block;
+        width: 100%;
+    }
+
+    /* Activación de la cascada al abrir */
+    .navbar-v3-container.menu-open .navbar-v3-links li {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-links li:nth-child(1) {
+        transition-delay: 0.1s;
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-links li:nth-child(2) {
+        transition-delay: 0.15s;
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-links li:nth-child(3) {
+        transition-delay: 0.2s;
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-links li:nth-child(4) {
+        transition-delay: 0.25s;
+    }
+
+    .navbar-v3-container.menu-open .navbar-v3-links li:nth-child(5) {
+        transition-delay: 0.3s;
+    }
+
+    /* --- REDES SOCIALES MÓVIL (BOTONES CIRCULARES) --- */
+    .mobile-social-container {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 4rem;
+
+        /* Aparecen de último */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease 0.4s;
+    }
+
+    .navbar-v3-container.menu-open .mobile-social-container {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .mobile-social-container a {
+        color: var(--text-terracota);
+        font-size: 1.5rem;
+        background: rgba(191, 142, 129, 0.1);
+        /* Fondo sutil terracota */
+        width: 55px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+    }
+
+    .mobile-social-container a:active {
+        background: rgba(191, 142, 129, 0.25);
+    }
+}

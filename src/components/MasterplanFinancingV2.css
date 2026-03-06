@@ -1,0 +1,306 @@
+/* src/components/MasterplanFinancingV2.css */
+
+.mpf-v2-container {
+    width: 100%;
+    padding: 60px 0;
+    /* Un buen espacio vertical antes y después de la sección */
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+}
+
+.mpf-v2-content {
+    width: 90%;
+    max-width: 90%;
+    background-color: #6a8264;
+    border-radius: 24px;
+    /* Esquinas redondeadas Apple Style como las amenidades */
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: visible;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* --- SECCIÓN SUPERIOR: TEXTOS E IMAGEN --- */
+.mpf-v2-top-section {
+    width: 95%;
+    /* Usamos el 95% interno del contenedor verde para aprovechar espacio */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Columna Izquierda (Textos) */
+.mpf-v2-text-col {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.mpf-v2-main-title {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 3.5rem;
+    color: #e4f0a0;
+    /* Verde/Amarillo claro de la imagen */
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 20px 0;
+}
+
+.mpf-v2-separator {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.4);
+    /* Línea divisoria semi-transparente */
+    margin-bottom: 30px;
+}
+
+.mpf-v2-subtitle {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+}
+
+.mpf-v2-description {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1.05rem;
+    color: #ffffff;
+    line-height: 1.5;
+    margin: 0 0 35px 0;
+    max-width: 90%;
+}
+
+.mpf-v2-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: transparent;
+    border: 1.5px solid #ffffff;
+    border-radius: 30px;
+    padding: 12px 25px;
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1rem;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mpf-v2-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+.mpf-v2-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    background-color: #e4f0a0;
+    border-radius: 50%;
+    color: #6a8264;
+    font-size: 0.9rem;
+}
+
+/* Columna Derecha (Imagen) */
+.mpf-v2-image-col {
+    width: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mpf-v2-map-img {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.3));
+    transition: transform 0.4s ease;
+}
+
+.mpf-v2-map-img:hover {
+    transform: scale(1.05);
+    /* Hover simple */
+}
+
+/* Control de versiones de mapa */
+.mobile-img {
+    display: none;
+}
+
+.desktop-img {
+    display: block;
+    transform: scale(1.1) translateY(-20px);
+}
+
+.desktop-img:hover {
+    transform: scale(1.15) translateY(-25px);
+}
+
+/* --- SECCIÓN INFERIOR: FINANCIAMIENTO --- */
+.mpf-v2-bottom-section {
+    width: 95%;
+    /* Usamos el 95% interno del contenedor verde para alinearse al texto/imagen de arriba */
+    margin: 10px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mpf-v2-finance-title {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin: 0;
+}
+
+.mpf-v2-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.mpf-v2-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Efecto transparente (glass sutil) */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* Borde blanco semi-transparente */
+    border-radius: 8px;
+    padding: 25px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.mpf-v2-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mpf-v2-card-text {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 0.95rem;
+    color: #ffffff;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.mpf-v2-card-icon-wrapper {
+    background-color: #fce8db;
+    /* Círculo claro según imagen */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mpf-v2-card-icon {
+    color: #6a8264;
+    /* Color oscuro para el icono (o el terracota) */
+    font-size: 1rem;
+}
+
+
+/* --- ADAPTACIÓN A TABLET / MÓVIL --- */
+@media (max-width: 1024px) {
+    .mpf-v2-top-section {
+        flex-direction: column;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .mpf-v2-text-col {
+        width: 100%;
+        align-items: center;
+    }
+
+    .mpf-v2-description {
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .mpf-v2-image-col {
+        width: 100%;
+    }
+
+    .mpf-v2-map-img {
+        transform: scale(1) translateY(0);
+        max-width: 100%;
+    }
+
+    .mpf-v2-map-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Mostrar versión vertical en tablet/móvil */
+    .desktop-img {
+        display: none;
+    }
+
+    .mobile-img {
+        display: block;
+    }
+
+    .mpf-v2-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2x2 en tablet */
+    }
+}
+
+@media (max-width: 600px) {
+    .mpf-v2-container {
+        padding: 20px 2%;
+    }
+
+    .mpf-v2-content {
+        padding: 30px 5%;
+        border-radius: 12px;
+    }
+
+    .mpf-v2-main-title {
+        font-size: 2rem;
+    }
+
+    .mpf-v2-subtitle {
+        font-size: 1.4rem;
+    }
+
+    .mpf-v2-finance-title {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    .mpf-v2-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .mpf-v2-card {
+        padding: 15px 10px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .mpf-v2-map-img {
+        transform: scale(1.05);
+        /* Escala sutil en móvil */
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}

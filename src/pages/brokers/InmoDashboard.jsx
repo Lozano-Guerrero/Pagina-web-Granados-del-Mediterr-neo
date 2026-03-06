@@ -1170,3 +1170,435 @@ export default function InmoDashboard() {
         </div>
     );
 }
+
+                                            return (
+        <div className="brokers-page-v2">
+            <div className="brokers-shell-v2 brokers-v2-fade-in">
+
+                {/* TOP BAR: REGIMEN */}
+                <div className="brokers-v2-top-bar">
+                    <RegimenModule variant="horizontal" />
+                </div>
+
+                <div className="brokers-v2-grid">
+                    {/* MAIN CONTENT */}
+                    <div className="brokers-v2-main">
+                        <div className="brokers-v2-card">
+                            <div className="dashboard-v2-header">
+                                <div className="dashboard-v2-header-left">
+                                    <h1 className="dashboard-v2-title">Panel de Inmobiliaria</h1>
+                                    <p className="brokers-v2-text-muted">Leads de tu inmobiliaria y brokers asociados.</p>
+                                </div>
+                                <div className="dashboard-v2-header-right">
+                                    <strong style={{ fontSize: '1.1rem' }}>Estado Agencia</strong>
+                                    <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '4px' }}>
+                                        {profile?.org_name || 'Inmobiliaria'}: <span className="regimen-state ok">ACTIVA</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="dashboard-v2-actions">
+                                <Link to="/brokers/leads" className="btn-v2-primary">
+                                    + Nuevo lead
+                                </Link>
+                                <button onClick={() => setCreatingBroker(true)} className="btn-v2-secondary" style={{ background: '#374C64', color: '#fff' }}>
+                                    + Registrar Broker
+                                </button>
+                                <Link to="/brokers/cotizador" className="btn-v2-secondary">
+                                    Ir a cotizador
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="12" r="10" fill="white" />
+                                        <path d="M10 8l4 4-4 4" stroke="#d97706" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </Link>
+                            </div>
+
+                            {/* SECCIÓN LEADS */}
+                            <div className="dashboard-v2-header" style={{ marginTop: '40px', borderBottom: '1px solid #eee', paddingBottom: '12px' }}>
+                                <h2 className="dashboard-v2-title" style={{ fontSize: '1.25rem' }}>Leads de la Agencia</h2>
+                                <div className="brokers-v2-text-muted" style={{ fontSize: '0.9rem' }}>
+                                    {loadingLeads ? 'Cargando...' : `Total: ${filteredLeads.length}`}
+                                </div>
+                            </div>
+
+                            <div className="dashboard-v2-filters">
+                                <div style={{ position: 'relative', flex: 2 }}>
+                                    <input
+                                        className="input-v2-pill"
+                                        value={leadSearchText}
+                                        onChange={(e) => setLeadSearchText(e.target.value)}
+                                        placeholder="Buscar lead..."
+                                        style={{ paddingLeft: '44px' }}
+                                    />
+                                    <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5">
+                                            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div style={{ position: 'relative', flex: 1 }}>
+                                    <select
+                                        className="select-v2-pill"
+                                        value={leadOwnerFilter}
+                                        onChange={(e) => setLeadOwnerFilter(e.target.value)}
+                                        style={{ paddingLeft: '40px' }}
+                                    >
+                                        <option value="all">Todos los dueños</option>
+                                        <option value="mine">Míos</option>
+                                        {brokerOptions.map((opt) => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                    </select>
+                                    <div style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* LEADS TABLE DESKTOP */}
+                            <div className="table-v2-container">
+                                <div className="table-v2-header table-v2-grid-layout" style={{ gridTemplateColumns: 'minmax(100px, 1fr) minmax(140px, 1.2fr) minmax(140px, 1.2fr) 100px 100px 120px 100px' }}>
+                                    <span>Fecha</span>
+                                    <span>Lead / Dueño</span>
+                                    <span>Tel / Correo</span>
+                                    <span>Lote</span>
+                                    <span>Esquema</span>
+                                    <span>Estado</span>
+                                    <span style={{ textAlign: 'center' }}>Acción</span>
+                                </div>
+                                <div className="table-v2-body">
+                                    {filteredLeads.map((l) => {
+                                        const st = String(l?.lead_state || 'VIGENTE').toUpperCase();
+                                        const days = remainingDays(l?.expires_at);
+                                        const hasVigencia = typeof days === 'number';
+                                        const isExpired = hasVigencia && days <= 0;
+                                        const effectiveState = (st !== 'CERRADO' && isExpired) ? 'EXPIRADO' : st;
+                                        const canMeeting = hasVigencia && effectiveState === 'VIGENTE' && !isExpired;
+                                        const canClose = hasVigencia && effectiveState === 'REUNION' && !isExpired;
+
+                                        const badgeClass = effectiveState === 'CERRADO' ? 'brokers-badge-closed' : (effectiveState === 'EXPIRADO' ? 'brokers-badge-expired' : 'brokers-badge-warning');
+                                        const badgeText = effectiveState === 'CERRADO' ? 'Cerrado' : (effectiveState === 'EXPIRADO' ? 'Expirado' : (effectiveState === 'REUNION' ? `Reunión (${days}d)` : `Vigente (${days}d)`));
+
+                                        const ownerId = String(l.created_by_user_id || '');
+                                        const isMine = ownerId === String(profile?.id || '');
+                                        const ownerObj = brokersById.get(ownerId);
+                                        const ownerLabel = isMine ? 'Tú (Inmo)' : (ownerObj ? `${ownerObj.first_name} ${ownerObj.last_name}` : '—');
+
+                                        return (
+                                            <div key={l.id} className="brokers-table-row-v2 table-v2-grid-layout" style={{ gridTemplateColumns: 'minmax(100px, 1fr) minmax(140px, 1.2fr) minmax(140px, 1.2fr) 100px 100px 120px 100px' }}>
+                                                <div className="t-v2-cell-truncate" style={{ fontSize: '0.85rem' }}>
+                                                    <div>{formatDateParts(l.created_at).date}</div>
+                                                    <div style={{ color: '#9ca3af', fontSize: '0.75rem' }}>{formatDateParts(l.created_at).time}</div>
+                                                </div>
+                                                <div className="t-v2-cell-truncate">
+                                                    <div style={{ fontWeight: '700' }}>{l.lead_first_name} {l.lead_last_name}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: '#d97706', fontWeight: '600' }}>{ownerLabel}</div>
+                                                </div>
+                                                <div className="t-v2-cell-truncate" style={{ fontSize: '0.85rem' }}>
+                                                    <div>{l.lead_phone}</div>
+                                                    <div className="t-v2-cell-truncate" style={{ color: '#9ca3af', fontSize: '0.75rem' }}>{l.lead_email}</div>
+                                                </div>
+                                                <div style={{ fontWeight: '600' }}>{l.lot_number ? `Lote ${l.lot_number}` : '—'}</div>
+                                                <div style={{ fontSize: '0.85rem' }}>{l.esquema}</div>
+                                                <div><span className={`brokers-badge ${badgeClass}`}>{badgeText}</span></div>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    {canMeeting && <button onClick={() => setConfirm({ type: 'meeting', lead: l })} className="table-v2-action-btn blue">Agendar</button>}
+                                                    {canClose && <button onClick={() => setConfirm({ type: 'close', lead: l })} className="table-v2-action-btn green">Cerrar</button>}
+                                                    {!canMeeting && !canClose && <span style={{ color: '#9ca3af' }}>—</span>}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* LEADS MOBILE LIST */}
+                            <div className="leads-mobile-grid">
+                                {filteredLeads.map((l) => {
+                                    const st = String(l?.lead_state || 'VIGENTE').toUpperCase();
+                                    const days = remainingDays(l?.expires_at);
+                                    const hasVigencia = typeof days === 'number';
+                                    const isExpired = hasVigencia && days <= 0;
+                                    const effectiveState = (st !== 'CERRADO' && isExpired) ? 'EXPIRADO' : st;
+                                    const canMeeting = hasVigencia && effectiveState === 'VIGENTE' && !isExpired;
+                                    const canClose = hasVigencia && effectiveState === 'REUNION' && !isExpired;
+                                    const badgeText = effectiveState === 'CERRADO' ? 'Cerrado' : (effectiveState === 'EXPIRADO' ? 'Expirado' : (effectiveState === 'REUNION' ? 'Reunión' : 'Vigente'));
+
+                                    const ownerId = String(l.created_by_user_id || '');
+                                    const isMine = ownerId === String(profile?.id || '');
+                                    const ownerObj = brokersById.get(ownerId);
+                                    const ownerLabel = isMine ? 'Tú (Inmo)' : (ownerObj ? `${ownerObj.first_name} ${ownerObj.last_name}` : '—');
+
+                                    return (
+                                        <div key={l.id} className="lead-v2-mobile-card">
+                                            <div className={`lead-v2-mobile-card-header state-${effectiveState.toLowerCase()}`}>{badgeText} {hasVigencia && !isExpired ? `(${days}d)` : ''}</div>
+                                            <h4>{l.lead_first_name} {l.lead_last_name}</h4>
+                                            <div style={{ fontSize: '0.75rem', color: '#d97706', fontWeight: '700', marginBottom: '8px' }}>Dueño: {ownerLabel}</div>
+                                            <div className="lead-v2-mobile-detail">{l.lead_phone}</div>
+                                            <div className="lead-v2-mobile-detail" style={{ color: '#9ca3af' }}>{l.lead_email}</div>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px' }}>
+                                                <div className="lead-v2-mobile-detail">Lote {l.lot_number || '—'}</div>
+                                                <div className="lead-v2-mobile-detail">{l.esquema || '—'}</div>
+                                            </div>
+                                            {(canMeeting || canClose) && (
+                                                <button
+                                                    onClick={() => setConfirm({ type: canMeeting ? 'meeting' : 'close', lead: l })}
+                                                    className={`lead-v2-mobile-btn ${canMeeting ? 'brokers-inline-btn-blue' : 'brokers-inline-btn-green'}`}
+                                                    style={{ border: 'none', color: '#fff', fontWeight: '700', padding: '8px', marginTop: '12px', width: '100%', borderRadius: '8px' }}
+                                                >
+                                                    {canMeeting ? 'Marcar Reunión' : 'Cerrar Venta'}
+                                                </button>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* SECCIÓN BROKERS */}
+                            <div className="dashboard-v2-header" style={{ marginTop: '60px', borderBottom: '1px solid #eee', paddingBottom: '12px' }}>
+                                <h2 className="dashboard-v2-title" style={{ fontSize: '1.25rem' }}>Brokers de tu Inmobiliaria</h2>
+                                <div className="brokers-v2-text-muted" style={{ fontSize: '0.9rem' }}>
+                                    {loadingBrokers ? 'Cargando...' : `Total: ${filteredBrokers.length}`}
+                                </div>
+                            </div>
+
+                            <div className="dashboard-v2-filters">
+                                <div style={{ position: 'relative', flex: 2 }}>
+                                    <input
+                                        className="input-v2-pill"
+                                        value={brokerSearchText}
+                                        onChange={(e) => setBrokerSearchText(e.target.value)}
+                                        placeholder="Buscar broker por nombre, email o ID..."
+                                        style={{ paddingLeft: '44px' }}
+                                    />
+                                    <div style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5">
+                                            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div style={{ position: 'relative', flex: 1 }}>
+                                    <select
+                                        className="select-v2-pill"
+                                        value={brokerStatusFilter}
+                                        onChange={(e) => setBrokerStatusFilter(e.target.value)}
+                                        style={{ paddingLeft: '40px' }}
+                                    >
+                                        <option value="all">Todos los estados</option>
+                                        <option value="active">Activos</option>
+                                        <option value="inactive">Inactivos / Desactivados</option>
+                                    </select>
+                                    <div style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2.5">
+                                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* BROKERS TABLE DESKTOP */}
+                            <div className="table-v2-container">
+                                <div className="table-v2-header table-v2-grid-layout" style={{ gridTemplateColumns: '80px 1.5fr 1.5fr 120px 100px 60px' }}>
+                                    <span>ID</span>
+                                    <span>Nombre Completo</span>
+                                    <span>Contacto</span>
+                                    <span>Miembro desde</span>
+                                    <span>Estado</span>
+                                    <span style={{ textAlign: 'center' }}>Acción</span>
+                                </div>
+                                <div className="table-v2-body">
+                                    {filteredBrokers.map((b) => {
+                                        const ui = getBrokerStatusUi(b);
+                                        return (
+                                            <div key={b.id} className="brokers-table-row-v2 table-v2-grid-layout" style={{ gridTemplateColumns: '80px 1.5fr 1.5fr 120px 100px 60px' }}>
+                                                <div style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#666' }}>{b.public_id || '—'}</div>
+                                                <div style={{ fontWeight: '700' }}>{b.first_name} {b.last_name}</div>
+                                                <div className="t-v2-cell-truncate" style={{ fontSize: '0.85rem' }}>
+                                                    <div>{b.phone || '—'}</div>
+                                                    <div style={{ color: '#9ca3af', fontSize: '0.75rem' }}>{b.email}</div>
+                                                </div>
+                                                <div style={{ fontSize: '0.85rem' }}>{formatDateParts(b.created_at).date}</div>
+                                                <div><span className={`brokers-badge ${ui.badgeClass}`}>{ui.label}</span></div>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <KebabMenu
+                                                        onEdit={() => setEditingBroker(b)}
+                                                        onDeactivate={() => setDeactivateBroker(b)}
+                                                        disabled={savingBroker}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* BROKERS MOBILE LIST */}
+                            <div className="leads-mobile-grid" style={{ marginTop: '20px' }}>
+                                {filteredBrokers.map((b) => {
+                                    const ui = getBrokerStatusUi(b);
+                                    return (
+                                        <div key={b.id} className="lead-v2-mobile-card" style={{ borderLeft: `4px solid ${ui.key === 'active' ? '#027a48' : '#b42318'}` }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                                                <span className={`brokers-badge ${ui.badgeClass}`}>{ui.label}</span>
+                                                <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {b.public_id || '—'}</span>
+                                            </div>
+                                            <h4 style={{ margin: '0 0 8px 0' }}>{b.first_name} {b.last_name}</h4>
+                                            <div className="lead-v2-mobile-detail">{b.phone || '—'}</div>
+                                            <div className="lead-v2-mobile-detail" style={{ color: '#9ca3af', marginBottom: '12px' }}>{b.email}</div>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button
+                                                    onClick={() => setEditingBroker(b)}
+                                                    className="brokers-inline-btn"
+                                                    style={{ flex: 1, fontSize: '0.75rem' }}
+                                                    disabled={savingBroker}
+                                                >
+                                                    Gestionar
+                                                </button>
+                                                <button
+                                                    onClick={() => setDeactivateBroker(b)}
+                                                    className="brokers-inline-btn"
+                                                    style={{ color: '#b42318', fontSize: '0.75rem' }}
+                                                    disabled={savingBroker}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* SIDEBAR */}
+                    <aside className="brokers-v2-sidebar">
+                        <div className="user-sidebar-card">
+                            <div className="user-sidebar-profile">
+                                <div className="user-sidebar-avatar">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M3 21v-2a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v2" strokeLinecap="round" strokeLinejoin="round" />
+                                        <circle cx="12" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                                <div className="user-sidebar-info">
+                                    <h3>{fullName}</h3>
+                                    <p style={{ fontSize: '0.75rem', color: '#666', margin: '2px 0 8px' }}>Administrador Agencia</p>
+                                    <button onClick={handleLogout} className="user-sidebar-logout">Cerrar sesión</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="user-sidebar-card">
+                            <h4 className="sidebar-v2-label">Gestión de Agencia</h4>
+                            <p className="sidebar-v2-desc">Como administrador de {profile?.org_name || 'tu inmobiliaria'}, puedes visualizar todos los leads generados por tus brokers y gestionar sus accesos.</p>
+                        </div>
+
+                        <div className="user-sidebar-card sidebar-v2-card-green">
+                            <h4 className="sidebar-v2-label">Soporte Inmobiliarias</h4>
+                            <p className="sidebar-v2-desc">¿Necesitas ayuda con la gestión de tu equipo o carga masiva de leads?</p>
+                            <a
+                                href="https://wa.me/5219981234567"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="sidebar-v2-btn sidebar-v2-btn-green"
+                            >
+                                Contactar soporte
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            {/* MODALES */}
+            {creatingBroker && (
+                <div className="brokers-modal-overlay" role="dialog" aria-modal="true" onMouseDown={(e) => { if (e.target === e.currentTarget) { setCreatingBroker(false); resetCreateBrokerForm(); } }}>
+                    <div className="brokers-modal">
+                        <div className="brokers-modal-title-row">
+                            <h3 className="brokers-modal-title">Registrar nuevo broker</h3>
+                            <button className="brokers-modal-x" onClick={() => { setCreatingBroker(false); resetCreateBrokerForm(); }}>×</button>
+                        </div>
+                        <form onSubmit={createBrokerNow} className="brokers-form">
+                            {createBrokerModalError && <div className="brokers-form-error">{createBrokerModalError}</div>}
+                            <div className="brokers-leads-grid">
+                                <div className="brokers-field">
+                                    <label>Nombre(s)</label>
+                                    <input value={createBrokerForm.first_name} onChange={(e) => setCreateBrokerForm(v => ({ ...v, first_name: e.target.value }))} required />
+                                </div>
+                                <div className="brokers-field">
+                                    <label>Apellido(s)</label>
+                                    <input value={createBrokerForm.last_name} onChange={(e) => setCreateBrokerForm(v => ({ ...v, last_name: e.target.value }))} required />
+                                </div>
+                            </div>
+                            <div className="brokers-field">
+                                <label>Correo electrónico</label>
+                                <input type="email" value={createBrokerForm.email} onChange={(e) => setCreateBrokerForm(v => ({ ...v, email: e.target.value }))} required />
+                            </div>
+                            <div className="brokers-field">
+                                <label>Teléfono celular</label>
+                                <input type="tel" value={createBrokerForm.phone} onChange={(e) => setCreateBrokerForm(v => ({ ...v, phone: e.target.value }))} required />
+                            </div>
+                            <div className="brokers-modal-actions" style={{ marginTop: '12px' }}>
+                                <button type="button" className="brokers-inline-btn" onClick={() => { setCreatingBroker(false); resetCreateBrokerForm(); }}>Cancelar</button>
+                                <button type="submit" className="btn-v2-primary" style={{ padding: '0 24px', height: '40px' }} disabled={savingBroker}>
+                                    {savingBroker ? 'Registrando...' : 'Registrar Broker'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {editingBroker && (
+                <BrokerEditModal
+                    broker={editingBroker}
+                    onClose={() => setEditingBroker(null)}
+                    onSave={saveBrokerEdits}
+                    saving={savingBroker}
+                    errorText={brokerModalError}
+                    onEnablePasswordReset={(b) => setResetPasswordBroker(b)}
+                />
+            )}
+
+            {confirm && (
+                <ConfirmModal
+                    title={confirm.type === 'meeting' ? 'Confirmar reunión' : 'Confirmar venta cerrada'}
+                    text={confirm.type === 'meeting' ? '¿Deseas marcar este lead como Reunión para la agencia?' : '¿Confirmas que este lead ha cerrado una venta exitosa?'}
+                    confirmLabel={actingLead ? 'Procesando…' : 'Confirmar'}
+                    onCancel={closeConfirm}
+                    onConfirm={runLeadAction}
+                    disabled={actingLead}
+                    tone={confirm.type === 'close' ? 'blue' : 'green'}
+                />
+            )}
+
+            {deactivateBroker && (
+                <ConfirmModal
+                    title="Desactivar Broker"
+                    text={`¿Estás seguro que deseas desactivar a ${deactivateBroker.first_name} ${deactivateBroker.last_name}? Perderá el acceso al panel inmediatamente.`}
+                    confirmLabel={savingBroker ? 'Desactivando...' : 'Desactivar'}
+                    onCancel={() => setDeactivateBroker(null)}
+                    onConfirm={deactivateBrokerNow}
+                    disabled={savingBroker}
+                    tone="blue"
+                />
+            )}
+
+            {resetPasswordBroker && (
+                <ConfirmModal
+                    title="Restablecer Contraseña"
+                    text={`Se invalidará la contraseña actual de ${resetPasswordBroker.first_name}. Deberá usar la función "Olvidé mi contraseña" para ingresar.`}
+                    confirmLabel={savingBroker ? 'Procesando...' : 'Confirmar restablecimiento'}
+                    onCancel={() => setResetPasswordBroker(null)}
+                    onConfirm={enableBrokerPasswordResetNow}
+                    disabled={savingBroker}
+                    errorText={resetPasswordError}
+                    tone="blue"
+                />
+            )}
+        </div>
+    );
+}

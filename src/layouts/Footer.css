@@ -6,34 +6,42 @@
 /* Acento/Botón: #808000 (Verde Olivo) */
 
 .SHP-footer-main {
-    background-color: #303030; /* Terracota Oscuro */
-    color: #f4f4f4; /* Gris Claro para todo el texto */
+    background-color: #303030;
+    /* Terracota Oscuro */
+    color: #f4f4f4;
+    /* Gris Claro para todo el texto */
     padding-top: 50px;
     font-size: 0.95rem;
 }
 
 .SHP-footer-container {
-    max-width: 1200px;
+    width: 90%;
     margin: 0 auto;
     padding: 0 15px 40px;
     display: flex;
-    flex-wrap: wrap; /* Permite que las columnas se envuelvan en móvil */
-    gap: 30px; /* Espacio entre columnas */
+    flex-wrap: wrap;
+    /* Permite que las columnas se envuelvan en móvil */
+    gap: 30px;
+    /* Espacio entre columnas */
     justify-content: space-between;
 }
 
 /* Estilo para cada columna */
 .SHP-footer-col {
-    flex-basis: 100%; /* Por defecto, ocupa el 100% en móvil (apilado) */
+    flex-basis: 100%;
+    /* Por defecto, ocupa el 100% en móvil (apilado) */
 }
 
 /* Diseño de escritorio (3-4 columnas) */
 @media (min-width: 768px) {
     .SHP-footer-col {
-        flex-basis: calc(25% - 22.5px); /* Aproximadamente 4 columnas */
+        flex-basis: calc(25% - 22.5px);
+        /* Aproximadamente 4 columnas */
     }
+
     .SHP-col-brand {
-        flex-basis: calc(30% - 22.5px); /* Dar más espacio a la marca */
+        flex-basis: calc(30% - 22.5px);
+        /* Dar más espacio a la marca */
     }
 }
 
@@ -42,8 +50,10 @@
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #f4f4f4; /* Gris Claro */
-    border-bottom: 2px solid #03500d; /* Línea de acento Olivo */
+    color: #f4f4f4;
+    /* Gris Claro */
+    border-bottom: 2px solid #03500d;
+    /* Línea de acento Olivo */
     padding-bottom: 5px;
     display: inline-block;
 }
@@ -65,7 +75,8 @@
 }
 
 .SHP-footer-links a:hover {
-    color: #014422; /* Verde Olivo al pasar el ratón */
+    color: #014422;
+    /* Verde Olivo al pasar el ratón */
 }
 
 /* Información de Marca y Contacto */
@@ -73,7 +84,8 @@
     font-size: 1.8rem;
     font-weight: 800;
     margin-bottom: 10px;
-    color: #024224; /* Olivo para el logo */
+    color: #024224;
+    /* Olivo para el logo */
 }
 
 .SHP-brand-name {
@@ -91,7 +103,8 @@
 
 .SHP-contact-item svg {
     margin-right: 10px;
-    color: #eeeeee; /* Gris muy claro para los íconos */
+    color: #eeeeee;
+    /* Gris muy claro para los íconos */
 }
 
 /* Redes Sociales */
@@ -108,13 +121,15 @@
 }
 
 .SHP-social-icons a:hover {
-    color: #054b21; /* Verde Olivo al pasar el ratón */
+    color: #054b21;
+    /* Verde Olivo al pasar el ratón */
 }
 
 /* Botón CTA Destacado */
 .SHP-cta-button {
     display: inline-block;
-    background-color: #03490f; /* Verde Olivo */
+    background-color: #03490f;
+    /* Verde Olivo */
     color: #f4f4f4;
     padding: 12px 25px;
     text-decoration: none;
@@ -133,5 +148,54 @@
     padding: 15px 15px;
     text-align: center;
     font-size: 0.8rem;
-    color: #cccccc; /* Un gris ligeramente más oscuro para el texto inferior */
+    color: #cccccc;
+    /* Un gris ligeramente más oscuro para el texto inferior */
+}
+
+/* --- OPTIMIZACIÓN Y COMPACTACIÓN MÓVIL --- */
+@media (max-width: 768px) {
+    .SHP-footer-main {
+        padding-top: 30px;
+    }
+
+    .SHP-footer-container {
+        padding: 0 15px 20px;
+        gap: 15px;
+        /* Reducción de espacio entre bloques */
+    }
+
+    .SHP-brand-name {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .SHP-col-title {
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+        padding-bottom: 2px;
+    }
+
+    .SHP-footer-links li {
+        margin-bottom: 4px;
+    }
+
+    .SHP-contact-item {
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+    }
+
+    .SHP-social-icons {
+        margin-bottom: 15px;
+    }
+
+    .SHP-cta-button {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .SHP-footer-bottom {
+        padding: 10px;
+        font-size: 0.75rem;
+    }
 }

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faMapMarkerAlt, faPhoneAlt, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import './ContactPage.css';
 import ContactHomePage from '../../components/section/ContactHomePage';
+import ContactSectionV2 from '../../components/ContactSectionV2';
 
 const CONTACT_DETAILS = [
     // El 'link' solo se usa para Teléfono y Email
@@ -30,7 +31,7 @@ const ContactPage = () => {
                     <div className="contact-panel-content">
                         <h2>Nuestros Expertos están Listos para Asesorarte.</h2>
                         <p className="subtitle">
-                            Comunícate directamente con nuestro equipo de asesores inmobiliarios 
+                            Comunícate directamente con nuestro equipo de asesores inmobiliarios
                             para resolver todas tus dudas sobre Granados.
                         </p>
                         <div className="direct-contact-details">
@@ -70,7 +71,7 @@ const ContactPage = () => {
                 </section>
             </div>
             <section className="location-section" id="map">
-                <ContactHomePage />
+                <ContactSectionV2 />
             </section>
         </div>
     );

@@ -243,7 +243,7 @@
     max-width: 450px;
     border-radius: 32px 32px 24px 24px;
     padding: 35px 25px 25px;
-    margin-bottom: 20px;
+    margin-bottom: calc(20px + env(safe-area-inset-bottom));
     position: relative;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -452,127 +452,125 @@
     transform: scale(1.1);
 }
 
-/* 2. HERO SECTION */
-.v2-hero {
-    padding: 60px 0 40px 0;
-    /* Más ancho útil en laptop/desktop (sin verse “pegado” ni demasiado angosto). */
-    width: min(1400px, 92vw);
+/* 2. HERO PLUSVALIA PREMIUM */
+.v2-hero-plusvalia {
+    background: #f7f7f5;
+    padding: 100px 5%;
+    width: 100%;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.v2-hero-plusvalia-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1600px;
+    width: 100%;
     margin: 0 auto;
 }
 
-.v2-hero-content {
-    display: grid;
-    /* Damos un poco más de peso a la gráfica para evitar que se vea “mini”. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    gap: clamp(32px, 5vw, 90px);
-    align-items: center;
-    width: 100%;
-}
-
-.v2-hero-image {
-    width: 100%;
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-}
-
-.v2-hero-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 300;
-    line-height: 1.1;
+.v2-brand-tag-premium {
+    color: #b47c7c;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
     margin-bottom: 12px;
-    color: #1a1a1a;
+    display: block;
+    font-weight: 700;
 }
 
-.v2-subtitle {
-    font-size: 1.25rem;
+.v2-main-title {
+    font-size: clamp(2.5rem, 4.5vw, 5.5rem) !important;
+    font-weight: 300 !important;
+    margin: 0 0 24px !important;
+    line-height: 1.1 !important;
+    color: #1a1a1a !important;
+    font-family: 'Playfair Display', serif;
+}
+
+.v2-main-subtitle {
+    font-size: 1.2rem;
     color: #666;
-    max-width: 800px;
     line-height: 1.6;
-    margin-bottom: 24px;
+    max-width: 500px;
+    margin-bottom: 40px;
 }
 
-.v2-hero-actions {
+.v2-hero-actions-container {
     display: flex;
     gap: 20px;
+    align-items: center;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 
-.v2-btn-terracotta {
-    background-color: #b47c7c;
-    color: #fff;
-    border: none;
-    padding: 18px 36px;
+.v2-hero-ghost-btn {
+    background: #ffffff;
+    color: #b47c7c;
+    border: 2px solid #b47c7c;
+    padding: 18px 35px;
     border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
+    font-weight: 800;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 20px rgba(180, 124, 124, 0.2);
-}
-
-.v2-btn-terracotta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(180, 124, 124, 0.3);
-    background-color: #a36b6b;
-}
-
-.v2-btn-white {
-    background-color: #fff;
-    color: #1a1a1a;
-    border: 1px solid #eee;
-    padding: 16px 32px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     letter-spacing: 0.1em;
-    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    min-width: 200px;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.v2-hero-ghost-btn:hover {
+    background: #b47c7c;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(180, 124, 124, 0.2);
+}
+
+.v2-hero-chart-side {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.v2-btn-white:hover {
-    background-color: #f9f9f9;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
-.v2-map-card {
-    position: relative;
-
-    border-radius: 40px;
-    overflow: visible;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-    width: 70%;
-}
-
-.v2-map-card img {
     width: 100%;
-    text-align: center;
-    align-items: center;
-    height: auto;
-    display: block;
-    border-radius: 40px;
+}
+
+@media (max-width: 991px) {
+    .v2-hero-plusvalia-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .v2-hero-text-side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .v2-hero-actions-container {
+        justify-content: center;
+    }
+
+    .v2-main-subtitle {
+        margin: 0 auto 30px;
+    }
 }
 
 /* 3. SEPARATOR & SECTIONS */
 .v2-separator {
     height: 1px;
     background-color: #efece8;
-
+    width: 90vw;
     margin: 20px auto;
 }
 
 .v2-launch-prices {
-    padding: 1px 0;
-    width: 75vw;
+    padding: 60px 0 40px 0;
+    width: 90vw;
     margin: 0 auto;
 }
 
@@ -978,6 +976,40 @@
     white-space: nowrap;
 }
 
+.v2-neumo-main-info.flex-col {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    white-space: normal;
+}
+
+.v2-price-tag {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.v2-tag-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.v2-availability-alert {
+    font-size: 0.9rem;
+    color: #444;
+    background: #fff8eb;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(251, 140, 0, 0.2);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .v2-neumo-text {
     font-weight: 400;
 }
@@ -1015,6 +1047,15 @@
     font-style: italic;
     color: #555;
     text-align: left;
+}
+
+.v2-neumo-subtitle.warning-text {
+    color: #c62828;
+    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    margin-top: 4px;
+    font-style: normal;
 }
 
 .v2-neumo-subtitle .highlight {
@@ -1125,7 +1166,7 @@
     .v2-mobile-glass-bar {
         display: block;
         position: fixed;
-        bottom: clamp(14px, 2.2vw, 24px);
+        bottom: calc(clamp(14px, 2.2vw, 24px) + env(safe-area-inset-bottom));
         left: 50%;
         transform: translateX(-50%);
         width: min(680px, 92vw);
@@ -1229,7 +1270,7 @@
     .v2-mobile-glass-bar {
         display: block;
         position: fixed;
-        bottom: 14px;
+        bottom: calc(14px + env(safe-area-inset-bottom));
         left: 50%;
         transform: translateX(-50%);
         width: min(620px, 94vw);
@@ -1291,6 +1332,12 @@
         border-top: 1px dashed #eee;
         padding-top: 10px;
         width: 100%;
+    }
+
+    .v2-hero {
+        padding: 10px 0 0;
+        width: 90vw;
+        margin: 0 auto;
     }
 
     .v2-replica-middle {
@@ -1648,7 +1695,7 @@
         font-size: 19px;
     }
 
-    .v2-hero-content,
+    .v2-hero-plusvalia-content,
     .v2-prices-row,
     .v2-map-layout {
         gap: 120px;
@@ -1660,7 +1707,7 @@
         font-size: 26px;
     }
 
-    .v2-hero-content,
+    .v2-hero-plusvalia-content,
     .v2-prices-row,
     .v2-map-layout {
         gap: 180px;
@@ -1676,7 +1723,7 @@
         font-size: 34px;
     }
 
-    .v2-hero-content,
+    .v2-hero-plusvalia-content,
     .v2-prices-row,
     .v2-map-layout {
         gap: 240px;
@@ -1703,37 +1750,23 @@
         padding-right: 10px;
     }
 
-    .v2-hero {
-        padding: 10px 0 0;
-        width: 92vw;
+    .v2-hero-plusvalia {
+        padding: 40px 15px;
+        margin-bottom: 20px;
     }
 
-    .v2-hero-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .v2-main-title {
+        font-size: 2.2rem !important;
+        margin-bottom: 15px !important;
     }
 
-    .v2-map-card {
-        width: 85%;
-        /* Slightly larger on mobile but centered */
-        margin: 0 auto;
+    .v2-main-subtitle {
+        font-size: 1rem;
+        margin: 0 auto 25px;
+        max-width: 100%;
     }
 
-    .v2-hero-text h1 {
-        font-size: 2.2rem;
-        margin-bottom: 15px;
-    }
-
-    .v2-subtitle {
-        font-size: 0.95rem;
-        margin: 0 auto 15px;
-    }
-
-    .v2-hero-actions {
+    .v2-hero-actions-container {
         flex-direction: column;
         width: 100%;
         gap: 12px;
@@ -1772,7 +1805,8 @@
     }
 
     .v2-map-section {
-        width: 100vw;
+        width: 90vw;
+        margin: 0 auto;
         padding: 0;
     }
 
@@ -1845,7 +1879,7 @@
     .v2-mobile-glass-bar {
         display: block;
         position: fixed;
-        bottom: 25px;
+        bottom: calc(25px + env(safe-area-inset-bottom));
         left: 50%;
         transform: translateX(-50%);
         width: 90%;

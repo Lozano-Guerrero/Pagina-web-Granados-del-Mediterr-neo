@@ -4,7 +4,8 @@ import PriceGrid from '../../components/PriceGrid';
 import './PricingPag.css';
 import InteractiveMapV2 from '../../components/InteractiveMapV2.jsx';
 import FinancingHighlights from '../../components/FinancingHighlights.jsx';
-import PriceEvolutionCard from '../../components/PriceEvolutionCard.jsx';
+import SimplePlusvaliaChart from '../../components/SimplePlusvaliaChart.jsx';
+import BrochureDownloadButton from '../../components/BrochureDownloadButton.jsx';
 import LotTypeCards from '../../components/LotTypeCards.jsx';
 
 // 🛑 RUTA DE IMAGEN: Usa la ruta de tu nuevo mapa de masterplan
@@ -65,36 +66,64 @@ const PricingPage = () => {
             <header className="pricing-header-v4">
                 <div className="header-grid">
                     <div className="header-text-side">
-                        <span className="brand-tag">Granados del Mediterráneo</span>
-                        <h1>Masterplan y disponibilidad</h1>
-                        <p className="subtitle">Explora cada lote, consulta precios actualizados y planes de financiamiento personalizados.</p>
+                        <span className="brand-tag" style={{ color: '#b47c7c', letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.9rem', marginBottom: '12px', display: 'block' }}>
+                            Granados del Mediterráneo
+                        </span>
+                        <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 4rem)', fontWeight: '300', margin: '0 0 24px', lineHeight: '1.1', color: '#1a1a1a' }}>
+                            Masterplan y <br /> disponibilidad
+                        </h1>
+                        <p className="subtitle" style={{ fontSize: '1.1rem', color: '#666', lineHeight: '1.6', maxWidth: '500px', marginBottom: '40px' }}>
+                            Explora cada lote, consulta precios actualizados y planes de financiamiento personalizados.
+                        </p>
 
-                        <PriceEvolutionCard />
-
-                        <div className="hero-actions-row">
+                        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <BrochureDownloadButton
+                                text="DESCARGAR BROCHURE"
+                                style={{
+                                    background: '#b47c7c',
+                                    color: '#ffffff',
+                                    border: 'none',
+                                    padding: '16px 32px',
+                                    borderRadius: '50px',
+                                    fontWeight: '800',
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '0.8rem',
+                                    letterSpacing: '0.1em',
+                                    boxShadow: '0 10px 25px rgba(180, 124, 124, 0.3)',
+                                    transition: 'all 0.3s ease',
+                                    minWidth: '220px',
+                                    textTransform: 'uppercase'
+                                }}
+                            />
                             <button
-                                className="step-nav-btn hero-nav-btn"
-                                onClick={() => scrollToSection('precios-por-m2')}
-                            >
-                                Conocer precios por m²
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
-                                </svg>
-                            </button>
-
-                            <button
-                                className="step-nav-btn ghost-nav-btn"
                                 onClick={() => scrollToSection('mapa-interactivo')}
+                                style={{
+                                    background: '#ffffff',
+                                    color: '#b47c7c',
+                                    border: '2px solid #b47c7c',
+                                    padding: '16px 32px',
+                                    borderRadius: '50px',
+                                    fontWeight: '800',
+                                    cursor: 'pointer',
+                                    fontSize: '0.8rem',
+                                    letterSpacing: '0.1em',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
+                                    minWidth: '180px',
+                                    textTransform: 'uppercase'
+                                }}
                             >
-                                Ver mapa interactivo
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: 'rotate(-90deg)' }}>
-                                    <path d="M9 5l7 7-7 7" />
-                                </svg>
+                                VER LOTES
                             </button>
                         </div>
                     </div>
-                    <div className="header-image-side">
-                        <img src="/img/masterplan-3d.png" alt="Masterplan 3D Granados" className="hero-3d-image" />
+
+                    <div className="header-image-side" style={{ display: 'flex', justifyContent: 'center' }}>
+                        <SimplePlusvaliaChart hideMilestone={true} />
                     </div>
                 </div>
             </header>

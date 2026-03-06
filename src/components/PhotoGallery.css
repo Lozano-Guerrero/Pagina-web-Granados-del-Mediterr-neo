@@ -1,0 +1,90 @@
+/* src/components/PhotoGallery.css */
+
+.gallery-section {
+  padding: 4rem 2rem;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.gallery-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* ---------------------------------- */
+/* Cuadrícula Responsive (CSS Grid) */
+/* ---------------------------------- */
+.gallery-grid {
+  display: grid;
+  /* La clave del responsive: auto-fit ajusta las columnas automáticamente */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem; /* Espacio entre los elementos de la cuadrícula */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  /* Relación de aspecto 4:3 */
+  aspect-ratio: 4 / 3; 
+}
+
+/* ---------------------------------- */
+/* Placeholders y Overlay (Temporal) */
+/* ---------------------------------- */
+.item-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-weight: bold;
+}
+
+.item-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Inicialmente invisible */
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .item-overlay {
+  opacity: 1; /* Se hace visible al pasar el ratón */
+}
+
+/* Estilos específicos para la etiqueta de Video si la tenemos */
+.gallery-item.video .item-placeholder {
+    background-color: #a0a0ff; /* Un color distinto para videos */
+}
+
+/* ---------------------------------- */
+/* Adaptación a pantallas pequeñas (aunque grid ya hace mucho) */
+/* ---------------------------------- */
+@media (max-width: 600px) {
+  .gallery-grid {
+    /* En móviles, se garantiza que haya al menos dos columnas si el espacio lo permite */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

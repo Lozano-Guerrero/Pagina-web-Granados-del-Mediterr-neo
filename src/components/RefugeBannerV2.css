@@ -1,0 +1,213 @@
+/* src/components/RefugeBannerV2.css */
+
+.refuge-banner-v2-wrapper {
+    width: 100%;
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.refuge-banner-v2-container {
+    width: 90%;
+    max-width: 90%;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    /* Carga la imagen de fondo con prioridades de centrado */
+    background-image: url('/img/casa1cut.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    display: flex;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Oscurecimiento para que el texto resalte */
+.refuge-banner-v2-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente oscuro hacia la izquierda para textos, mucho más suave a la derecha para ver la casa */
+    background: linear-gradient(to right,
+            rgba(15, 15, 15, 0.9) 0%,
+            rgba(15, 15, 15, 0.6) 45%,
+            rgba(15, 15, 15, 0.1) 100%);
+    z-index: 1;
+}
+
+.refuge-banner-v2-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 80px 4%;
+    /* Reducido padding lateral para empujar contenido a los bordes */
+}
+
+/* --- COLUMNA IZQUIERDA --- */
+.refuge-banner-v2-left {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: #ffffff;
+}
+
+.refuge-title-v2 {
+    font-family: var(--font-sitka, 'Sitka Display', serif);
+    font-size: 3.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 10px 0;
+}
+
+.refuge-subtitle-v2 {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+}
+
+.refuge-divider-v2 {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 25px;
+}
+
+.refuge-description-v2 {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 35px 0;
+    max-width: 90%;
+}
+
+/* Botón estilo rosa pálido/crema basado en la referencia */
+.refuge-btn-v2 {
+    background-color: #f7e6e5;
+    color: #b87b7a;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 30px;
+    font-family: var(--font-swis, sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    /* Para enlace a */
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.refuge-btn-v2:hover {
+    background-color: #ffffff;
+    color: #8a5756;
+    transform: translateY(-2px);
+}
+
+/* --- COLUMNA DERECHA --- */
+.refuge-banner-v2-right {
+    width: 35%;
+    /* Más angosto para mandarlo totalmente a la derecha */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+.refuge-feature-v2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.refuge-icon-v2 {
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    width: 45px;
+    text-align: center;
+}
+
+.refuge-feature-text-v2 h4 {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+}
+
+.refuge-feature-text-v2 p {
+    font-family: var(--font-swis, sans-serif);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+/* --- RESPONSIVE DESKTOP/MÓVIL --- */
+@media (max-width: 1024px) {
+    .refuge-banner-v2-content {
+        flex-direction: column;
+        padding: 50px 5%;
+        gap: 50px;
+    }
+
+    .refuge-banner-v2-left {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .refuge-description-v2 {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .refuge-banner-v2-right {
+        width: 100%;
+    }
+
+    .refuge-feature-v2 {
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Oscurecimiento completo para móvil para garantizar lectura */
+    .refuge-banner-v2-overlay {
+        background: linear-gradient(to bottom,
+                rgba(15, 15, 15, 0.9) 0%,
+                rgba(15, 15, 15, 0.8) 50%,
+                rgba(15, 15, 15, 0.85) 100%);
+    }
+}
+
+@media (max-width: 600px) {
+    .refuge-title-v2 {
+        font-size: 2.8rem;
+    }
+
+    .refuge-subtitle-v2 {
+        font-size: 1.1rem;
+    }
+
+    .refuge-description-v2 {
+        font-size: 1rem;
+    }
+
+    .refuge-feature-text-v2 h4 {
+        font-size: 1.1rem;
+    }
+}

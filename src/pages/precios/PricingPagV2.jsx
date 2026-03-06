@@ -6,6 +6,8 @@ import LotTypeCards from '../../components/LotTypeCards.jsx';
 import InteractiveMapV2 from '../../components/InteractiveMapV2.jsx';
 import CotizadorModal from '../../components/CotizadorModal.jsx';
 import PlusvaliaChart from '../../components/PlusvaliaChart.jsx';
+import SimplePlusvaliaChart from '../../components/SimplePlusvaliaChart.jsx';
+import BrochureDownloadButton from '../../components/BrochureDownloadButton.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClockRotateLeft, faCalendarCheck, faFileSignature, faHandHoldingUsd, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -510,57 +512,77 @@ const PricingPagV2 = ({ enableCotizador = false } = {}) => {
                 </div>
             ) : null}
 
-            {/* 2. HERO SECTION */}
-            <header className="v2-hero reveal-fade">
-                <div className="v2-hero-content">
-                    <div className="v2-hero-text reveal-left">
-                        <h1 className="v2-title">Masterplan y <br />disponibilidad</h1>
-                        <p className="v2-subtitle">
+            {/* 2. HERO SECTION PREMIUM */}
+            <header className="v2-hero-plusvalia reveal-fade">
+                <div className="v2-hero-plusvalia-content">
+
+                    <div className="v2-hero-text-side reveal-left">
+                        <span className="v2-brand-tag-premium">
+                            Granados del Mediterráneo
+                        </span>
+                        <h1 className="v2-main-title">
+                            Masterplan y <br /> disponibilidad
+                        </h1>
+                        <p className="v2-main-subtitle">
                             Explora cada lote, consulta precios actualizados y planes de financiamiento personalizados.
                         </p>
-                        <div className="v2-hero-actions">
-                            <button className="v2-btn-terracotta" onClick={() => scrollToSection('launch-prices')}>
-                                CONOCER PRECIOS POR M² <span className="v2-btn-icon">↘</span>
-                            </button>
-                            <button className="v2-btn-white" onClick={() => scrollToSection('v2-interactive-map')}>
-                                VER MAPA INTERACTIVO <span className="v2-btn-icon">↗</span>
+
+                        <div className="v2-hero-actions-container">
+                            <BrochureDownloadButton
+                                text="DESCARGAR BROCHURE"
+                                style={{
+                                    background: '#b47c7c',
+                                    color: '#ffffff',
+                                    border: 'none',
+                                    padding: '18px 35px',
+                                    borderRadius: '50px',
+                                    fontWeight: '800',
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '0.8rem',
+                                    letterSpacing: '0.1em',
+                                    boxShadow: '0 10px 30px rgba(180, 124, 124, 0.4)',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    minWidth: '220px',
+                                    textTransform: 'uppercase'
+                                }}
+                            />
+                            <button
+                                onClick={() => scrollToSection('v2-interactive-map')}
+                                className="v2-hero-ghost-btn"
+                            >
+                                VER LOTES
                             </button>
                         </div>
                     </div>
-                    <div className="v2-hero-image reveal-right">
-                        <PlusvaliaChart data={plusvaliaData} />
+
+                    <div className="v2-hero-chart-side reveal-right">
+                        <SimplePlusvaliaChart hideMilestone={true} />
                     </div>
                 </div>
             </header>
 
             <div className="v2-separator" />
 
-            {/* 3. PRICE EVOLUTION & LOT TYPES ROW 
-            <section id="launch-prices" className="v2-launch-prices reveal-fade">
-                <div className="v2-prices-row">
-                    <div className="v2-price-evolution-col reveal-left">
-                        <PriceEvolutionCard />
-                    </div>
 
-                    <div className="v2-arrow-col">
-                        <div className="v2-big-arrow">
-                            <svg viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 20H80M80 20L65 5M80 20L65 35" stroke="#43a047" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </div>
-                    </div>
 
-                    <div className="v2-lot-types-col reveal-right">
-                        <LotTypeCards />
-                        <div className="v2-launch-text-block">
-                            <h2 className="v2-launch-title">Precios de lanzamiento: Su oportunidad exclusiva</h2>
-                            <p className="v2-launch-subtitle">Asegure su inversión con las tarifas vigentes por metro cuadrado. ¡Cupo limitado!</p>
-
-                        </div>
+            {/* 3.5 PLUSVALIA CHART SECTION (MOVIMIENTO ESTRATÉGICO) */}
+            <section className="v2-plusvalia-section reveal-fade" style={{ width: 'min(1400px, 92vw)', margin: '40px auto' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '60px', alignItems: 'center' }}>
+                    {/*  <div className="v2-plusvalia-text">
+                        <h2 className="v2-title" style={{ fontSize: '2.5rem' }}>Evolución de <br /> Plusvalía</h2>
+                        <p className="v2-subtitle" style={{ fontSize: '1.1rem' }}>
+                            Nuestro proyecto garantiza un crecimiento constante. Observa cómo el valor de tu inversión se proyecta frente a la competencia y el mercado actual.
+                        </p>
                     </div>
+                       <div className="v2-plusvalia-chart-container">
+                        <PlusvaliaChart data={plusvaliaData} />
+                    </div>*/}
                 </div>
             </section>
-*/}
             <div className="v2-separator" />
 
             {/* 4. MAIN MAP SECTION */}
@@ -617,42 +639,42 @@ const PricingPagV2 = ({ enableCotizador = false } = {}) => {
                                         {!isVendido && <p className="v2-contact-prompt">CONTACTA A UN ASESOR</p>}
                                     </div>
 
-                                        <div className="v2-sidebar-actions">
-                                            {isReservado ? (
-                                                <div className="v2-dual-actions">
-                                                    <a href={linkSimilares} target="_blank" rel="noopener noreferrer" className="v2-btn-black v2-btn-full">VER SIMILARES</a>
-                                                    <a href={linkLiberacion} target="_blank" rel="noopener noreferrer" className="v2-btn-outline v2-btn-full">AVISARME SI SE LIBERA</a>
-                                                </div>
-                                            ) : (
-                                                <div className="v2-dual-actions">
-                                                    {enableCotizador ? (
-                                                        <button
-                                                            type="button"
-                                                            className={`v2-btn-black v2-btn-broker v2-btn-full ${isVendido ? 'disabled' : ''}`}
-                                                            onClick={() => !isVendido && setIsCotizadorOpen(true)}
-                                                            disabled={isVendido}
-                                                        >
-                                                            {isVendido ? 'LOTE VENDIDO' : cotizarText}
-                                                        </button>
-                                                    ) : (
-                                                        <a
-                                                            className={`v2-btn-black v2-btn-full ${isVendido ? 'disabled' : ''}`}
-                                                            href={isVendido ? undefined : linkCotizar}
-                                                            target={isVendido ? undefined : "_blank"}
-                                                            rel={isVendido ? undefined : "noopener noreferrer"}
-                                                            aria-disabled={isVendido ? 'true' : 'false'}
-                                                            onClick={(e) => {
-                                                                if (isVendido) e.preventDefault();
-                                                            }}
-                                                        >
-                                                            {isVendido ? 'LOTE VENDIDO' : cotizarText}
-                                                        </a>
-                                                    )}
-                                                    <button onClick={resetSelection} className="v2-btn-outline v2-btn-full">
-                                                        VER OTRO LOTE
+                                    <div className="v2-sidebar-actions">
+                                        {isReservado ? (
+                                            <div className="v2-dual-actions">
+                                                <a href={linkSimilares} target="_blank" rel="noopener noreferrer" className="v2-btn-black v2-btn-full">VER SIMILARES</a>
+                                                <a href={linkLiberacion} target="_blank" rel="noopener noreferrer" className="v2-btn-outline v2-btn-full">AVISARME SI SE LIBERA</a>
+                                            </div>
+                                        ) : (
+                                            <div className="v2-dual-actions">
+                                                {enableCotizador ? (
+                                                    <button
+                                                        type="button"
+                                                        className={`v2-btn-black v2-btn-broker v2-btn-full ${isVendido ? 'disabled' : ''}`}
+                                                        onClick={() => !isVendido && setIsCotizadorOpen(true)}
+                                                        disabled={isVendido}
+                                                    >
+                                                        {isVendido ? 'LOTE VENDIDO' : cotizarText}
                                                     </button>
-                                                </div>
-                                            )}
+                                                ) : (
+                                                    <a
+                                                        className={`v2-btn-black v2-btn-full ${isVendido ? 'disabled' : ''}`}
+                                                        href={isVendido ? undefined : linkCotizar}
+                                                        target={isVendido ? undefined : "_blank"}
+                                                        rel={isVendido ? undefined : "noopener noreferrer"}
+                                                        aria-disabled={isVendido ? 'true' : 'false'}
+                                                        onClick={(e) => {
+                                                            if (isVendido) e.preventDefault();
+                                                        }}
+                                                    >
+                                                        {isVendido ? 'LOTE VENDIDO' : cotizarText}
+                                                    </a>
+                                                )}
+                                                <button onClick={resetSelection} className="v2-btn-outline v2-btn-full">
+                                                    VER OTRO LOTE
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             )}
@@ -704,26 +726,26 @@ const PricingPagV2 = ({ enableCotizador = false } = {}) => {
                                                             <span className="v2-neumo-text v2-neumo-unavailable">No disponibles</span>
                                                         </div>
                                                     ) : (
-                                                        <div className="v2-neumo-main-info">
-                                                            <span className="v2-neumo-text">
-                                                                {availability[type].hikeScarcity === 1 ? 'Queda ' : 'Quedan '}
-                                                            </span>
-                                                            <span className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>
-                                                                {availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}
-                                                            </span>
-                                                            <span className="v2-neumo-text"> a </span>
-                                                            <span className="v2-neumo-price">
-                                                                ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
-                                                            </span>
+                                                        <div className="v2-neumo-main-info flex-col">
+                                                            <div className="v2-price-tag">
+                                                                <span className="v2-tag-label">Precio Actual:</span>
+                                                                <span className="v2-neumo-price">
+                                                                    ${formatCurrencyNoSymbol(availability[type].minPrice)}/m²
+                                                                </span>
+                                                            </div>
+
+                                                            <div className="v2-availability-alert">
+                                                                Últimos <strong className={`v2-neumo-count ${availability[type].hikeScarcity === 1 ? 'urgent-red' : availability[type].hikeScarcity > 1 ? 'urgent-yellow' : ''}`}>{availability[type].hikeScarcity} {availability[type].hikeScarcity === 1 ? 'lote' : 'lotes'}</strong> a este precio.
+                                                            </div>
                                                         </div>
                                                     )}
 
-                                                    <div className="v2-neumo-subtitle">
+                                                    <div className={`v2-neumo-subtitle ${!isTypeA ? 'warning-text' : ''}`}>
                                                         {isTypeA ? (
                                                             '¡Gracias por su confianza!'
                                                         ) : (
                                                             <>
-                                                                ¡Separa tu lote <span className="highlight">HOY</span> y asegura tu precio!
+                                                                Terminando estos lotes, el precio subirá para los siguientes. ¡Sé de los pocos en asegurar esta tarifa hoy!
                                                             </>
                                                         )}
                                                     </div>

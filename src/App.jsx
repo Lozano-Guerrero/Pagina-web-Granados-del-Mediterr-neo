@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 
 import HomePage from './pages/HomePage';
+import HomePageV2 from './pages/HomePageV2';
 import ContactPage from './pages/contacto/ContactPage';
 import ProjectInfoPage from './pages/proyecto/ProjectInfoPage';
 import PricingPageV2 from './pages/precios/PricingPagV2';
@@ -24,7 +25,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<HomePageV2 />} />
+        <Route path="v2" element={<HomePageV2 />} />
         <Route path="proyecto" element={<ProjectInfoPage />} />
         <Route path="Contacto" element={<ContactPage />} />
         <Route path="precios" element={<PricingPageV2 />} />
