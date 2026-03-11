@@ -109,6 +109,7 @@ export default function RegimenModule({ variant }) {
     const [ctx, setCtx] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [isMobileAlertVisible, setIsMobileAlertVisible] = useState(true);
 
     const [file, setFile] = useState(null);
     const fileInputRef = useRef(null);
@@ -178,7 +179,10 @@ export default function RegimenModule({ variant }) {
     const downloadMaster = async () => {
         setError('');
         try {
-            const target = variant === 'inmobiliaria' ? 'inmobiliaria' : 'broker';
+            let target = variant === 'inmobiliaria' ? 'inmobiliaria' : 'broker';
+            if (profile?.is_referred) {
+                target = target === 'inmobiliaria' ? 'inmobiliaria_referida' : 'broker_referido';
+            }
             const data = await edgePost('regimen-download-url', { kind: 'master', target });
             const url = data?.url;
             if (!url) throw new Error('No se pudo generar URL de descarga.');
@@ -271,7 +275,7 @@ export default function RegimenModule({ variant }) {
     const isHorizontal = variant === 'horizontal';
 
     return (
-        <div className={`brokers-subcard regimen-card ${isHorizontal ? 'regimen-card-v2' : ''}`}>
+        <div id="regimen-module-top" className={`brokers-subcard regimen-card ${isHorizontal ? 'regimen-card-v2' : ''}`}>
             {isHorizontal ? (
                 <>
                     <div className="regimen-v2-info">
@@ -456,10 +460,29 @@ export default function RegimenModule({ variant }) {
                 </>
             )}
 
-            {statusLabel.text === 'INACTIVO' && (
-                <div className="regimen-mobile-alert-fixed">
-                    <strong>⚠️ Régimen inactivo</strong>
-                    <span>Desliza al final para actualizar tu documento.</span>
+            {statusLabel.text === 'INACTIVO' && isMobileAlertVisible && (
+                <div 
+                    className="regimen-mobile-alert-fixed" 
+                    role="alert"
+                >
+                    <div 
+                        className="regimen-mobile-alert-fixed-content"
+                        onClick={() => {
+                            const top = document.getElementById('regimen-module-top');
+                            top?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }}
+                    >
+                        <strong>⚠️ Régimen inactivo</strong>
+                        <span>Toca aquí para subir tu documento firmado.</span>
+                    </div>
+                    <button 
+                        type="button" 
+                        className="regimen-mobile-alert-close" 
+                        onClick={() => setIsMobileAlertVisible(false)}
+                        aria-label="Ocultar aviso"
+                    >
+                        &times;
+                    </button>
                 </div>
             )}
 

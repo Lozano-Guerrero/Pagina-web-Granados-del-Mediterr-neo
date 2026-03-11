@@ -98,7 +98,7 @@ serve(async (req) => {
   if (regErr || !regimen) return jsonResponse(404, { error: "Régimen no encontrado." });
 
   const target = String(regimen.target ?? "").toLowerCase();
-  if (target !== "broker" && target !== "inmobiliaria") return jsonResponse(400, { error: "Target inválido." });
+  if (!["broker", "inmobiliaria", "broker_referido", "inmobiliaria_referida"].includes(target)) return jsonResponse(400, { error: "Target inválido." });
 
   // 1) Desactivar el activo anterior (si existe) y activar este.
   const { error: offErr } = await adminClient
@@ -117,15 +117,23 @@ serve(async (req) => {
   // 2) Marcar usuarios como "inactive" (pendientes) para bloquear registro de leads.
   // No tocamos is_active (eso es "Desactivado" manual).
   let affected = 0;
-  if (target === "broker") {
-    const { data, error } = await adminClient
+  const isReferredTarget = target === "broker_referido" || target === "inmobiliaria_referida";
+  const baseRole = (target === "broker" || target === "broker_referido") ? "broker" : "inmobiliaria";
+
+  if (baseRole === "broker") {
+    const query = adminClient
       .from("profiles")
       .update({ account_status: "inactive" })
       .eq("role", "broker")
-      .is("org_id", null)
       .eq("is_active", true)
-      .neq("account_status", "deactivated")
-      .select("id");
+      .eq("is_referred", isReferredTarget)
+      .neq("account_status", "deactivated");
+
+    // Non-referred brokers: also filter by no org_id (independent)
+    const { data, error } = isReferredTarget
+      ? await query.select("id")
+      : await query.is("org_id", null).select("id");
+
     if (error) return jsonResponse(500, { error: "No se pudo actualizar el estado de brokers.", details: error.message });
     affected = Array.isArray(data) ? data.length : 0;
   } else {
@@ -134,27 +142,30 @@ serve(async (req) => {
       .update({ account_status: "inactive" })
       .eq("role", "inmobiliaria")
       .eq("is_active", true)
+      .eq("is_referred", isReferredTarget)
       .neq("account_status", "deactivated")
       .select("id, org_id");
     if (error) return jsonResponse(500, { error: "No se pudo actualizar el estado de inmobiliarias.", details: error.message });
     affected = Array.isArray(data) ? data.length : 0;
 
-    // Mantener coherencia madre-hijo: brokers ligados a una inmobiliaria heredan su status.
-    const orgIds = Array.isArray(data)
-      ? data.map((row: any) => row?.org_id).filter((v: any) => Boolean(v))
-      : [];
+    // Mantener coherencia madre-hijo: brokers ligados a una inmobiliaria NO referida heredan su status.
+    if (!isReferredTarget) {
+      const orgIds = Array.isArray(data)
+        ? data.map((row: any) => row?.org_id).filter((v: any) => Boolean(v))
+        : [];
 
-    if (orgIds.length) {
-      const { error: childErr } = await adminClient
-        .from("profiles")
-        .update({ account_status: "inactive" })
-        .eq("role", "broker")
-        .in("org_id", orgIds)
-        .eq("is_active", true)
-        .neq("account_status", "deactivated");
+      if (orgIds.length) {
+        const { error: childErr } = await adminClient
+          .from("profiles")
+          .update({ account_status: "inactive" })
+          .eq("role", "broker")
+          .in("org_id", orgIds)
+          .eq("is_active", true)
+          .neq("account_status", "deactivated");
 
-      if (childErr) {
-        console.log("[regimen-admin-activate] No se pudieron actualizar brokers hijos.", childErr);
+        if (childErr) {
+          console.log("[regimen-admin-activate] No se pudieron actualizar brokers hijos.", childErr);
+        }
       }
     }
   }

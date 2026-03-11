@@ -83,7 +83,7 @@ serve(async (req) => {
 
   const { data: me } = await adminClient
     .from("profiles")
-    .select("id, role, is_active, account_status, org_id")
+    .select("id, role, is_active, account_status, org_id, is_referred")
     .eq("id", callerId)
     .maybeSingle();
 
@@ -115,16 +115,22 @@ serve(async (req) => {
       return jsonResponse(403, { error: "No tienes permiso para descargar el régimen." });
     }
 
-    let effectiveTarget: "broker" | "inmobiliaria" | null = null;
+    let effectiveTarget: string | null = null;
     if (isStaff) {
-      if (!requestedTarget || !["broker", "inmobiliaria"].includes(requestedTarget)) {
-        return jsonResponse(400, { error: "target es obligatorio para admin (broker|inmobiliaria)." });
+      const rt = cleanString((body as any)?.target);
+      if (!rt || !["broker", "inmobiliaria", "broker_referido", "inmobiliaria_referida"].includes(rt)) {
+        return jsonResponse(400, { error: "target es obligatorio (broker|inmobiliaria|broker_referido|inmobiliaria_referida)." });
       }
-      effectiveTarget = requestedTarget;
+      effectiveTarget = rt;
     } else {
-      if (role === "inmobiliaria") effectiveTarget = "inmobiliaria";
-      else if (role === "broker") effectiveTarget = "broker";
-      else return jsonResponse(403, { error: "Forbidden." });
+      // Para usuarios normales, determinar target según su rol y flag is_referred.
+      const isReferred = me.is_referred === true;
+      if (isReferred) {
+        const suffix = role === "inmobiliaria" ? "_referida" : "_referido";
+        effectiveTarget = `${role}${suffix}`;
+      } else {
+        effectiveTarget = role;
+      }
     }
 
     let regimenRow: any = null;

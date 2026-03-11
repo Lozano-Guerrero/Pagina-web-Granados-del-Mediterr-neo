@@ -40,10 +40,9 @@ export default function BrokerLoginPage() {
     useEffect(() => {
         if (loading) return;
         if (user && profile) {
-            if (profile.is_active === false) {
-                // Bloqueo post-auth: si está desactivado, cortamos sesión inmediatamente.
-                supabase?.auth?.signOut?.();
-                setError('Usuario desactivado. Contacta a un administrador.');
+            if (profile.is_active === false || profile.account_status === 'deactivated') {
+                // Bloqueo post-auth: si está desactivado, mostramos error pero YA NO cortamos sesión ciegamente para debugear.
+                setError(`Usuario desactivado o inactivo. is_active: ${profile.is_active}, account_status: ${profile.account_status}`);
                 return;
             }
 

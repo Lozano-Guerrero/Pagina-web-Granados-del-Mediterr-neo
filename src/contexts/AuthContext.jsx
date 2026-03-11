@@ -25,8 +25,20 @@ export function AuthProvider({ children }) {
             setLoadingSession(false);
         });
 
-        const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-            setSession(nextSession ?? null);
+        const { data: listener } = supabase.auth.onAuthStateChange((event, nextSession) => {
+            if (event === 'SIGNED_OUT') {
+                setSession(null);
+                setProfile(null);
+            } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+                if (nextSession) {
+                    setSession(nextSession);
+                }
+            } else if (nextSession) {
+                // Initial load or custom event
+                setSession(nextSession);
+            }
+            // Ignoramos intencionalmente TOKEN_REFRESH_FAILED para no expulsar al usuario 
+            // al minimizar por background throttling, permitiendo que la red se recupere.
         });
 
         return () => {
@@ -48,15 +60,15 @@ export function AuthProvider({ children }) {
         // Compat: algunas columnas pueden no existir todavía según migraciones.
         const attempt = await supabase
             .from('profiles')
-            .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at')
+            .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at, referred_by, is_referred')
             .eq('id', currentUserId)
             .maybeSingle();
 
         let { data, error } = attempt;
-        if (error && /public_id|account_status/i.test(String(error.message ?? ''))) {
+        if (error && /public_id|account_status|referred_by|is_referred/i.test(String(error.message ?? ''))) {
             const fallback = await supabase
                 .from('profiles')
-                .select('id, first_name, last_name, phone, email, role, org_id, is_active, created_at')
+                .select('id, first_name, last_name, phone, email, role, org_id, is_active, created_at, referred_by, is_referred')
                 .eq('id', currentUserId)
                 .maybeSingle();
             data = fallback.data;

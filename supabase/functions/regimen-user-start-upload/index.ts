@@ -97,7 +97,7 @@ serve(async (req) => {
 
   const { data: me, error: meErr } = await adminClient
     .from("profiles")
-    .select("id, role, is_active, account_status, org_id")
+    .select("id, role, is_active, account_status, org_id, is_referred")
     .eq("id", callerId)
     .single();
 
@@ -121,7 +121,12 @@ serve(async (req) => {
     }
   }
 
-  const target = role === "inmobiliaria" ? "inmobiliaria" : "broker";
+  const isReferred = me.is_referred === true;
+  let target = role;
+  if (isReferred) {
+    const suffix = role === "inmobiliaria" ? "_referida" : "_referido";
+    target = `${role}${suffix}`;
+  }
   const { data: activeReg, error: regErr } = await adminClient
     .from("regimens_master")
     .select("id, display_name, version, target, storage_bucket, storage_path")

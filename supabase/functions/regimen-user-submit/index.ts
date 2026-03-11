@@ -86,7 +86,7 @@ serve(async (req) => {
 
   const { data: me } = await adminClient
     .from("profiles")
-    .select("id, role, is_active, account_status, org_id")
+    .select("id, role, is_active, account_status, org_id, is_referred")
     .eq("id", callerId)
     .maybeSingle();
 
@@ -110,7 +110,12 @@ serve(async (req) => {
     }
   }
 
-  const target = role === "inmobiliaria" ? "inmobiliaria" : "broker";
+  const isReferred = me.is_referred === true;
+  let target = role;
+  if (isReferred) {
+    const suffix = role === "inmobiliaria" ? "_referida" : "_referido";
+    target = `${role}${suffix}`;
+  }
   const { data: activeReg } = await adminClient
     .from("regimens_master")
     .select("id, target, is_active")

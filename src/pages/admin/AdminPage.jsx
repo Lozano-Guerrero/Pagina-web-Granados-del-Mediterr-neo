@@ -1124,7 +1124,9 @@ export default function AdminPage() {
     const [regimensError, setRegimensError] = useState('');
     const [regimens, setRegimens] = useState({
         broker: { active: null, list: [] },
-        inmobiliaria: { active: null, list: [] }
+        inmobiliaria: { active: null, list: [] },
+        broker_referido: { active: null, list: [] },
+        inmobiliaria_referida: { active: null, list: [] }
     });
 
     const [uploadRegimen, setUploadRegimen] = useState(null); // { target }
@@ -1133,7 +1135,7 @@ export default function AdminPage() {
     const [uploadRegimenError, setUploadRegimenError] = useState('');
     const [uploadingRegimen, setUploadingRegimen] = useState(false);
     const [confirmUploadRegimen, setConfirmUploadRegimen] = useState(null); // { target }
-    const [regimenHistory, setRegimenHistory] = useState(null); // { target: 'broker' | 'inmobiliaria' }
+    const [regimenHistory, setRegimenHistory] = useState(null); // { target: 'broker' | 'inmobiliaria' | 'broker_referido' | 'inmobiliaria_referida' }
 
     const orgMap = useMemo(() => {
         return orgs.reduce((acc, org) => {
@@ -1154,17 +1156,21 @@ export default function AdminPage() {
 
             if (regErr) throw regErr;
 
-            const byTarget = { broker: [], inmobiliaria: [] };
+            const byTarget = { broker: [], inmobiliaria: [], broker_referido: [], inmobiliaria_referida: [] };
             (data || []).forEach((r) => {
                 const t = String(r.target || '').toLowerCase();
                 if (t === 'broker') byTarget.broker.push(r);
                 if (t === 'inmobiliaria') byTarget.inmobiliaria.push(r);
+                if (t === 'broker_referido') byTarget.broker_referido.push(r);
+                if (t === 'inmobiliaria_referida') byTarget.inmobiliaria_referida.push(r);
             });
 
             const pickActive = (arr) => arr.find((x) => x.is_active) || null;
             setRegimens({
                 broker: { active: pickActive(byTarget.broker), list: byTarget.broker },
-                inmobiliaria: { active: pickActive(byTarget.inmobiliaria), list: byTarget.inmobiliaria }
+                inmobiliaria: { active: pickActive(byTarget.inmobiliaria), list: byTarget.inmobiliaria },
+                broker_referido: { active: pickActive(byTarget.broker_referido), list: byTarget.broker_referido },
+                inmobiliaria_referida: { active: pickActive(byTarget.inmobiliaria_referida), list: byTarget.inmobiliaria_referida }
             });
         } catch (e) {
             setRegimensError(`No se pudieron cargar regímenes. ${sanitizeBackendMessage(e?.message || '')}`.trim());
@@ -1249,7 +1255,7 @@ export default function AdminPage() {
                 supabase.from('organizations').select('id, company_name, created_at').order('created_at', { ascending: false }),
                 supabase
                     .from('profiles')
-                    .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at')
+                    .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, account_status, created_at, referred_by, is_referred')
                     .in('role', ['broker', 'inmobiliaria', 'subadmin'])
                     .order('created_at', { ascending: false })
             ]);
@@ -1259,7 +1265,7 @@ export default function AdminPage() {
             if (finalProfileErr && /account_status/i.test(String(finalProfileErr.message ?? ''))) {
                 const fallback = await supabase
                     .from('profiles')
-                    .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, created_at')
+                    .select('id, public_id, first_name, last_name, phone, email, role, org_id, is_active, created_at, referred_by, is_referred')
                     .in('role', ['broker', 'inmobiliaria', 'subadmin'])
                     .order('created_at', { ascending: false });
                 finalProfileData = fallback.data;
@@ -1303,7 +1309,7 @@ export default function AdminPage() {
             const baseQuery = () =>
                 supabase
                     .from('leads')
-                    .select('id, created_at, created_by_user_id, created_by_role, inmobiliaria_id, inmobiliaria_name, lead_first_name, lead_last_name, lead_email, lead_phone, lot_number, lot_type, lead_state, expires_at, esquema, regimen')
+                    .select('id, created_at, created_by_user_id, created_by_role, inmobiliaria_id, inmobiliaria_name, lead_first_name, lead_last_name, lead_email, lead_phone, lot_number, lot_type, lead_state, expires_at, esquema, regimen, hl_status')
                     .order('created_at', { ascending: false })
                     .limit(500);
 
@@ -1715,6 +1721,38 @@ export default function AdminPage() {
     const getNombreCompleto = (u) => {
         return [u.first_name, u.last_name].filter(Boolean).join(' ') || '—';
     };
+ 
+    const getUserTypeLabel = (u) => {
+        if (!u) return '—';
+        const role = String(u.role || '').toLowerCase();
+        const isReferred = u.is_referred || !!u.referred_by;
+        const hasOrg = !!u.org_id;
+ 
+        if (role === 'broker') {
+            if (hasOrg) return 'Broker (Agencia)';
+            if (isReferred) return 'Broker Referido';
+            return 'Broker Independiente';
+        }
+        if (role === 'inmobiliaria') {
+            if (isReferred) return 'Inmobiliaria Referida';
+            return 'Inmobiliaria Independiente';
+        }
+        if (role === 'subadmin') return 'Sub-admin';
+        if (role === 'admin') return 'Admin';
+        return role || '—';
+    };
+
+    const getUserOriginLabel = (u) => {
+        if (!u) return '—';
+        if (u.referred_by) {
+            const referrer = usuariosMap[u.referred_by];
+            return referrer ? getNombreCompleto(referrer) : 'Referido';
+        }
+        if (u.org_id) {
+            return orgMap[u.org_id] || u.org_id;
+        }
+        return '—';
+    };
 
     const usuariosMap = useMemo(() => {
         return usuarios.reduce((acc, u) => {
@@ -1996,6 +2034,74 @@ export default function AdminPage() {
                                 </button>
                             </div>
                         </div>
+
+                        <div className="admin-card">
+                            <h2>Régimen actual – Brokers Referidos</h2>
+                            {regimensError ? <div className="admin-error">{regimensError}</div> : null}
+                            <div className="admin-muted">
+                                {regimensLoading ? 'Cargando…' : (regimens?.broker_referido?.active?.display_name || 'Sin régimen activo')}
+                            </div>
+                            <div className="admin-row">
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => downloadRegimen({ target: 'broker_referido', regimenId: regimens?.broker_referido?.active?.id })}
+                                    disabled={regimensLoading || !regimens?.broker_referido?.active?.id}
+                                >
+                                    Descargar PDF
+                                </button>
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => { setUploadRegimen({ target: 'broker_referido' }); setUploadRegimenError(''); setUploadRegimenFile(null); setUploadRegimenName(''); }}
+                                    disabled={regimensLoading}
+                                >
+                                    Subir nuevo régimen
+                                </button>
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => setRegimenHistory({ target: 'broker_referido' })}
+                                    disabled={regimensLoading || !(regimens?.broker_referido?.list || []).length}
+                                >
+                                    Historial
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="admin-card">
+                            <h2>Régimen – Inmobiliarias Referidas</h2>
+                            {regimensError ? <div className="admin-error">{regimensError}</div> : null}
+                            <div className="admin-muted">
+                                {regimensLoading ? 'Cargando…' : (regimens?.inmobiliaria_referida?.active?.display_name || 'Sin régimen activo')}
+                            </div>
+                            <div className="admin-row">
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => downloadRegimen({ target: 'inmobiliaria_referida', regimenId: regimens?.inmobiliaria_referida?.active?.id })}
+                                    disabled={regimensLoading || !regimens?.inmobiliaria_referida?.active?.id}
+                                >
+                                    Descargar PDF
+                                </button>
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => { setUploadRegimen({ target: 'inmobiliaria_referida' }); setUploadRegimenError(''); setUploadRegimenFile(null); setUploadRegimenName(''); }}
+                                    disabled={regimensLoading}
+                                >
+                                    Subir nuevo régimen
+                                </button>
+                                <button
+                                    className="admin-action"
+                                    type="button"
+                                    onClick={() => setRegimenHistory({ target: 'inmobiliaria_referida' })}
+                                    disabled={regimensLoading || !(regimens?.inmobiliaria_referida?.list || []).length}
+                                >
+                                    Historial
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="admin-right">
@@ -2051,6 +2157,8 @@ export default function AdminPage() {
                                                 <th>ID</th>
                                                 {viewMode === 'all' && <th>Tipo</th>}
                                                 <th>{viewMode === 'inmobiliarias' ? 'Representante' : 'Nombre'}</th>
+                                                <th>Clasificación</th>
+                                                <th>Origen</th>
                                                 <th>Email</th>
                                                 <th>Teléfono</th>
                                                 <th>{viewMode === 'inmobiliarias' ? 'Compañía' : viewMode === 'brokers' ? 'Inmobiliaria' : 'Inmobiliaria/Compañía'}</th>
@@ -2070,6 +2178,16 @@ export default function AdminPage() {
                                                         </td>
                                                     )}
                                                     <td>{getNombreCompleto(u)}</td>
+                                                    <td className="cell-phone">
+                                                        <span className="admin-badge" style={{ background: 'var(--bg-light)', color: 'var(--text-main)', border: '1px solid var(--border-color)' }}>
+                                                            {getUserTypeLabel(u)}
+                                                        </span>
+                                                    </td>
+                                                    <td className="cell-phone">
+                                                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                                                            {getUserOriginLabel(u)}
+                                                        </span>
+                                                    </td>
                                                     <td className="cell-email">{u.email || '—'}</td>
                                                     <td className="cell-phone">{u.phone || '—'}</td>
                                                     <td>{getOrgLabel(u)}</td>
@@ -2173,8 +2291,10 @@ export default function AdminPage() {
                                                 <th>Lote</th>
                                                 <th>Esquema</th>
                                                 <th>Estado</th>
+                                                <th>Registro H.L.</th>
                                                 <th>Broker</th>
                                                 <th>Inmobiliaria</th>
+                                                <th>Tipo / Origen</th>
                                                 <th>Régimen</th>
                                                 <th />
                                             </tr>
@@ -2230,8 +2350,18 @@ export default function AdminPage() {
                                                         <td>
                                                             <span className={`admin-badge ${stateClass}`}>{stateLabel}</span>
                                                         </td>
+                                                        <td className="cell-phone">
+                                                            <span className={`admin-badge ${l.hl_status === 'CREATED' ? 'success' : (l.hl_status === 'EXISTS' ? 'warning' : 'danger')}`}>
+                                                                {l.hl_status || '—'}
+                                                            </span>
+                                                        </td>
                                                         <td className="cell-email">{brokerName}</td>
                                                         <td className="cell-email">{l.inmobiliaria_name || '—'}</td>
+                                                        <td className="cell-phone">
+                                                            <span className="admin-badge" style={{ background: 'var(--bg-light)', color: 'var(--text-main)', border: '1px solid var(--border-color)', fontSize: '0.75rem' }}>
+                                                                {createdBy ? getUserTypeLabel(createdBy) : (String(l.created_by_role || '').toLowerCase() === 'admin' ? 'Admin' : '—')}
+                                                            </span>
+                                                        </td>
                                                         <td className="cell-phone" style={{ textAlign: 'right' }}>{l.regimen || '—'}</td>
                                                         <td className="cell-phone" style={{ textAlign: 'right' }}>
                                                             <KebabMenu
@@ -2354,7 +2484,12 @@ export default function AdminPage() {
 
             {regimenHistory ? (
                 <RegimenHistoryModal
-                    title={regimenHistory.target === 'broker' ? 'Historial de regímenes — Brokers' : 'Historial de regímenes — Inmobiliarias'}
+                    title={
+                        regimenHistory.target === 'broker' ? 'Historial de regímenes — Brokers' :
+                        regimenHistory.target === 'inmobiliaria' ? 'Historial de regímenes — Inmobiliarias' :
+                        regimenHistory.target === 'broker_referido' ? 'Historial de regímenes — Brokers Referidos' :
+                        'Historial de regímenes — Inmobiliarias Referidas'
+                    }
                     items={(regimens?.[regimenHistory.target]?.list || [])
                         .slice()
                         .sort((a, b) => (Number(b?.version ?? 0) - Number(a?.version ?? 0)))}

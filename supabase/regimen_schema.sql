@@ -35,7 +35,7 @@ where is_active = false and account_status <> 'deactivated';
 -- 2) Regímenes master (versionados)
 create table if not exists public.regimens_master (
   id uuid primary key default gen_random_uuid(),
-  target text not null check (target in ('broker', 'inmobiliaria')),
+  target text not null check (target in ('broker', 'inmobiliaria', 'broker_referido', 'inmobiliaria_referida')),
   version int not null,
   display_name text not null,
   file_name text not null,

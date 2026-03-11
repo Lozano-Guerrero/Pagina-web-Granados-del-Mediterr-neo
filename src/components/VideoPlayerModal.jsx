@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import './VideoPlayerModal.css';
 
 const VideoPlayerModal = ({ isOpen, onClose, videoUrl, title }) => {
@@ -13,9 +14,9 @@ const VideoPlayerModal = ({ isOpen, onClose, videoUrl, title }) => {
         };
     }, [isOpen]);
 
-    if (!isOpen) return null;
+    if (!isOpen || typeof document === 'undefined') return null;
 
-    return (
+    return createPortal(
         <div className="vplayer-overlay" onClick={onClose}>
             <div className="vplayer-content" onClick={(e) => e.stopPropagation()}>
                 <div className="vplayer-header">
@@ -39,7 +40,8 @@ const VideoPlayerModal = ({ isOpen, onClose, videoUrl, title }) => {
                     <button className="vplayer-btn-close" onClick={onClose}>Cerrar</button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

@@ -457,7 +457,7 @@ serve(async (req) => {
   {
     const attempt = await adminClient
       .from("profiles")
-      .select("id, public_id, role, is_active, account_status, first_name, last_name, email, phone, org_id")
+      .select("id, public_id, role, is_active, account_status, first_name, last_name, email, phone, org_id, is_referred")
       .eq("id", userId)
       .single();
 
@@ -554,7 +554,7 @@ serve(async (req) => {
     if (!inmobiliariaName) {
       inmobiliariaName = actor.name;
     }
-  } else if (profile.role === "broker" && profile.org_id) {
+  } else if (profile.role === "broker" && profile.org_id && !profile.is_referred) {
     const { data: rep } = await adminClient
       .from("profiles")
       .select("id, first_name, last_name, email")

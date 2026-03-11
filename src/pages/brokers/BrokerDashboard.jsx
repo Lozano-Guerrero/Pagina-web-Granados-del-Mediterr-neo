@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Brokers.css';
 import { supabase } from '../../lib/supabaseClient';
@@ -6,6 +6,7 @@ import { edgePost } from '../../lib/edgeFetch';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import RegimenModule from './RegimenModule.jsx';
 import PanelLeftExtras from './PanelLeftExtras.jsx';
+import ReferralsManager from './ReferralsManager.jsx';
 
 function useBodyScrollLock(locked) {
     useEffect(() => {
@@ -152,7 +153,7 @@ function ConfirmModal({ title, text, confirmLabel, onCancel, onConfirm, disabled
     );
 }
 
-import VideoPlayerModal from '../../components/VideoPlayerModal.jsx';
+import SmartOnboarding from '../../components/SmartOnboarding.jsx';
 
 export default function BrokerDashboard() {
     const navigate = useNavigate();
@@ -166,11 +167,10 @@ export default function BrokerDashboard() {
     const [error, setError] = useState(null);
     const [confirm, setConfirm] = useState(null); // { type: 'meeting' | 'close', lead }
     const [acting, setActing] = useState(false);
-    const [expiring, setExpiring] = useState(false);
+    const expiring = useRef(false);
 
     // Tutorial state
-    const [isPlayerOpen, setIsPlayerOpen] = useState(false);
-    const [videoUrl, setVideoUrl] = useState('');
+    const [showOnboarding, setShowOnboarding] = useState(false);
 
     const fullName = useMemo(() => {
         const first = profile?.first_name?.trim() || '';
@@ -181,15 +181,12 @@ export default function BrokerDashboard() {
 
     const isLinkedBroker = String(profile?.role || '').toLowerCase() === 'broker' && Boolean(profile?.org_id);
 
-    const tutorialCopy = isLinkedBroker
-        ? 'Tutorial para Brokers ligados a Inmobiliaria'
-        : 'Tutorial para Brokers';
-
-    const handleOpenTutorial = () => {
-        const fileName = isLinkedBroker ? 'brokerjr.mp4' : 'broker.mp4';
-        setVideoUrl(`/video/${fileName}`);
-        setIsPlayerOpen(true);
-    };
+    useEffect(() => {
+        if (!localStorage.getItem('granados_broker_onboarding_seen')) {
+            const timer = setTimeout(() => setShowOnboarding(true), 600);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     useEffect(() => {
         if (!notice) return undefined;
@@ -198,7 +195,7 @@ export default function BrokerDashboard() {
     }, [notice]);
 
     const fetchLeads = async () => {
-        if (!supabase) return;
+        if (!supabase || !profile?.id) return;
         setLoadingLeads(true);
         setError(null);
         try {
@@ -206,6 +203,7 @@ export default function BrokerDashboard() {
                 .from('leads')
                 .select('id, created_at, lead_first_name, lead_last_name, lead_email, lead_phone, hl_status, lead_state, expires_at, meeting_days, lot_number, lot_type, esquema, regimen, hl_opportunity_id')
                 .eq('hl_status', 'CREATED')
+                .eq('created_by_user_id', profile.id)
                 .order('created_at', { ascending: false })
                 .limit(200);
 
@@ -219,13 +217,16 @@ export default function BrokerDashboard() {
     };
 
     useEffect(() => {
-        fetchLeads();
+        if (profile?.id) {
+            fetchLeads();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [profile?.id]);
 
     useEffect(() => {
         if (!supabase) return;
-        if (expiring) return;
+        // Guard: solo intentar expirar UNA vez por sesión para evitar loops.
+        if (expiring.current) return;
 
         const candidates = (leads || []).filter((l) => {
             const st = String(l?.lead_state || '').toUpperCase();
@@ -236,20 +237,24 @@ export default function BrokerDashboard() {
 
         if (!candidates.length) return;
 
-        // Best-effort: expirar algunos leads para mantener consistencia.
+        expiring.current = true;
+
         (async () => {
-            setExpiring(true);
             try {
                 const slice = candidates.slice(0, 5);
-                for (const l of slice) {
-                    await edgePost('lead-expire', { leadId: l.id });
-                }
-                await fetchLeads();
-            } finally {
-                setExpiring(false);
+                const leadIds = slice.map(l => l.id);
+                await edgePost('lead-expire', { leadIds });
+                // Actualizar localmente sin re-fetch para evitar loop infinito
+                setLeads(prev => prev.map(l =>
+                    leadIds.includes(l.id) ? { ...l, lead_state: 'EXPIRADO' } : l
+                ));
+            } catch (e) {
+                console.warn('[BrokerDashboard] Error background expire:', e);
             }
+            // NO reseteamos expiring.current — la expiración es best-effort, máximo una vez por carga.
         })();
-    }, [expiring, leads]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [leads.length]);
 
     const filteredLeads = useMemo(() => {
         const q = leadSearchText.trim().toLowerCase();
@@ -484,7 +489,7 @@ export default function BrokerDashboard() {
             <div className="brokers-shell-v2 brokers-v2-fade-in">
 
                 {/* TOP BAR: REGIMEN */}
-                <div className="brokers-v2-top-bar">
+                <div className="brokers-v2-top-bar" id="tutorial-bd-regimen">
                     {!isLinkedBroker ? <RegimenModule variant="horizontal" /> : null}
                 </div>
 
@@ -492,7 +497,7 @@ export default function BrokerDashboard() {
                     {/* MAIN CONTENT */}
                     <div className="brokers-v2-main">
                         <div className="brokers-v2-card">
-                            <div className="dashboard-v2-header">
+                            <div className="dashboard-v2-header" id="tutorial-bd-header">
                                 <div className="dashboard-v2-header-left">
                                     <h1 className="dashboard-v2-title">Panel de Brokers</h1>
                                     <p className="brokers-v2-text-muted">Accesos rápidos para tu gestión.</p>
@@ -507,7 +512,7 @@ export default function BrokerDashboard() {
                                 </div>
                             </div>
 
-                            <div className="dashboard-v2-actions">
+                            <div className="dashboard-v2-actions" id="tutorial-bd-actions">
                                 <Link to="/brokers/leads" className="btn-v2-primary">
                                     + Nuevo lead
                                 </Link>
@@ -520,7 +525,7 @@ export default function BrokerDashboard() {
                                 </Link>
                             </div>
 
-                            <div className="dashboard-v2-filters">
+                            <div className="dashboard-v2-filters" id="tutorial-bd-filters">
                                 <div style={{ position: 'relative', flex: 2 }}>
                                     <input
                                         className="input-v2-pill"
@@ -557,7 +562,7 @@ export default function BrokerDashboard() {
                             </div>
 
                             {/* DESKTOP TABLE */}
-                            <div className="table-v2-container">
+                            <div className="table-v2-container" id="tutorial-bd-table">
                                 <div className="table-v2-header table-v2-grid-layout">
                                     <span>Fecha</span>
                                     <span>Lead</span>
@@ -648,11 +653,17 @@ export default function BrokerDashboard() {
                                     );
                                 })}
                             </div>
+
+                            {!isLinkedBroker && !(profile?.referred_by || profile?.is_referred) && (
+                                <div id="tutorial-bd-referrals">
+                                    <ReferralsManager profile={profile} />
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     {/* SIDEBAR */}
-                    <aside className="brokers-v2-sidebar">
+                    <aside className="brokers-v2-sidebar" id="tutorial-bd-sidebar">
                         <div className="user-sidebar-card">
                             <div className="user-sidebar-profile">
                                 <div className="user-sidebar-avatar">
@@ -669,13 +680,15 @@ export default function BrokerDashboard() {
                         </div>
 
                         <div className="user-sidebar-card">
-                            <h4 className="sidebar-v2-label">Ver tutorial del panel</h4>
-                            <p className="sidebar-v2-desc">{tutorialCopy}</p>
-                            <button onClick={handleOpenTutorial} className="sidebar-v2-btn" style={{ background: '#fff' }}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M8 5v14l11-7z" />
+                            <h4 className="sidebar-v2-label">Tutorial Interactivo</h4>
+                            <p className="sidebar-v2-desc">Aprende a usar todas las herramientas de tu panel rápidamente.</p>
+                            <button onClick={() => setShowOnboarding(true)} className="sidebar-v2-btn" style={{ background: '#fff', color: '#0f172a' }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 16v-4" />
+                                    <path d="M12 8h.01" />
                                 </svg>
-                                <span>Reproducir tutorial</span>
+                                <span>Iniciar recorrido</span>
                             </button>
                         </div>
 
@@ -707,12 +720,62 @@ export default function BrokerDashboard() {
                 />
             ) : null}
 
-            <VideoPlayerModal
-                isOpen={isPlayerOpen}
-                onClose={() => setIsPlayerOpen(false)}
-                videoUrl={videoUrl}
-                title={tutorialCopy}
-            />
+            {showOnboarding && (
+                <SmartOnboarding 
+                    storageKey="granados_broker_onboarding_seen"
+                    onDismiss={() => setShowOnboarding(false)}
+                    onComplete={() => setShowOnboarding(false)}
+                    steps={[
+                        {
+                            title: "¡Bienvenido a tu Panel de Broker!",
+                            content: "Este espacio te permite gestionar prospectos y leads fácilmente. Si tu cuenta está inactiva la puedes activar en el apartado de régimen.",
+                            target: "#tutorial-bd-header",
+                            placement: "bottom"
+                        },
+                        (!isLinkedBroker ? {
+                            title: "Régimen Condominal",
+                            content: "Aquí puedes firmar y aceptar el Régimen Condominal para estar de acuerdo con los términos de uso de la plataforma y activar tu cuenta interactiva.",
+                            target: "#tutorial-bd-regimen",
+                            placement: "bottom"
+                        } : null),
+                        {
+                            title: "Herramientas de Cierre",
+                            content: "Añade nuevos prospectos o accede directamente a la herramienta Cotizador.",
+                            target: "#tutorial-bd-actions",
+                            placement: "bottom"
+                        },
+                        {
+                            title: "Encuentra tus Leads",
+                            content: "Usa el buscador por palabra clave o filtra los prospectos según su estado actual.",
+                            target: "#tutorial-bd-filters",
+                            placement: "bottom"
+                        },
+                        {
+                            title: "Lista de Prospectos",
+                            content: "No pierdas de vista la vigencia de tus leads, y asegúrate de reportar cierres o reuniones a tiempo.",
+                            target: "#tutorial-bd-table",
+                            placement: "top"
+                        },
+                        (!isLinkedBroker && !(profile?.referred_by || profile?.is_referred) ? {
+                            title: "Red de Referidos",
+                            content: "Gana extras referenciando a otros brokers o inmobiliarias, todo administrado desde aquí.",
+                            target: "#tutorial-bd-referrals",
+                            placement: "top"
+                        } : null),
+                        {
+                            title: "Asistencia y Soporte",
+                            content: "Consulta tus datos o recibe apoyo y noticias ingresando a nuestro Grupo de WhatsApp exclusivo.",
+                            target: "#tutorial-bd-sidebar",
+                            placement: "left"
+                        },
+                        {
+                            title: "¡Comencemos!",
+                            content: "Disfruta de la nueva experiencia y las herramientas actualizadas en tu panel.",
+                            target: null,
+                            placement: "center"
+                        }      ].filter(Boolean)}
+                />
+            )}
         </div>
     );
 }

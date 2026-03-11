@@ -89,8 +89,8 @@ serve(async (req) => {
   const rawFileName = cleanString(body?.fileName);
   const displayNameInput = cleanString(body?.displayName);
 
-  if (!target || !["broker", "inmobiliaria"].includes(target)) {
-    return jsonResponse(400, { error: "target inválido (broker|inmobiliaria)." });
+  if (!target || !["broker", "inmobiliaria", "broker_referido", "inmobiliaria_referida"].includes(target)) {
+    return jsonResponse(400, { error: "target inválido." });
   }
   if (!rawFileName) return jsonResponse(400, { error: "fileName es obligatorio." });
 

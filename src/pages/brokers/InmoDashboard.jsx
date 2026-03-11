@@ -5,8 +5,10 @@ import './Brokers.css';
 import { supabase } from '../../lib/supabaseClient';
 import { edgePost } from '../../lib/edgeFetch';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import SmartOnboarding from '../../components/SmartOnboarding.jsx';
 import RegimenModule from './RegimenModule.jsx';
 import PanelLeftExtras from './PanelLeftExtras.jsx';
+import ReferralsManager from './ReferralsManager.jsx';
 
 function useBodyScrollLock(locked) {
     useEffect(() => {
@@ -137,7 +139,7 @@ function parseFunctionError(fnErr) {
     })();
 }
 
-function KebabMenu({ onEdit, onDeactivate, disabled }) {
+function KebabMenu({ onEdit, onDeactivate, onShowInvitation, disabled }) {
     const [open, setOpen] = useState(false);
     const [anchor, setAnchor] = useState(null); // { top, left, placement }
     const btnRef = React.useRef(null);
@@ -225,6 +227,9 @@ function KebabMenu({ onEdit, onDeactivate, disabled }) {
                     >
                         <button type="button" className="kebab-item" onClick={() => { setOpen(false); onEdit?.(); }}>
                             Ver / Editar
+                        </button>
+                        <button type="button" className="kebab-item" style={{ color: '#027a48' }} onClick={() => { setOpen(false); onShowInvitation?.(); }}>
+                            Ver invitación
                         </button>
                         <button type="button" className="kebab-item danger" onClick={() => { setOpen(false); onDeactivate?.(); }}>
                             Eliminar
@@ -406,6 +411,18 @@ export default function InmoDashboard() {
     const [deactivateBroker, setDeactivateBroker] = useState(null);
     const [resetPasswordBroker, setResetPasswordBroker] = useState(null);
     const [savingBroker, setSavingBroker] = useState(false);
+    const [showOnboarding, setShowOnboarding] = useState(false);
+
+    const [createdBrokerData, setCreatedBrokerData] = useState(null);
+    const [copyingMessage, setCopyingMessage] = useState(false);
+
+    useEffect(() => {
+        if (!localStorage.getItem('granados_inmo_onboarding_seen')) {
+            const timer = setTimeout(() => setShowOnboarding(true), 600);
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
 
     useEffect(() => {
         if (!notice) return undefined;
@@ -444,6 +461,7 @@ export default function InmoDashboard() {
             .from('leads')
             .select('id, created_at, created_by_user_id, lead_first_name, lead_last_name, lead_email, lead_phone, hl_status, lead_state, expires_at, meeting_days, lot_number, lot_type, esquema, regimen')
             .eq('hl_status', 'CREATED')
+            .eq('inmobiliaria_id', profile.id)
             .order('created_at', { ascending: false })
             .limit(300);
 
@@ -706,10 +724,12 @@ export default function InmoDashboard() {
             const data = await edgePost('inmo-create-broker', payload);
             if (!data?.ok) throw new Error(data?.error || 'No se pudo crear el broker.');
 
-            setNotice({
-                tone: 'success',
-                text: 'Broker registrado y correo activado. Deberá crear su propia contraseña en su primer inicio de sesión.'
+            setCreatedBrokerData({
+                first_name: payload.first_name,
+                email: payload.email,
+                loginUrl: 'https://www.granadosdelmediterraneo.com/brokers'
             });
+
             setCreatingBroker(false);
             resetCreateBrokerForm();
             await fetchBrokers();
@@ -744,460 +764,47 @@ export default function InmoDashboard() {
         }
     };
 
+
+    // This is the start of the new return block.
     return (
-        <div className="brokers-dashboard">
-            <div className="brokers-dashboard-card brokers-dashboard-card-wide brokers-dashboard-card-compact">
-                <div className="brokers-panel-grid">
-                    <div className="brokers-panel-left">
-                        <RegimenModule variant="inmobiliaria" />
-                        <PanelLeftExtras role="inmobiliaria" />
-                    </div>
-                    <div className="brokers-panel-right">
-                        <div>
-                            <div className="brokers-welcome">Bienvenido, {fullName}</div>
-                            <h1 className="brokers-title">Panel de Inmobiliaria</h1>
-                            <p className="brokers-subtitle">Leads de tu inmobiliaria y brokers asociados.</p>
-                        </div>
-
-                        <div className="brokers-actions brokers-actions-compact">
-                            <Link to="/brokers/leads" className="brokers-action-card brokers-action-card-compact">Registrar Leads</Link>
-                            <Link to="/brokers/cotizador" className="brokers-action-card brokers-action-card-compact">Ir al Cotizador</Link>
-                        </div>
-
-                        {error ? <div className="brokers-error">{error}</div> : null}
-                        {notice ? (
-                            <div className={notice.tone === 'warning' ? 'brokers-warning' : 'brokers-success'}>
-                                {notice.text}
-                            </div>
-                        ) : null}
-
-                        <div className="brokers-subcard">
-                    <div className="brokers-leads-table-header brokers-leads-table-header-dashboard">
-                        <h2 className="brokers-section-title">Leads</h2>
-                        <div className="brokers-helper">
-                            {loadingLeads ? 'Cargando…' : `Total: ${filteredLeads.length}`}
-                        </div>
-                    </div>
-
-                    <div className="brokers-table-controls" aria-label="Filtros de tabla de leads">
-                        <input
-                            className="brokers-table-search"
-                            value={leadSearchText}
-                            onChange={(e) => setLeadSearchText(e.target.value)}
-                            placeholder="Buscar…"
-                            aria-label="Buscar leads"
-                        />
-                        <select
-                            className="brokers-table-select"
-                            value={leadOwnerFilter}
-                            onChange={(e) => setLeadOwnerFilter(e.target.value)}
-                            aria-label="Filtrar por dueño"
-                        >
-                            <option value="all">Todos</option>
-                            <option value="mine">Míos</option>
-                            {brokerOptions.map((opt) => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                            ))}
-                        </select>
-                        <select
-                            className="brokers-table-select"
-                            value={leadStateFilter}
-                            onChange={(e) => setLeadStateFilter(e.target.value)}
-                            aria-label="Filtrar por estado"
-                        >
-                            <option value="all">Todos</option>
-                            <option value="VIGENTE">Vigente</option>
-                            <option value="REUNION">Reunión</option>
-                            <option value="CERRADO">Cerrado</option>
-                            <option value="EXPIRADO">Expirado</option>
-                        </select>
-                    </div>
-
-                    <div className="brokers-table-wrapper">
-                        <table className="brokers-table brokers-table-dashboard">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Lead</th>
-                                <th>Tel / Correo</th>
-                                <th>Lote</th>
-                                <th>Esquema</th>
-                                <th>Estado</th>
-                                <th>Broker</th>
-                                <th>Régimen</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredLeads.length === 0 && !loadingLeads ? (
-                                <tr>
-                                    <td colSpan={9} className="brokers-empty">Sin resultados</td>
-                                </tr>
-                            ) : null}
-
-                            {filteredLeads.map((l) => {
-                                const st = (l?.lead_state || 'VIGENTE').toUpperCase();
-                                const days = remainingDays(l?.expires_at);
-                                const hasVigencia = typeof days === 'number';
-                                const isExpired = hasVigencia && days <= 0;
-                                const effectiveState = (st !== 'CERRADO' && isExpired) ? 'EXPIRADO' : st;
-
-                                const canMeeting = hasVigencia && effectiveState === 'VIGENTE' && !isExpired;
-                                const canClose = hasVigencia && effectiveState === 'REUNION' && !isExpired;
-
-                                const badgeClass =
-                                    effectiveState === 'CERRADO'
-                                        ? 'brokers-badge-closed'
-                                        : (effectiveState === 'EXPIRADO' ? 'brokers-badge-expired' : 'brokers-badge-warning');
-
-                                const badgeText =
-                                    effectiveState === 'CERRADO'
-                                        ? 'Cerrado'
-                                        : (
-                                            effectiveState === 'EXPIRADO'
-                                                ? 'Expirado'
-                                                : (
-                                                    effectiveState === 'REUNION'
-                                                        ? (hasVigencia ? `Reunión (${days} días)` : 'Reunión (—)')
-                                                        : (hasVigencia ? `Vigente (${days} días)` : 'Vigente (—)')
-                                                )
-                                    );
-
-                                const ownerId = String(l?.created_by_user_id || '');
-                                const isOwner = ownerId && ownerId === String(profile?.id || '');
-                                const broker = ownerId ? brokersById.get(ownerId) : null;
-                                const brokerLabel = isOwner
-                                    ? 'Propietario'
-                                    : (
-                                        broker
-                                            ? [broker.public_id, [broker.first_name, broker.last_name].filter(Boolean).join(' ')].filter(Boolean).join(' — ')
-                                            : '—'
-                                    );
-
-                                return (
-                                    <tr key={l.id}>
-                                        <td className="brokers-cell-nowrap">
-                                            <div className="brokers-cell-nowrap">{formatDateParts(l.created_at).date}</div>
-                                            <div className="brokers-cell-muted">{formatDateParts(l.created_at).time}</div>
-                                        </td>
-                                        <td>
-                                            <div className="brokers-lead-name">{l.lead_first_name || '—'}</div>
-                                            <div className="brokers-lead-name">{l.lead_last_name || ''}</div>
-                                        </td>
-                                        <td>
-                                            <div className="brokers-cell-nowrap">{l.lead_phone || '—'}</div>
-                                            <div className="brokers-cell-muted">{l.lead_email || '—'}</div>
-                                        </td>
-                                        <td className="brokers-cell-nowrap">
-                                            <div className="brokers-cell-nowrap">{l.lot_number ? `LOTE ${l.lot_number}` : '—'}</div>
-                                            <div className="brokers-cell-muted">{l.lot_type ? String(l.lot_type) : ''}</div>
-                                        </td>
-                                        <td className="brokers-cell-nowrap">
-                                            {l.esquema ? String(l.esquema).charAt(0).toUpperCase() + String(l.esquema).slice(1) : '—'}
-                                        </td>
-                                        <td>
-                                            <span className={`brokers-badge ${badgeClass}`}>{badgeText}</span>
-                                        </td>
-                                        <td className="brokers-cell-nowrap">
-                                            {isOwner ? (
-                                                <span className="brokers-badge brokers-badge-owner">Propietario</span>
-                                            ) : (
-                                                <div className="brokers-cell-nowrap">{brokerLabel}</div>
-                                            )}
-                                        </td>
-                                        <td className="brokers-cell-nowrap" style={{ textAlign: 'right' }}>{l.regimen || '—'}</td>
-                                        <td className="brokers-cell-nowrap">
-                                            {canMeeting ? (
-                                                <button
-                                                    type="button"
-                                                    className="brokers-inline-btn brokers-inline-btn-blue"
-                                                    disabled={actingLead}
-                                                    onClick={() => setConfirm({ type: 'meeting', lead: l })}
-                                                >
-                                                    Reunión agendada
-                                                </button>
-                                            ) : null}
-                                            {canClose ? (
-                                                <button
-                                                    type="button"
-                                                    className="brokers-inline-btn brokers-inline-btn-green"
-                                                    disabled={actingLead}
-                                                    onClick={() => setConfirm({ type: 'close', lead: l })}
-                                                >
-                                                    Venta cerrada
-                                                </button>
-                                            ) : null}
-                                            {!canMeeting && !canClose ? <span className="brokers-cell-muted">—</span> : null}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div className="brokers-subcard">
-                    <div className="brokers-leads-table-header brokers-leads-table-header-dashboard">
-                        <h2 className="brokers-section-title">Brokers asociados</h2>
-                        <div className="brokers-helper">
-                            {loadingBrokers ? 'Cargando…' : `Total: ${filteredBrokers.length}`}
-                        </div>
-                        <button
-                            type="button"
-                            className="brokers-inline-btn brokers-inline-btn-blue"
-                            onClick={() => setCreatingBroker(true)}
-                            disabled={savingBroker}
-                        >
-                            Registrar broker
-                        </button>
-                    </div>
-
-                    <div className="brokers-table-controls" aria-label="Filtros de tabla de brokers">
-                        <input
-                            className="brokers-table-search"
-                            value={brokerSearchText}
-                            onChange={(e) => setBrokerSearchText(e.target.value)}
-                            placeholder="Buscar…"
-                            aria-label="Buscar brokers"
-                        />
-                        <select
-                            className="brokers-table-select"
-                            value={brokerStatusFilter}
-                            onChange={(e) => setBrokerStatusFilter(e.target.value)}
-                            aria-label="Filtrar por estado"
-                        >
-                            <option value="all">Todos</option>
-                            <option value="active">Activos</option>
-                            <option value="inactive">Inactivos</option>
-                        </select>
-                    </div>
-
-                    <div className="brokers-table-wrapper">
-                        <table className="brokers-table brokers-table-dashboard">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Estado</th>
-                                <th />
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredBrokers.length === 0 && !loadingBrokers ? (
-                                <tr>
-                                    <td colSpan={6} className="brokers-empty">Sin resultados</td>
-                                </tr>
-                            ) : null}
-
-                            {filteredBrokers.map((b) => {
-                                const brokerStatus = getBrokerStatusUi(b);
-                                return (
-                                    <tr key={b.id}>
-                                        <td className="brokers-cell-nowrap">{b.public_id || b.id.slice(0, 6).toUpperCase()}</td>
-                                        <td>
-                                            <div className="brokers-lead-name">{[b.first_name, b.last_name].filter(Boolean).join(' ') || '—'}</div>
-                                        </td>
-                                        <td className="brokers-cell-muted">{b.email || '—'}</td>
-                                        <td className="brokers-cell-nowrap">{b.phone || '—'}</td>
-                                        <td>
-                                            <span className={`brokers-badge ${brokerStatus.badgeClass}`}>
-                                                {brokerStatus.label}
-                                            </span>
-                                        </td>
-                                        <td className="brokers-cell-nowrap" style={{ textAlign: 'right' }}>
-                                            <KebabMenu
-                                                disabled={savingBroker}
-                                                onEdit={() => { setBrokerModalError(''); setEditingBroker(b); }}
-                                                onDeactivate={() => setDeactivateBroker(b)}
-                                            />
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                    </div>
-                </div>
-
-                <button className="brokers-logout" type="button" onClick={handleLogout}>
-                    Cerrar sesión
-                </button>
-            </div>
-
-            {confirm ? (
-                <div className="brokers-modal-overlay" role="dialog" aria-modal="true">
-                    <div className="brokers-modal">
-                        <h3 className="brokers-modal-title">
-                            {confirm.type === 'meeting' ? 'Confirmar reunión' : 'Confirmar venta cerrada'}
-                        </h3>
-                        {confirm.type === 'meeting' ? (
-                            <p className="brokers-modal-text">
-                                ¿Estás seguro que deseas avanzar este lead? Contará con{' '}
-                                <strong>{confirm.lead?.meeting_days ?? '—'}</strong> días de vigencia desde este momento.
-                                Esta acción no puede revertirse.
-                            </p>
-                        ) : (
-                            <p className="brokers-modal-text">
-                                Esto significa que has logrado cerrar la venta. ¿Confirmas?
-                            </p>
-                        )}
-
-                        <div className="brokers-modal-actions">
-                            <button type="button" className="brokers-inline-btn" onClick={closeConfirm} disabled={actingLead}>
-                                Cancelar
-                            </button>
-                            <button
-                                type="button"
-                                className={confirm.type === 'meeting' ? 'brokers-inline-btn brokers-inline-btn-blue' : 'brokers-inline-btn brokers-inline-btn-green'}
-                                onClick={runLeadAction}
-                                disabled={actingLead}
-                            >
-                                {actingLead ? 'Procesando…' : 'Confirmar'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            ) : null}
-
-            {editingBroker ? (
-                <BrokerEditModal
-                    broker={editingBroker}
-                    onClose={() => setEditingBroker(null)}
-                    onSave={saveBrokerEdits}
-                    onEnablePasswordReset={(b) => { setResetPasswordError(''); setResetPasswordBroker(b); }}
-                    saving={savingBroker}
-                    errorText={brokerModalError}
-                />
-            ) : null}
-
-            {creatingBroker ? (
-                <div
-                    className="brokers-modal-overlay"
-                    role="dialog"
-                    aria-modal="true"
-                    onMouseDown={(e) => {
-                        if (e.target === e.currentTarget) { setCreatingBroker(false); resetCreateBrokerForm(); }
-                    }}
-                >
-                    <div className="brokers-modal">
-                        <h3 className="brokers-modal-title">Registrar broker</h3>
-                        <form onSubmit={createBrokerNow} className="brokers-form">
-                            {createBrokerModalError ? <div className="brokers-form-error">{createBrokerModalError}</div> : null}
-                            <div className="brokers-field">
-                                <label>Nombre</label>
-                                <input
-                                    value={createBrokerForm.first_name}
-                                    onChange={(e) => setCreateBrokerForm((v) => ({ ...v, first_name: e.target.value }))}
-                                    autoComplete="given-name"
-                                />
-                            </div>
-                            <div className="brokers-field">
-                                <label>Apellido</label>
-                                <input
-                                    value={createBrokerForm.last_name}
-                                    onChange={(e) => setCreateBrokerForm((v) => ({ ...v, last_name: e.target.value }))}
-                                    autoComplete="family-name"
-                                />
-                            </div>
-                            <div className="brokers-field">
-                                <label>Correo</label>
-                                <input
-                                    value={createBrokerForm.email}
-                                    onChange={(e) => setCreateBrokerForm((v) => ({ ...v, email: e.target.value }))}
-                                    autoComplete="email"
-                                    type="email"
-                                />
-                            </div>
-                            <div className="brokers-field">
-                                <label>Celular</label>
-                                <input
-                                    value={createBrokerForm.phone}
-                                    onChange={(e) => setCreateBrokerForm((v) => ({ ...v, phone: e.target.value }))}
-                                    autoComplete="tel"
-                                />
-                            </div>
-                            <div className="brokers-helper">
-                                El broker creará su propia contraseña en su primer inicio de sesión.
-                            </div>
-
-                            <div className="brokers-modal-actions">
-                                <button
-                                    type="button"
-                                    className="brokers-inline-btn"
-                                    onClick={() => { setCreatingBroker(false); resetCreateBrokerForm(); }}
-                                    disabled={savingBroker}
-                                >
-                                    Cancelar
-                                </button>
-                                <button type="submit" className="brokers-inline-btn brokers-inline-btn-blue" disabled={savingBroker}>
-                                    {savingBroker ? 'Procesando…' : 'Crear'}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            ) : null}
-
-            {deactivateBroker ? (
-                <ConfirmModal
-                    title="Desactivar broker"
-                    text="¿Seguro? Este broker ya no podrá iniciar sesión."
-                    confirmLabel={savingBroker ? 'Procesando…' : 'Desactivar'}
-                    onCancel={() => setDeactivateBroker(null)}
-                    onConfirm={deactivateBrokerNow}
-                    disabled={savingBroker}
-                />
-            ) : null}
-
-            {resetPasswordBroker ? (
-                <ConfirmModal
-                    title="Habilitar restablecimiento de contraseña"
-                    text="¿Seguro? La contraseña actual del broker quedará inválida y deberá crear una nueva desde la ventana de restablecimiento."
-                    confirmLabel={savingBroker ? 'Procesando…' : 'Habilitar restablecimiento'}
-                    onCancel={() => { setResetPasswordBroker(null); setResetPasswordError(''); }}
-                    onConfirm={enableBrokerPasswordResetNow}
-                    disabled={savingBroker}
-                    errorText={resetPasswordError}
-                    tone="blue"
-                />
-            ) : null}
-        </div>
-    );
-}
-
-                                            return (
         <div className="brokers-page-v2">
             <div className="brokers-shell-v2 brokers-v2-fade-in">
 
                 {/* TOP BAR: REGIMEN */}
-                <div className="brokers-v2-top-bar">
+                <div className="brokers-v2-top-bar" id="tutorial-inmo-regimen">
                     <RegimenModule variant="horizontal" />
                 </div>
 
                 <div className="brokers-v2-grid">
                     {/* MAIN CONTENT */}
-                    <div className="brokers-v2-main">
+                    <div className="brokers-v2-main" style={{ minWidth: 0 }}>
                         <div className="brokers-v2-card">
-                            <div className="dashboard-v2-header">
+                            <div className="dashboard-v2-header" id="tutorial-inmo-header">
                                 <div className="dashboard-v2-header-left">
                                     <h1 className="dashboard-v2-title">Panel de Inmobiliaria</h1>
                                     <p className="brokers-v2-text-muted">Leads de tu inmobiliaria y brokers asociados.</p>
                                 </div>
-                                <div className="dashboard-v2-header-right">
+                                <div className="dashboard-v2-header-right" id="tutorial-agency-status">
                                     <strong style={{ fontSize: '1.1rem' }}>Estado Agencia</strong>
                                     <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '4px' }}>
-                                        {profile?.org_name || 'Inmobiliaria'}: <span className="regimen-state ok">ACTIVA</span>
+                                        {profile?.org_name || 'Inmobiliaria'}:{' '}
+                                        {profile?.account_status === 'active' ? (
+                                            <span className="regimen-state ok">ACTIVA</span>
+                                        ) : (
+                                            <span className="regimen-state danger">INACTIVA</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="dashboard-v2-actions">
+                            {error && <div className="brokers-error" style={{ marginBottom: '20px' }}>{error}</div>}
+                            {notice && (
+                                <div className={notice.tone === 'warning' ? 'brokers-warning' : 'brokers-success'} style={{ marginBottom: '20px' }}>
+                                    {notice.text}
+                                </div>
+                            )}
+
+                            <div className="dashboard-v2-actions" id="tutorial-inmo-actions">
                                 <Link to="/brokers/leads" className="btn-v2-primary">
                                     + Nuevo lead
                                 </Link>
@@ -1214,7 +821,7 @@ export default function InmoDashboard() {
                             </div>
 
                             {/* SECCIÓN LEADS */}
-                            <div className="dashboard-v2-header" style={{ marginTop: '40px', borderBottom: '1px solid #eee', paddingBottom: '12px' }}>
+                            <div className="dashboard-v2-header" style={{ marginTop: '40px', borderBottom: '1px solid #eee', paddingBottom: '12px' }} id="tutorial-inmo-leads">
                                 <h2 className="dashboard-v2-title" style={{ fontSize: '1.25rem' }}>Leads de la Agencia</h2>
                                 <div className="brokers-v2-text-muted" style={{ fontSize: '0.9rem' }}>
                                     {loadingLeads ? 'Cargando...' : `Total: ${filteredLeads.length}`}
@@ -1259,7 +866,7 @@ export default function InmoDashboard() {
                             </div>
 
                             {/* LEADS TABLE DESKTOP */}
-                            <div className="table-v2-container">
+                            <div className="table-v2-container" id="tutorial-leads-table">
                                 <div className="table-v2-header table-v2-grid-layout" style={{ gridTemplateColumns: 'minmax(100px, 1fr) minmax(140px, 1.2fr) minmax(140px, 1.2fr) 100px 100px 120px 100px' }}>
                                     <span>Fecha</span>
                                     <span>Lead / Dueño</span>
@@ -1358,7 +965,7 @@ export default function InmoDashboard() {
                             </div>
 
                             {/* SECCIÓN BROKERS */}
-                            <div className="dashboard-v2-header" style={{ marginTop: '60px', borderBottom: '1px solid #eee', paddingBottom: '12px' }}>
+                            <div className="dashboard-v2-header" style={{ marginTop: '60px', borderBottom: '1px solid #eee', paddingBottom: '12px' }} id="tutorial-inmo-brokers">
                                 <h2 className="dashboard-v2-title" style={{ fontSize: '1.25rem' }}>Brokers de tu Inmobiliaria</h2>
                                 <div className="brokers-v2-text-muted" style={{ fontSize: '0.9rem' }}>
                                     {loadingBrokers ? 'Cargando...' : `Total: ${filteredBrokers.length}`}
@@ -1400,7 +1007,7 @@ export default function InmoDashboard() {
                             </div>
 
                             {/* BROKERS TABLE DESKTOP */}
-                            <div className="table-v2-container">
+                            <div className="table-v2-container" id="tutorial-brokers-table">
                                 <div className="table-v2-header table-v2-grid-layout" style={{ gridTemplateColumns: '80px 1.5fr 1.5fr 120px 100px 60px' }}>
                                     <span>ID</span>
                                     <span>Nombre Completo</span>
@@ -1426,6 +1033,11 @@ export default function InmoDashboard() {
                                                     <KebabMenu
                                                         onEdit={() => setEditingBroker(b)}
                                                         onDeactivate={() => setDeactivateBroker(b)}
+                                                        onShowInvitation={() => setCreatedBrokerData({
+                                                            first_name: b.first_name,
+                                                            email: b.email,
+                                                            loginUrl: 'https://www.granadosdelmediterraneo.com/brokers'
+                                                        })}
                                                         disabled={savingBroker}
                                                     />
                                                 </div>
@@ -1448,7 +1060,18 @@ export default function InmoDashboard() {
                                             <h4 style={{ margin: '0 0 8px 0' }}>{b.first_name} {b.last_name}</h4>
                                             <div className="lead-v2-mobile-detail">{b.phone || '—'}</div>
                                             <div className="lead-v2-mobile-detail" style={{ color: '#9ca3af', marginBottom: '12px' }}>{b.email}</div>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button
+                                                    onClick={() => setCreatedBrokerData({
+                                                        first_name: b.first_name,
+                                                        email: b.email,
+                                                        loginUrl: 'https://www.granadosdelmediterraneo.com/brokers'
+                                                    })}
+                                                    className="brokers-inline-btn"
+                                                    style={{ flex: 1, fontSize: '0.75rem', color: '#027a48' }}
+                                                    disabled={savingBroker}
+                                                >
+                                                    Invitación
+                                                </button>
                                                 <button
                                                     onClick={() => setEditingBroker(b)}
                                                     className="brokers-inline-btn"
@@ -1465,17 +1088,21 @@ export default function InmoDashboard() {
                                                 >
                                                     Eliminar
                                                 </button>
-                                            </div>
                                         </div>
                                     );
                                 })}
                             </div>
 
+                            {!(profile?.referred_by || profile?.is_referred) && (
+                                <div id="tutorial-inmo-referrals">
+                                    <ReferralsManager profile={profile} />
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     {/* SIDEBAR */}
-                    <aside className="brokers-v2-sidebar">
+                    <aside className="brokers-v2-sidebar" id="tutorial-inmo-sidebar">
                         <div className="user-sidebar-card">
                             <div className="user-sidebar-profile">
                                 <div className="user-sidebar-avatar">
@@ -1497,6 +1124,21 @@ export default function InmoDashboard() {
                             <p className="sidebar-v2-desc">Como administrador de {profile?.org_name || 'tu inmobiliaria'}, puedes visualizar todos los leads generados por tus brokers y gestionar sus accesos.</p>
                         </div>
 
+                        <div className="user-sidebar-card">
+                            <h4 className="sidebar-v2-label">Tutorial Interactivo</h4>
+                            <p className="sidebar-v2-desc">Aprende a usar todas las herramientas de tu panel en un par de minutos.</p>
+                            <button onClick={() => setShowOnboarding(true)} className="sidebar-v2-btn" style={{ background: '#fff', color: '#0f172a' }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 16v-4" />
+                                    <path d="M12 8h.01" />
+                                </svg>
+                                <span>Iniciar recorrido</span>
+                            </button>
+                        </div>
+
+                        <PanelLeftExtras role="inmobiliaria" />
+
                         <div className="user-sidebar-card sidebar-v2-card-green">
                             <h4 className="sidebar-v2-label">Soporte Inmobiliarias</h4>
                             <p className="sidebar-v2-desc">¿Necesitas ayuda con la gestión de tu equipo o carga masiva de leads?</p>
@@ -1514,6 +1156,59 @@ export default function InmoDashboard() {
             </div>
 
             {/* MODALES */}
+            {createdBrokerData && (
+                <div className="brokers-modal-overlay" role="dialog" aria-modal="true">
+                    <div className="brokers-modal" style={{ maxWidth: '450px' }}>
+                        <div className="brokers-modal-title-row">
+                            <h3 className="brokers-modal-title">¡Broker registrado con éxito!</h3>
+                        </div>
+                        <div style={{ marginBottom: '20px', lineHeight: '1.5' }}>
+                            <p>Copia y envía este mensaje a <strong>{createdBrokerData.first_name}</strong> para facilitar su acceso:</p>
+                            
+                            <div style={{ 
+                                background: '#f8fafc', 
+                                border: '1px solid #e2e8f0', 
+                                padding: '16px', 
+                                borderRadius: '12px', 
+                                marginTop: '12px',
+                                fontSize: '0.9rem',
+                                color: '#334155',
+                                whiteSpace: 'pre-wrap'
+                            }}>
+                                {`¡Bienvenido al equipo! Se ha creado tu acceso al portal de Granados del Mediterráneo.
+
+Tu cuenta: ${createdBrokerData.email}
+Acceso: ${createdBrokerData.loginUrl}
+
+Instrucciones: Al ingresar por primera vez, haz clic en 'Olvidé mi contraseña' para generar tu clave personal y activar tu cuenta.`}
+                            </div>
+                        </div>
+
+                        <div className="brokers-modal-actions" style={{ flexDirection: 'column', gap: '8px' }}>
+                            <button 
+                                onClick={() => {
+                                        const msg = `¡Bienvenido al equipo! Se ha creado tu acceso al portal de Granados del Mediterráneo.\n\nTu cuenta: ${createdBrokerData.email}\nAcceso: ${createdBrokerData.loginUrl}\n\nInstrucciones: Al ingresar por primera vez, haz clic en 'Olvidé mi contraseña' para generar tu clave personal y activar tu cuenta.\n\n¡Mucho éxito!`;
+                                    navigator.clipboard.writeText(msg);
+                                    setCopyingMessage(true);
+                                    setTimeout(() => setCopyingMessage(false), 2000);
+                                }} 
+                                className="btn-v2-primary" 
+                                style={{ width: '100%' }}
+                            >
+                                {copyingMessage ? '¡Copiado!' : 'Copiar mensaje'}
+                            </button>
+                            <button 
+                                onClick={() => setCreatedBrokerData(null)} 
+                                className="brokers-inline-btn" 
+                                style={{ width: '100%', border: 'none' }}
+                            >
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {creatingBroker && (
                 <div className="brokers-modal-overlay" role="dialog" aria-modal="true" onMouseDown={(e) => { if (e.target === e.currentTarget) { setCreatingBroker(false); resetCreateBrokerForm(); } }}>
                     <div className="brokers-modal">
@@ -1541,7 +1236,12 @@ export default function InmoDashboard() {
                                 <label>Teléfono celular</label>
                                 <input type="tel" value={createBrokerForm.phone} onChange={(e) => setCreateBrokerForm(v => ({ ...v, phone: e.target.value }))} required />
                             </div>
-                            <div className="brokers-modal-actions" style={{ marginTop: '12px' }}>
+
+                            <div className="brokers-legal-text" style={{ marginTop: '0', marginBottom: '16px', color: '#027a48', background: '#ecfdf3', padding: '10px', borderRadius: '8px', border: '1px solid #abefc6' }}>
+                                <strong>💡 Importante:</strong> Al finalizar el registro, verás un mensaje personalizado que podrás compartir a tu broker para facilitar su acceso.
+                            </div>
+
+                            <div className="brokers-modal-actions">
                                 <button type="button" className="brokers-inline-btn" onClick={() => { setCreatingBroker(false); resetCreateBrokerForm(); }}>Cancelar</button>
                                 <button type="submit" className="btn-v2-primary" style={{ padding: '0 24px', height: '40px' }} disabled={savingBroker}>
                                     {savingBroker ? 'Registrando...' : 'Registrar Broker'}
@@ -1597,6 +1297,64 @@ export default function InmoDashboard() {
                     disabled={savingBroker}
                     errorText={resetPasswordError}
                     tone="blue"
+                />
+            )}
+
+            {showOnboarding && (
+                <SmartOnboarding 
+                    storageKey="granados_inmo_onboarding_seen"
+                    onDismiss={() => setShowOnboarding(false)}
+                    onComplete={() => setShowOnboarding(false)}
+                    steps={[
+                        {
+                            title: "Bienvenido al Panel de Inmobiliaria",
+                            content: "Centraliza el estado de tu agencia, administra los leads de tus asesores y expande tu equipo con facilidad. Si tu cuenta está inactiva la puedes activar en el apartado de régimen.",
+                            target: "#tutorial-inmo-header",
+                            placement: "bottom"
+                        },
+                        {
+                            title: "Régimen Condominal",
+                            content: "Aquí puedes firmar y aceptar el Régimen Condominal para estar de acuerdo con los términos de uso de la plataforma y activar tu cuenta interactiva.",
+                            target: "#tutorial-inmo-regimen",
+                            placement: "bottom"
+                        },
+                        {
+                            title: "Acciones Rápidas",
+                            content: "Registra Leads tú mismo, añade un Broker para que trabaje en tu inmobiliaria, o entra al Cotizador.",
+                            target: "#tutorial-inmo-actions",
+                            placement: "bottom"
+                        },
+                        {
+                            title: "Leads de la Agencia",
+                            content: "Supervisa toda la tubería de ventas de tu inmobiliaria. Filtra por estado de venta o búsqueda global.",
+                            target: "#tutorial-inmo-leads",
+                            placement: "top"
+                        },
+                        {
+                            title: "Tus Brokers",
+                            content: "Gestiona los accesos de tus Brokers, modifícalos o desactívalos si es necesario, y observa quién trae qué Lead.",
+                            target: "#tutorial-inmo-brokers",
+                            placement: "top"
+                        },
+                        (!(profile?.referred_by || profile?.is_referred) ? {
+                            title: "Alianzas y Referidos",
+                            content: "Añade nuevos Brokers o Inmobiliarias como Referidos para potenciar tus comisiones. Expande tu equipo de afiliados.",
+                            target: "#tutorial-inmo-referrals",
+                            placement: "top"
+                        } : null),
+                        {
+                            title: "Tu Perfil y Soporte",
+                            content: "Finalmente, contáctanos inmediatamente en WhatsApp o revisa los roles y ajustes de este Panel Lateral.",
+                            target: "#tutorial-inmo-sidebar",
+                            placement: "left"
+                        },
+                        {
+                            title: "¡Comencemos!",
+                            content: "Disfruta de la nueva experiencia y las herramientas actualizadas en tu panel interactivo.",
+                            target: null,
+                            placement: "center"
+                        }
+                    ].filter(Boolean)}
                 />
             )}
         </div>

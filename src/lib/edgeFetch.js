@@ -126,19 +126,13 @@ export async function edgePost(functionName, payload) {
     }
 
     if (!first.response.ok) {
-        // Si sigue siendo invalid JWT, damos mensaje claro y forzamos re-login.
+        // En lugar de hacer throw inmediato de "Tu sesión expiró", devolvemos el error real del edge function
+        // para que el Dashboard pueda manejar el 401 de expiración de leads como un simple error visual
+        // sin romper la sesión del usuario silenciosamente en un useEffect.
         if (first.response.status === 401) {
-            const msg = String(first.parsed?.message || first.parsed?.error || first.rawText || '').toLowerCase();
-            if (msg.includes('invalid jwt') || msg.includes('valid bearer token') || msg.includes('missing bearer')) {
-                try {
-                    await supabase.auth.signOut();
-                } catch {
-                    // ignore
-                }
-                throw new Error('Tu sesión expiró o es inválida. Vuelve a iniciar sesión.');
-            }
+            console.warn('[edgeFetch] Recibido 401 de Edge Function:', functionName, first.parsed);
         }
-
+        
         throw new Error(buildEdgeErrorMessage({ status: first.response.status, parsed: first.parsed, rawText: first.rawText }));
     }
 
